@@ -97,10 +97,10 @@
 
 #保持自定义控件类不被混淆
 -keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
+   public void *(android.loginView.View);
 }
 
--keep public class * extends android.view.View {
+-keep public class * extends android.loginView.View {
     public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
@@ -135,7 +135,7 @@
 }
 
 -keepclassmembers class * {
-    public void *ButtonClicked(android.view.View);
+    public void *ButtonClicked(android.loginView.View);
 }
 
 #不混淆资源类

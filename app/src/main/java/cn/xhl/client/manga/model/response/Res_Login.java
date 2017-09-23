@@ -1,4 +1,4 @@
-package cn.xhl.client.manga.msg.response;
+package cn.xhl.client.manga.model.response;
 
 import java.io.Serializable;
 

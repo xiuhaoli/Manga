@@ -39,10 +39,6 @@ public class BaseActivity extends RxAppCompatActivity {
     private void initView() {
         topBar = findViewById(R.id.topbar);
         llContent = findViewById(R.id.v_content); //v_content是在基类布局文件中预定义的layout区域
-        loadingDialog = new QMUITipDialog.Builder(this)
-                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                .setTipWord("正在加载")
-                .create();
     }
 
     /**
@@ -88,6 +84,21 @@ public class BaseActivity extends RxAppCompatActivity {
             return "";
         }
         return editText.getText().toString();
+    }
+
+    /**
+     * 创建loading
+     *
+     * @return
+     */
+    public QMUITipDialog createLoading() {
+        loadingDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("正在加载")
+                .create();
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.setCancelable(false);
+        return loadingDialog;
     }
 
     /**

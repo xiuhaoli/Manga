@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import cn.xhl.client.manga.config.IConstants;
-import cn.xhl.client.manga.rxjava.RetrofitFactory;
 import cn.xhl.client.manga.utils.DeviceUtil;
 import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.utils.HttpsUtil;

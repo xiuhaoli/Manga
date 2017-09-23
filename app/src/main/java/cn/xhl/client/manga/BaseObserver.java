@@ -1,9 +1,8 @@
-package cn.xhl.client.manga.rxjava.observer;
+package cn.xhl.client.manga;
 
 import android.util.Log;
 
-import cn.xhl.client.manga.BaseActivity;
-import cn.xhl.client.manga.rxjava.BaseEntity;
+import cn.xhl.client.manga.model.response.BaseResponse;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -12,7 +11,7 @@ import io.reactivex.disposables.Disposable;
  * Created by lixiuhao on 2017/9/18 0018.
  */
 
-public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
+public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     private static final String TAG = "BaseObserver";
     private BaseActivity mContext;
 
@@ -26,13 +25,13 @@ public abstract class BaseObserver<T> implements Observer<BaseEntity<T>> {
     }
 
     @Override
-    public void onNext(@NonNull BaseEntity<T> tBaseEntity) {
-        if (tBaseEntity.getCode() == 200) {
-            T t = tBaseEntity.getData();
+    public void onNext(@NonNull BaseResponse<T> tBaseResponse) {
+        if (tBaseResponse.getCode() == 200) {
+            T t = tBaseResponse.getData();
             onHandleSuccess(t);
         } else {
             mContext.showToast("");
-            onHandleError(tBaseEntity.getMsg());
+            onHandleError(tBaseResponse.getMsg());
         }
     }
 

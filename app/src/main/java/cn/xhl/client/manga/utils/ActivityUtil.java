@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import cn.xhl.client.manga.LoginActivity;
+import cn.xhl.client.manga.view.user.AuthActivity;
 import cn.xhl.client.manga.config.IConstants;
 
 /**
@@ -49,7 +49,7 @@ public class ActivityUtil {
 
     public static void jump2LoginPage(Activity from, int flag) {
         Intent intent = new Intent();
-        intent.setClass(from, LoginActivity.class);
+        intent.setClass(from, AuthActivity.class);
         intent.setFlags(flag);
         from.startActivity(intent);
     }

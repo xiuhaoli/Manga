@@ -1,4 +1,4 @@
-package cn.xhl.client.manga.rxjava;
+package cn.xhl.client.manga.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by lixiuhao on 2017/9/18 0018.
  */
 
-public class BaseEntity<E> {
+public class BaseResponse<E> {
     @SerializedName("code")
     private int code;
     @SerializedName("msg")

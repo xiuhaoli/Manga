@@ -1,4 +1,4 @@
-package cn.xhl.client.manga.rxjava;
+package cn.xhl.client.manga;
 
 import cn.xhl.client.manga.service.MangaService;
 import cn.xhl.client.manga.service.UserService;
