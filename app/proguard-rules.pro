@@ -85,6 +85,7 @@
 #okio
 -dontwarn okio.**
 -keep class okio.**{*;}
+-dontwarn javax.annotation.**
 
 #保持 native 方法不被混淆
 -keepclasseswithmembernames class * {
@@ -160,6 +161,5 @@
 -keepclassmembers class * {
     @com.facebook.common.internal.DoNotStrip *;
 }
--dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
 -dontwarn com.facebook.infer.**

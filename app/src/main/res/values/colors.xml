@@ -3,7 +3,13 @@
     <!--<color name="colorPrimary">#3F51B5</color>-->
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
     <!--<color name="colorAccent">#FF4081</color>-->
-    <color name="colorPrimary">#00A8E1</color>
-    <color name="colorPrimaryDark">#007DA9</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="black_text_color">#333333</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="login_background">#E3E3E3</color>
+    <color name="topbar">#00A8E1</color>
 </resources>

@@ -1,12 +1,10 @@
-package cn.xhl.client.manga.model.response;
-
-import java.io.Serializable;
+package cn.xhl.client.manga.model.bean.response;
 
 /**
  * Created by lixiuhao on 2017/9/18 0018.
  */
 
-public class Res_Login implements Serializable{
+public class Res_Login {
     private String access_token;
     private String expire_time;
     private String uid;

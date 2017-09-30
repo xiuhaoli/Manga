@@ -7,14 +7,26 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">邮箱</string>
-    <string name="prompt_password">密码</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="prompt_password">密码(6～32位)</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_new_register">新用户注册</string>
+    <string name="action_reset_password">忘记密码?</string>
+    <string name="action_submit">提交</string>
+    <string name="action_register">注册</string>
+    <string name="prompt_verify">验证码</string>
+    <string name="action_verify">获取验证码</string>
+    <string name="prompt_countdown">秒后结束</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">邮箱格式有点问题</string>
     <string name="error_invalid_password">密码不能少于6位数</string>
     <string name="error_incorrect_password">密码不正确</string>
+    <string name="countdown">%1$d&#160;%2$s</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Splash Button</string>
+    <string name="dummy_content">WelCome!</string>
 </resources>

@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "cn.xhl.client.manga"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -69,32 +69,27 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile('com.qmuiteam:qmui:1.0.3', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:design:26.0.2'
     compile 'com.android.support:recyclerview-v7:26.0.2'
     compile 'com.android.support:support-annotations:26.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    //-------- rxJava + retrofit ---------------
     compile 'io.reactivex.rxjava2:rxjava:2.1.3'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    //-------------RxLifecycle-------------------------
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
-    //---------------QMUI---------------------------
-    compile('com.qmuiteam:qmui:1.0.3', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    //----------fresco--------------------------
     compile 'com.facebook.fresco:fresco:1.5.0'
-    compile "com.facebook.fresco:imagepipeline-okhttp3:1.5.0"
-    //--------支持 GIF 动图--------
+    compile 'com.facebook.fresco:imagepipeline-okhttp3:1.5.0'
     compile 'com.facebook.fresco:animated-gif:1.5.0'
-    //-------------------检测内存泄漏组件------------------
+    compile 'com.android.support:support-v4:26.0.2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-
-    testCompile 'junit:junit:4.12'
 }

@@ -6,7 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import cn.xhl.client.manga.BaseActivity;
+import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.R;
 
 public class MainActivity extends BaseActivity {
@@ -37,11 +37,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_main;
     }
 
 }

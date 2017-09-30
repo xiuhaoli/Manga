@@ -13,10 +13,12 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import cn.xhl.client.manga.config.IConstants;
+import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.utils.DeviceUtil;
 import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.utils.HttpsUtil;
 import cn.xhl.client.manga.utils.UserAgentInterceptor;
+import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
@@ -40,6 +42,7 @@ public class MangaApplication extends Application {
         initFresco();// Fresco
         initRetrofit();// retrofit
         initLeadCanary();// 内存泄漏的检测工具
+
     }
 
     private void initOKHttpClient() {

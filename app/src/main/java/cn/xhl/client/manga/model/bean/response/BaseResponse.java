@@ -1,11 +1,12 @@
-package cn.xhl.client.manga.model.response;
+package cn.xhl.client.manga.model.bean.response;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by lixiuhao on 2017/9/18 0018.
+ * <p>
+ * 返回的json外层
  */
-
 public class BaseResponse<E> {
     @SerializedName("code")
     private int code;
@@ -36,5 +37,10 @@ public class BaseResponse<E> {
 
     public void setData(E data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseResponse[code = " + code + ", msg = " + msg + "]" ;
     }
 }

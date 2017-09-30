@@ -6,6 +6,7 @@
 
     <com.qmuiteam.qmui.widget.QMUITopBar
         android:id="@+id/topbar"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="?attr/qmui_topbar_height"/>
 

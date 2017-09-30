@@ -29,7 +29,7 @@ public class ControlUtil {
      * @param view     parent View
      * @return
      */
-    public static View initControlOnClick(int resId, View.OnClickListener listener, View view) {
+    public static View initControlOnClick(int resId, View view, View.OnClickListener listener) {
         if (view == null) return null;
         view = view.findViewById(resId);
         view.setOnClickListener(listener);
@@ -41,6 +41,6 @@ public class ControlUtil {
     }
 
     public static View initControlOnClick(int resId, View view) {
-        return initControlOnClick(resId, null, view);
+        return initControlOnClick(resId, view, null);
     }
 }

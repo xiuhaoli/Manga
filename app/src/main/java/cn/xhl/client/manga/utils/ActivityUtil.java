@@ -1,10 +1,13 @@
 package cn.xhl.client.manga.utils;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.view.user.AuthActivity;
 import cn.xhl.client.manga.config.IConstants;
 
@@ -39,19 +42,13 @@ public class ActivityUtil {
      */
     public static void jump2LoginPage(Activity from, boolean isClearData) {
         if (isClearData) {
-            SharedPreferences sharedPreferences = from.getSharedPreferences(IConstants.LOGIN_INFO, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
+            PrefUtil.clear(from);
         }
         jump2LoginPage(from, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     public static void jump2LoginPage(Activity from, int flag) {
-        Intent intent = new Intent();
-        intent.setClass(from, AuthActivity.class);
-        intent.setFlags(flag);
-        from.startActivity(intent);
+        jump2Activity(from,AuthActivity.class, flag);
     }
 
     /**
@@ -94,5 +91,57 @@ public class ActivityUtil {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         activity.startActivity(intent);
+    }
+
+    /**
+     * <p>切换Fragment</p>
+     *
+     * @param from      来自哪个Fragment
+     * @param to        要去哪个Fragment
+     * @param name      为Fragment标记名字
+     * @param contentId frame id
+     */
+    public static void switchContentHideCurrent(Activity activity, Fragment from, Fragment to, String name, int contentId) {
+        if (from == null) {
+            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.add(contentId, to, name).commit();
+            return;
+        }
+        if (from != to) {
+            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            if (!to.isAdded()) { // 先判断是否被add过
+                transaction.hide(from).add(contentId, to, name).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            }
+        }
+    }
+
+    /**
+     * <p>切换Fragment</p>
+     *
+     * @param from      来自哪个Fragment
+     * @param to        要去哪个Fragment
+     * @param name      为Fragment标记名字
+     * @param contentId frame id
+     */
+    public static void switchContentRemoveCurrent(Activity activity, Fragment from, Fragment to, String name, int contentId) {
+        if (from == null) {
+            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.add(contentId, to, name).commit();
+            return;
+        }
+        if (from != to) {
+            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            if (!to.isAdded()) { // 先判断是否被add过
+                transaction.remove(from).add(contentId, to, name).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.remove(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            }
+        }
     }
 }
