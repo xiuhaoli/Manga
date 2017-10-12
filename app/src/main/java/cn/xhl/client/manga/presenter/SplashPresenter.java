@@ -54,6 +54,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     public void refreshToken(String token, String uid, String salt, String expire_time) {
         long diff = Long.valueOf(expire_time) - SystemUtil.getTimestamp();
         if (diff > 604800) {
+            splashView.change2MainActivity();
             return;// 如果过期时间是在一个星期之后，则不进行刷新token的行为
         } else if (diff <= 0) {
             splashView.change2AuthActivity();// 如果时间已经过期则跳转登录页
@@ -61,7 +62,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         }
         compositeDisposable.add(RetrofitFactory
                 .getApiUser()
-                .refreshToken(token, uid, SystemUtil.getTimeStamp(), SignUtil.getCommonSign())
+                .refreshToken(token, uid, SignUtil.getBaseSign())
                 .compose(RxSchedulesHelper.<BaseResponse<Res_RefreshToken>>io_ui())
                 .subscribeWith(new BaseObserver<Res_RefreshToken>() {
                     @Override

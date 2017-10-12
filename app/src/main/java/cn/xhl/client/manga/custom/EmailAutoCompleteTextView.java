@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.xhl.client.manga.utils.LogUtil;
 
 /**
  * Created by lixiuhao on 2017/9/23 0023.

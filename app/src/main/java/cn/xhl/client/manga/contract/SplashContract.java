@@ -12,13 +12,17 @@ import cn.xhl.client.manga.model.bean.response.Res_RefreshToken;
 public interface SplashContract {
 
     interface View extends BaseView<Presenter> {
-        void hideTopbar();
 
         /**
          * 通过SharedPreferences获取用户信息，等初始化操作
          */
         void initUserInfo();
 
+        /**
+         * 显示toast消息
+         *
+         * @param msg 显示的内容
+         */
         void showTipMsg(String msg);
 
         /**
@@ -41,8 +45,25 @@ public interface SplashContract {
 
     interface Presenter extends BasePresenter {
 
+        /**
+         * 校验登录信息是否完备
+         *
+         * @param token
+         * @param uid
+         * @param salt
+         * @param expire_time
+         * @return
+         */
         boolean isUserInfoAvailable(String token, String uid, String salt, String expire_time);
 
+        /**
+         * 刷新登录信息
+         *
+         * @param token
+         * @param uid
+         * @param salt
+         * @param expire_time
+         */
         void refreshToken(String token, String uid, String salt, String expire_time);
 
     }

@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import cn.xhl.client.manga.MangaApplication;
+import cn.xhl.client.manga.MyApplication;
 
 public class FileUtil {
     private static final String TAG = "FileUtil";
@@ -45,7 +45,7 @@ public class FileUtil {
     }
 
     public FileUtil() {
-        mDataRootPath = MangaApplication.getAppContext().getCacheDir().getPath();
+        mDataRootPath = MyApplication.getAppContext().getCacheDir().getPath();
         File imgPath = new File(getStorageDirectory() + IMAGE);
         File logPath = new File(getStorageDirectory() + LOG);
         File downloadPath = new File(getStorageDirectory() + DOWNLOAD);

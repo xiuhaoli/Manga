@@ -8,6 +8,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="system_default_text_color">#94989B</color>
     <color name="black_text_color">#333333</color>
     <color name="black_overlay">#66000000</color>
     <color name="login_background">#E3E3E3</color>

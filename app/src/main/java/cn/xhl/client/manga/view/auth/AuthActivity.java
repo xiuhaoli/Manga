@@ -1,15 +1,17 @@
-package cn.xhl.client.manga.view.user;
+package cn.xhl.client.manga.view.auth;
 
 import android.os.Bundle;
+import android.transition.Fade;
+import android.view.Window;
 
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.base.BaseFragment;
-import cn.xhl.client.manga.presenter.LoginPresenter;
+import cn.xhl.client.manga.presenter.auth.LoginPresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
-import cn.xhl.client.manga.view.user.fragment.LoginFragment;
+import cn.xhl.client.manga.view.auth.fragment.LoginFragment;
 
 /**
  * 登录认证、注册等页面
@@ -26,12 +28,13 @@ public class AuthActivity extends BaseActivity implements BaseFragment.BackHandl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_alpha_out);// 载入载出动画
-        QMUIStatusBarHelper.translucent(this);
-        LoginFragment loginFragment = (LoginFragment) getFragmentManager().findFragmentByTag(LOGIN_TAG);
+
+//        QMUIStatusBarHelper.translucent(this);
+        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_TAG);
         if (loginFragment == null) {
             loginFragment = LoginFragment.newInstance();
         }
-        ActivityUtil.switchContentHideCurrent(this, null, loginFragment, LOGIN_TAG, R.id.contentFrame_activity_auth);
+        ActivityUtil.switchContentHideCurrent(this, null, loginFragment, LOGIN_TAG, R.id.content_activity_auth);// google的demo里是把这句话放到上面的判空括号中
         new LoginPresenter(loginFragment);
     }
 

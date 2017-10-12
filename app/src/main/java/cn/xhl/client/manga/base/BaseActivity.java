@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,6 +28,7 @@ import cn.xhl.client.manga.R;
 public abstract class BaseActivity extends RxAppCompatActivity {
     public Activity this_;
     private QMUITopBar topBar;// 标题栏
+    //        private QMUITopBarLayout topBar;
     private QMUITipDialog loadingDialog;
     private QMUITipDialog failDialog;
     private QMUITipDialog successDialog;
@@ -52,15 +54,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private void initView() {
         topBar = findViewById(R.id.topbar);
         llContent = findViewById(R.id.v_content); //v_content是在基类布局文件中预定义的layout区域
-
     }
 
     public void changeColor(View view, int colorId) {
-        if (Build.VERSION.SDK_INT > 22) {
-            view.setBackgroundColor(getResources().getColor(colorId, null));
-        } else {
-            view.setBackgroundColor(getResources().getColor(colorId));
-        }
+        view.setBackgroundColor(ContextCompat.getColor(this_, colorId));
     }
 
     public void changeTopbarColor(int colorId) {
@@ -153,6 +150,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public void showLoadingDialog() {
+        if (loadingDialog == null) {
+            createLoading();
+        }
         loadingDialog.show();
     }
 

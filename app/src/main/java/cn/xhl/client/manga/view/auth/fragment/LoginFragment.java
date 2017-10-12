@@ -1,4 +1,4 @@
-package cn.xhl.client.manga.view.user.fragment;
+package cn.xhl.client.manga.view.auth.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,15 +8,15 @@ import android.view.View;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.UserInfo;
-import cn.xhl.client.manga.contract.LoginContract;
+import cn.xhl.client.manga.contract.auth.LoginContract;
 import cn.xhl.client.manga.model.bean.response.Res_Login;
-import cn.xhl.client.manga.presenter.RegisterPresenter;
-import cn.xhl.client.manga.presenter.ResetPasswdPresenter;
+import cn.xhl.client.manga.presenter.auth.RegisterPresenter;
+import cn.xhl.client.manga.presenter.auth.ResetPasswdPresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.PrefUtil;
-import cn.xhl.client.manga.view.MainActivity;
-import cn.xhl.client.manga.view.user.AuthActivity;
+import cn.xhl.client.manga.view.main.MainActivity;
+import cn.xhl.client.manga.view.auth.AuthActivity;
 
 
 /**
@@ -45,8 +45,8 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     public void onResume() {
         super.onResume();
         presenter.subscribe();
-        registerFragment = (RegisterFragment) mActivity.getFragmentManager().findFragmentByTag(AuthActivity.REGISTER_TAG);
-        resetPasswdFragment = (ResetPasswdFragment) mActivity.getFragmentManager().findFragmentByTag(AuthActivity.RESET_TAG);
+        registerFragment = (RegisterFragment) mActivity.getSupportFragmentManager().findFragmentByTag(AuthActivity.REGISTER_TAG);
+        resetPasswdFragment = (ResetPasswdFragment) mActivity.getSupportFragmentManager().findFragmentByTag(AuthActivity.RESET_TAG);
     }
 
     @Override
@@ -107,11 +107,11 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     public void change2Register() {
         if (registerFragment == null) {
             registerFragment = new RegisterFragment();
-            ActivityUtil.switchContentHideCurrent(mActivity, this, registerFragment, AuthActivity.REGISTER_TAG, R.id.contentFrame_activity_auth);
+            ActivityUtil.switchContentHideCurrent(mActivity, this, registerFragment, AuthActivity.REGISTER_TAG, R.id.content_activity_auth);
             new RegisterPresenter(registerFragment);
             return;
         }
-        ActivityUtil.switchContentHideCurrent(mActivity, this, registerFragment, AuthActivity.REGISTER_TAG, R.id.contentFrame_activity_auth);
+        ActivityUtil.switchContentHideCurrent(mActivity, this, registerFragment, AuthActivity.REGISTER_TAG, R.id.content_activity_auth);
         backHandledInterface.setSelectedFragment(registerFragment);
     }
 
@@ -119,11 +119,11 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     public void change2Reset() {
         if (resetPasswdFragment == null) {
             resetPasswdFragment = new ResetPasswdFragment();
-            ActivityUtil.switchContentHideCurrent(mActivity, this, resetPasswdFragment, AuthActivity.RESET_TAG, R.id.contentFrame_activity_auth);
+            ActivityUtil.switchContentHideCurrent(mActivity, this, resetPasswdFragment, AuthActivity.RESET_TAG, R.id.content_activity_auth);
             new ResetPasswdPresenter(resetPasswdFragment);
             return;
         }
-        ActivityUtil.switchContentHideCurrent(mActivity, this, resetPasswdFragment, AuthActivity.RESET_TAG, R.id.contentFrame_activity_auth);
+        ActivityUtil.switchContentHideCurrent(mActivity, this, resetPasswdFragment, AuthActivity.RESET_TAG, R.id.content_activity_auth);
         backHandledInterface.setSelectedFragment(resetPasswdFragment);
     }
 
@@ -156,7 +156,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     @Override
     public void saveLoginInfo(Res_Login res_login) {
         UserInfo userInfo = UserInfo.getInstance();
-        String token = res_login.getAccess_token();
+        String token = res_login.getToken();
         String salt = res_login.getSalt();
         String uid = res_login.getUid();
         userInfo.setSalt(salt);

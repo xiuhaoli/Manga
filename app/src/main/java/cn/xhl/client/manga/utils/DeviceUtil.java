@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.webkit.WebSettings;
 
-import cn.xhl.client.manga.MangaApplication;
+import cn.xhl.client.manga.MyApplication;
 
 
 /**
@@ -73,7 +73,7 @@ public class DeviceUtil {
     public static String getUserAgent() {
         String userAgent;
         try {
-            userAgent = WebSettings.getDefaultUserAgent(MangaApplication.getAppContext());
+            userAgent = WebSettings.getDefaultUserAgent(MyApplication.getAppContext());
         } catch (Exception e) {
             userAgent = System.getProperty("http.agent");
         }

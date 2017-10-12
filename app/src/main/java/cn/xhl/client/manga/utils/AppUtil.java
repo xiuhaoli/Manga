@@ -10,7 +10,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import cn.xhl.client.manga.MangaApplication;
+import cn.xhl.client.manga.MyApplication;
 
 /**
  * Created by lixiuhao on 2017/9/25 0025.
@@ -22,7 +22,7 @@ public class AppUtil {
      */
     public static boolean isApkInDebug() {
         try {
-            ApplicationInfo info = MangaApplication.getAppContext().getApplicationInfo();
+            ApplicationInfo info = MyApplication.getAppContext().getApplicationInfo();
             return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         } catch (Exception e) {
             return false;
@@ -33,7 +33,7 @@ public class AppUtil {
      * 判断应用是否是在后台
      */
     public static boolean isBackground() {
-        Context context = MangaApplication.getAppContext();
+        Context context = MyApplication.getAppContext();
         ActivityManager activityManager = (ActivityManager) context
                 .getSystemService(Context.ACTIVITY_SERVICE);
         KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
@@ -57,10 +57,10 @@ public class AppUtil {
      * @return 当前应用的版本号
      */
     public static String getVersion() {
-        PackageManager manager = MangaApplication.getAppContext().getPackageManager();
+        PackageManager manager = MyApplication.getAppContext().getPackageManager();
         PackageInfo info;
         try {
-            info = manager.getPackageInfo(MangaApplication.getAppContext().getPackageName(), 0);
+            info = manager.getPackageInfo(MyApplication.getAppContext().getPackageName(), 0);
             String versionName = info.versionName;
             if (versionName.endsWith("-debug")) {
                 versionName = versionName.substring(0, versionName.lastIndexOf('-'));

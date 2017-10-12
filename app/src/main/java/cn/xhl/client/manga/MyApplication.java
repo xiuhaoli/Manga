@@ -26,7 +26,7 @@ import okhttp3.OkHttpClient;
  * Created by lixiuhao on 2017/9/21 0021.
  */
 
-public class MangaApplication extends Application {
+public class MyApplication extends Application {
 
     @SuppressWarnings("StaticFieldLeak")
     private static Context context;

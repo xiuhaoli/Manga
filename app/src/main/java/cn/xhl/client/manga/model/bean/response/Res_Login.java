@@ -5,17 +5,17 @@ package cn.xhl.client.manga.model.bean.response;
  */
 
 public class Res_Login {
-    private String access_token;
+    private String token;
     private String expire_time;
     private String uid;
     private String salt;
 
-    public String getAccess_token() {
-        return this.access_token;
+    public String getToken() {
+        return this.token;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getExpire_time() {
@@ -44,15 +44,15 @@ public class Res_Login {
 
     public Res_Login() {}
 
-    public Res_Login(String access_token, String expire_time, String uid, String salt){
+    public Res_Login(String token, String expire_time, String uid, String salt){
         super();
-        this.access_token = access_token;
+        this.token = token;
         this.expire_time = expire_time;
         this.uid = uid;
         this.salt = salt;
     }
 
     public String toString() {
-        return "Res_Login [access_token = " + access_token + ", expire_time = " + expire_time + ", uid = " + uid + ", salt = " + salt + "]";
+        return "Res_Login [token = " + token + ", expire_time = " + expire_time + ", uid = " + uid + ", salt = " + salt + "]";
     }
 }

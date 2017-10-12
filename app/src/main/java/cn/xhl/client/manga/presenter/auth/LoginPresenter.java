@@ -1,11 +1,11 @@
-package cn.xhl.client.manga.presenter;
+package cn.xhl.client.manga.presenter.auth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.xhl.client.manga.base.BaseObserver;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
-import cn.xhl.client.manga.contract.LoginContract;
+import cn.xhl.client.manga.contract.auth.LoginContract;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_Login;
 import cn.xhl.client.manga.utils.MD5Util;
@@ -68,7 +68,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         loginView.hideKeyboard();
         loginView.showLoading();
 //        password = BCrypt.hashpw(password, BCrypt.gensalt());
-        password = MD5Util.encrypt(email + password + email);// md5加密password
+//        password = MD5Util.encrypt(email + password + email);// md5加密password
         compositeDisposable.add(RetrofitFactory.getApiUser().login(email, password)
                 .compose(RxSchedulesHelper.<BaseResponse<Res_Login>>io_ui())
                 .doOnTerminate(new Action() {

@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Retrofit工厂类，实例化Retrofit并提供各模块实例
  */
 public class RetrofitFactory {
-    private static final String BASE_URL = "https://www.wanzhuang-app.com/";
+    private static final String BASE_URL = "http://192.168.1.107:9090/";
 
     private static Retrofit retrofit;
 

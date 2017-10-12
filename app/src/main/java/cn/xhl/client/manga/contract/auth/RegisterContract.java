@@ -1,4 +1,4 @@
-package cn.xhl.client.manga.contract;
+package cn.xhl.client.manga.contract.auth;
 
 import cn.xhl.client.manga.base.BasePresenter;
 import cn.xhl.client.manga.base.BaseView;

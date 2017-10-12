@@ -88,6 +88,7 @@ dependencies {
     compile 'com.facebook.fresco:imagepipeline-okhttp3:1.5.0'
     compile 'com.facebook.fresco:animated-gif:1.5.0'
     compile 'com.android.support:support-v4:26.0.2'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'

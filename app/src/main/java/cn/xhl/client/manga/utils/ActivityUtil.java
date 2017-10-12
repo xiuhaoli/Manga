@@ -2,19 +2,18 @@ package cn.xhl.client.manga.utils;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
-import cn.xhl.client.manga.R;
-import cn.xhl.client.manga.view.user.AuthActivity;
-import cn.xhl.client.manga.config.IConstants;
+import cn.xhl.client.manga.base.BaseActivity;
+import cn.xhl.client.manga.base.BaseFragment;
+import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
  * Created by lixiuhao on 2017/4/19 0019.
+ * <p>
+ * Activity跳转，Fragment切换等
  */
-
 public class ActivityUtil {
     /**
      * @param from
@@ -47,8 +46,12 @@ public class ActivityUtil {
         jump2LoginPage(from, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
+    public static void jump2LoginPage(Activity from) {
+        jump2LoginPage(from, true);
+    }
+
     public static void jump2LoginPage(Activity from, int flag) {
-        jump2Activity(from,AuthActivity.class, flag);
+        jump2Activity(from, AuthActivity.class, flag);
     }
 
     /**
@@ -101,16 +104,16 @@ public class ActivityUtil {
      * @param name      为Fragment标记名字
      * @param contentId frame id
      */
-    public static void switchContentHideCurrent(Activity activity, Fragment from, Fragment to, String name, int contentId) {
+    public static void switchContentHideCurrent(BaseActivity activity, BaseFragment from, BaseFragment to, String name, int contentId) {
         if (from == null) {
-            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.add(contentId, to, name).commit();
             return;
         }
         if (from != to) {
-            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             if (!to.isAdded()) { // 先判断是否被add过
                 transaction.hide(from).add(contentId, to, name).commit(); // 隐藏当前的fragment，add下一个到Activity中
             } else {
@@ -127,16 +130,16 @@ public class ActivityUtil {
      * @param name      为Fragment标记名字
      * @param contentId frame id
      */
-    public static void switchContentRemoveCurrent(Activity activity, Fragment from, Fragment to, String name, int contentId) {
+    public static void switchContentRemoveCurrent(BaseActivity activity, BaseFragment from, BaseFragment to, String name, int contentId) {
         if (from == null) {
-            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.add(contentId, to, name).commit();
             return;
         }
         if (from != to) {
-            FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             if (!to.isAdded()) { // 先判断是否被add过
                 transaction.remove(from).add(contentId, to, name).commit(); // 隐藏当前的fragment，add下一个到Activity中
             } else {

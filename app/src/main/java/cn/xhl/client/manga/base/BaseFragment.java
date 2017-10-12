@@ -2,11 +2,12 @@ package cn.xhl.client.manga.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.trello.rxlifecycle2.components.RxFragment;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
  * Created by lixiuhao on 2017/9/22 0022.
@@ -54,12 +55,23 @@ public abstract class BaseFragment extends RxFragment {
     protected abstract void initView(View view, Bundle savedInstanceState);
 
     public void onBackPressed() {
-        if (backHandledInterface == null) {
-            return;
-        }
-        mActivity.getFragmentManager().popBackStack();
+        mActivity.onBackPressed();
+//        if (backHandledInterface == null) {
+//            return;
+//        }
+//        if (mActivity.getFragmentManager().getBackStackEntryCount() != 1) {
+//            mActivity.getFragmentManager().popBackStack();
+//        } else {
+//            mActivity.onBackPressed();
+//        }
     }
 
+
+    /**
+     * 如果需要Fragment的返回监听，就在对应的activity中实现该接口
+     * <p>
+     * 实现该接口后，就可以在fragment里面重写onBackPressed方法
+     */
     public interface BackHandledInterface {
         void setSelectedFragment(BaseFragment selectedFragment);
     }

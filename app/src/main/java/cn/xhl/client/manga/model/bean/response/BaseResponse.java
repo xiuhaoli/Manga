@@ -41,6 +41,6 @@ public class BaseResponse<E> {
 
     @Override
     public String toString() {
-        return "BaseResponse[code = " + code + ", msg = " + msg + "]" ;
+        return "BaseResponse[code = " + code + ", msg = " + msg + ", data = " + data + "]";
     }
 }

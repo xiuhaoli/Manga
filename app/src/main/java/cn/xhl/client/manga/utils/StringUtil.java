@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 
 public class StringUtil {
 
-    public static boolean isEmpty(String str) {
+    public static boolean isEmpty(Object str) {
         return str == null || "".equals(str);
     }
 

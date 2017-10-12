@@ -3,8 +3,6 @@ package cn.xhl.client.manga.view;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.transition.TransitionInflater;
-import android.transition.Transition;
 import android.view.WindowManager;
 
 import java.lang.ref.WeakReference;
@@ -17,6 +15,7 @@ import cn.xhl.client.manga.model.bean.response.Res_RefreshToken;
 import cn.xhl.client.manga.presenter.SplashPresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.utils.PrefUtil;
+import cn.xhl.client.manga.view.main.MainActivity;
 
 /**
  * This is Splash Page
@@ -24,15 +23,38 @@ import cn.xhl.client.manga.utils.PrefUtil;
 public class SplashActivity extends BaseActivity implements SplashContract.View {
     private SplashContract.Presenter presenter;
 
-    private static class MyHandler extends Handler {
-        private final WeakReference<SplashActivity> mActivity;
+    private Runnable jump2AuthTask;
+    private Runnable jump2MainTask;
 
-        private MyHandler(SplashActivity mActivity) {
-            this.mActivity = new WeakReference<>(mActivity);
+    private Handler handler;
+
+    private static class AuthTask implements Runnable {
+        private final WeakReference<SplashActivity> weakReference;
+
+        private AuthTask(SplashActivity splashActivity) {
+            this.weakReference = new WeakReference<>(splashActivity);
+        }
+
+        @Override
+        public void run() {
+            ActivityUtil.jump2LoginPage(weakReference.get());
+            weakReference.get().finish();
         }
     }
 
-    private MyHandler handler = new MyHandler(this);
+    private static class MainTask implements Runnable {
+        private final WeakReference<SplashActivity> weakReference;
+
+        private MainTask(SplashActivity splashActivity) {
+            this.weakReference = new WeakReference<>(splashActivity);
+        }
+
+        @Override
+        public void run() {
+            ActivityUtil.jump2Activity(weakReference.get(), MainActivity.class);
+            weakReference.get().finish();
+        }
+    }
 
     @Override
     protected int layoutId() {
@@ -42,13 +64,20 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.overridePendingTransition(R.anim.activity_alpha_in, R.anim.activity_alpha_out);// 载入载出动画
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
-        this.overridePendingTransition(R.anim.activity_alpha_in, R.anim.activity_alpha_out);// 载入载出动画
         new SplashPresenter(this);
 
+        init();
+    }
+
+    private void init() {
+        jump2AuthTask = new AuthTask(this);
+        jump2MainTask = new MainTask(this);
+        handler = new Handler();
     }
 
     @Override
@@ -61,12 +90,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     protected void onPause() {
         super.onPause();
         presenter.unSubscribe();
+        handler.removeCallbacksAndMessages(null);// 移除全部任务和消息
+        jump2AuthTask = null;
+        jump2MainTask = null;
         handler = null;
-    }
-
-    @Override
-    public void hideTopbar() {
-        hideTopBar();
     }
 
     @Override
@@ -96,24 +123,12 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     public void change2MainActivity() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ActivityUtil.jump2Activity(this_, MainActivity.class);
-                this_.finish();
-            }
-        }, 2000);
+        handler.postDelayed(jump2MainTask, 2000);
     }
 
     @Override
     public void change2AuthActivity() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ActivityUtil.jump2LoginPage(this_, true);
-                this_.finish();
-            }
-        }, 2000);
+        handler.postDelayed(jump2AuthTask, 2000);
     }
 
     @Override

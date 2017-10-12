@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 
 import cn.xhl.client.manga.R;

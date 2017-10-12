@@ -9,7 +9,9 @@ import cn.xhl.client.manga.model.bean.response.Res_ResetPassword;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by lixiuhao on 2017/9/18 0018.
@@ -18,40 +20,38 @@ import retrofit2.http.POST;
  */
 public interface ApiUser {
     @FormUrlEncoded
-    @POST("v1/User/Login")
+    @POST("v1/auth/login")
     Observable<BaseResponse<Res_Login>> login(
             @Field("email") String email,
             @Field("password") String password
     );
 
     @FormUrlEncoded
-    @POST("v1/User/RefreshToken")
+    @POST("v1/auth/refreshtoken")
     Observable<BaseResponse<Res_RefreshToken>> refreshToken(
             @Field("token") String token,
             @Field("uid") String uid,
-            @Field("timestamp") String timestamp,
             @Field("sign") String sign
     );
 
-    @FormUrlEncoded
-    @POST("v1/User/GetVerify")
+    @GET("v1/auth/verifycode")
     Observable<BaseResponse<Res_GetVerify>> getVerify(
-            @Field("email") String email
+            @Query("email") String email
     );
 
     @FormUrlEncoded
-    @POST("v1/User/ResetPassword")
+    @POST("v1/auth/resetpassword")
     Observable<BaseResponse<Res_ResetPassword>> resetPassword(
             @Field("email") String email,
             @Field("password") String password,
-            @Field("verify") String verify
+            @Field("verifycode") String verify
     );
 
     @FormUrlEncoded
-    @POST("v1/User/Register")
+    @POST("v1/auth/register")
     Observable<BaseResponse<Res_Register>> register(
             @Field("email") String email,
             @Field("password") String password,
-            @Field("verify") String verify
+            @Field("verifycode") String verify
     );
 }

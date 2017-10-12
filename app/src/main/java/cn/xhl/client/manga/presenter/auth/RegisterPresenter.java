@@ -1,14 +1,14 @@
-package cn.xhl.client.manga.presenter;
+package cn.xhl.client.manga.presenter.auth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.xhl.client.manga.base.BaseObserver;
-import cn.xhl.client.manga.contract.ResetPasswdContract;
+import cn.xhl.client.manga.contract.auth.RegisterContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_GetVerify;
-import cn.xhl.client.manga.model.bean.response.Res_ResetPassword;
+import cn.xhl.client.manga.model.bean.response.Res_Register;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
@@ -16,16 +16,16 @@ import io.reactivex.functions.Action;
 /**
  * Created by lixiuhao on 2017/9/29 0029.
  * <p>
- * 重置密码Presenter
+ * 注册逻辑
  */
-public class ResetPasswdPresenter implements ResetPasswdContract.Presenter {
-    private ResetPasswdContract.View view;
+public class RegisterPresenter implements RegisterContract.Presenter {
+    private RegisterContract.View view;
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
     private CompositeDisposable compositeDisposable;
 
-    public ResetPasswdPresenter(ResetPasswdContract.View view) {
+    public RegisterPresenter(RegisterContract.View view) {
         this.view = view;
         view.setPresenter(this);
         compositeDisposable = new CompositeDisposable();
@@ -87,18 +87,18 @@ public class ResetPasswdPresenter implements ResetPasswdContract.Presenter {
         view.showLoading();
         compositeDisposable.add(RetrofitFactory
                 .getApiUser()
-                .resetPassword(email, password, verify)
-                .compose(RxSchedulesHelper.<BaseResponse<Res_ResetPassword>>io_ui())
+                .register(email, password, verify)
+                .compose(RxSchedulesHelper.<BaseResponse<Res_Register>>io_ui())
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
                         view.hideLoading();
                     }
                 })
-                .subscribeWith(new BaseObserver<Res_ResetPassword>() {
+                .subscribeWith(new BaseObserver<Res_Register>() {
                     @Override
-                    protected void onHandleSuccess(Res_ResetPassword res_resetPassword) {
-                        view.showTipMsg(res_resetPassword.getMsg());
+                    protected void onHandleSuccess(Res_Register res_register) {
+                        view.showTipMsg(res_register.getMsg());
                         view.back2Login();
                     }
 
