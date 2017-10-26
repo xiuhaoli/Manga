@@ -1,7 +1,7 @@
 package cn.xhl.client.manga.utils;
 
 /**
- * Created by lixiuhao on 2017/4/11 0011.
+ * @author Mike on 2017/4/11 0011.
  */
 
 import android.graphics.Bitmap;

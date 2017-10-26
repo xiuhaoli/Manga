@@ -1,7 +1,7 @@
 package cn.xhl.client.manga.model.bean.request;
 
 /**
- * Created by lixiuhao on 2017/9/22 0022.
+ * @author Mike on 2017/9/22 0022.
  */
 
 public class Req_Login {

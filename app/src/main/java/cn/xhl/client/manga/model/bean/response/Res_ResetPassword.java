@@ -1,7 +1,7 @@
 package cn.xhl.client.manga.model.bean.response;
 
 /**
- * Created by lixiuhao on 2017/9/29 0029.
+ * @author Mike on 2017/9/29 0029.
  */
 
 public class Res_ResetPassword {

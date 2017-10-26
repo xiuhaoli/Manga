@@ -4,7 +4,7 @@ import cn.xhl.client.manga.base.BasePresenter;
 import cn.xhl.client.manga.base.BaseView;
 
 /**
- * Created by lixiuhao on 2017/9/29 0029.
+ * @author Mike on 2017/9/29 0029.
  * <p>
  * 重置密码页面协议
  */

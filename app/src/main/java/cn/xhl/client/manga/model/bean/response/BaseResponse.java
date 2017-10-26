@@ -3,7 +3,7 @@ package cn.xhl.client.manga.model.bean.response;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by lixiuhao on 2017/9/18 0018.
+ * @author Mike on 2017/9/18 0018.
  * <p>
  * 返回的json外层
  */

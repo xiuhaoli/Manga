@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login_background"
+    android:background="@color/background_login"
     android:padding="16dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -98,12 +98,14 @@
         style="?android:textAppearanceSmall"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
         android:background="@null"
         android:text="@string/action_verify"
         android:textSize="17sp"
         app:countDownInterval="1"
-        app:millisInFuture="10"
+        app:millisInFuture="30"
         app:textAfterSeconds="@string/prompt_countdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

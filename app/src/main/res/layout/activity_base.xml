@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/topbar"
+    android:background="@color/background_main"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -12,24 +12,11 @@
         android:layout_height="?attr/qmui_topbar_height"
         android:visibility="gone" />
 
-    <!--<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="?attr/qmui_topbar_height"-->
-    <!--android:fitsSystemWindows="true">-->
-
-    <!--<com.qmuiteam.qmui.widget.QMUITopBarLayout-->
-    <!--android:id="@+id/topbar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="?attr/qmui_topbar_height"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--android:visibility="gone" />-->
-    <!--</com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>-->
-
     <LinearLayout
         android:id="@+id/v_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white"
+        android:background="@color/background_main"
         android:orientation="vertical" />
 </LinearLayout>

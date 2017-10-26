@@ -10,7 +10,7 @@ import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
- * Created by lixiuhao on 2017/4/19 0019.
+ * @author Mike on 2017/4/19 0019.
  * <p>
  * Activity跳转，Fragment切换等
  */

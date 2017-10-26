@@ -14,7 +14,7 @@ import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
- * Created by lixiuhao on 2017/9/22 0022.
+ * @author Mike on 2017/9/22 0022.
  *
  * 重置密码View
  */

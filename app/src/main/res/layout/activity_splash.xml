@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login_background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_login">
 
     <!--<android.support.v7.widget.Toolbar-->
     <!--android:background="@color/black"-->
@@ -21,16 +22,21 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="?qmui_topbar_height" />-->
 
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <!--<TextView-->
+        <!--android:id="@+id/fullscreen_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:keepScreenOn="true"-->
+        <!--android:text="@string/dummy_content"-->
+        <!--android:textColor="@color/black_text_color"-->
+        <!--android:textSize="50sp"-->
+        <!--android:textStyle="bold" />-->
+
+    <com.facebook.drawee.view.SimpleDraweeView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="@color/black_text_color"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-
+        app:placeholderImage="@mipmap/splash"
+        app:placeholderImageScaleType="centerCrop"/>
 
 </FrameLayout>

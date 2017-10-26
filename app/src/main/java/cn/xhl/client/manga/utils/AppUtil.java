@@ -13,7 +13,7 @@ import java.util.List;
 import cn.xhl.client.manga.MyApplication;
 
 /**
- * Created by lixiuhao on 2017/9/25 0025.
+ * @author Mike on 2017/9/25 0025.
  */
 
 public class AppUtil {

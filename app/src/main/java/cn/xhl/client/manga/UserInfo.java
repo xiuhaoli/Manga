@@ -1,7 +1,7 @@
 package cn.xhl.client.manga;
 
 /**
- * Created by lixiuhao on 2017/4/19 0019.
+ * @author Mike on 2017/4/19 0019.
  * <p>
  * 用户信息的管理类
  * 单例，饿汉模式
@@ -13,7 +13,8 @@ public class UserInfo {
     private String username;
     private String token;
     private String salt;
-    private String uid;
+    private int uid;
+    private String email;
 
     private UserInfo() {
     }
@@ -27,11 +28,11 @@ public class UserInfo {
         return userInfo;
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
@@ -67,4 +68,11 @@ public class UserInfo {
         this.url_avatar = url_avatar;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

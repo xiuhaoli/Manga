@@ -1,7 +1,7 @@
 package cn.xhl.client.manga.config;
 
 /**
- * Created by lixiuhao on 2017/4/29 0029.
+ * @author Mike on 2017/4/29 0029.
  * <p>
  * 网络请求的返回码
  */

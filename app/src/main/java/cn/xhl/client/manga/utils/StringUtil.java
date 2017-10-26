@@ -3,8 +3,11 @@ package cn.xhl.client.manga.utils;
 
 import java.io.UnsupportedEncodingException;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
 /**
- * Created by lixiuhao on 2017/9/25 0025.
+ * @author Mike on 2017/9/25 0025.
  */
 
 public class StringUtil {
@@ -25,5 +28,29 @@ public class StringUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static RequestBody getRequestBody(String jsonText) {
+        return RequestBody.create(MediaType.parse("Content-Type, application/json"), jsonText);
+    }
+
+    /**
+     * 按照ascii码表排序
+     *
+     * @param s array
+     * @return array
+     */
+    public static String[] bubbleSort(String s[]) {
+        for (int i = 0, size = s.length; i < size; i++) {
+            for (int j = 0; j < size - 1; j++) {
+                String temp;
+                if (s[j].compareTo(s[j + 1]) > 0) {
+                    temp = s[j + 1];
+                    s[j + 1] = s[j];
+                    s[j] = temp;
+                }
+            }
+        }
+        return s;
     }
 }

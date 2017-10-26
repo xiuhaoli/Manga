@@ -13,7 +13,7 @@ import cn.xhl.client.manga.MyApplication;
 
 
 /**
- * Created by lixiuhao on 2017/9/4 0004.
+ * @author Mike on 2017/9/4 0004.
  */
 
 public class DeviceUtil {

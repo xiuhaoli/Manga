@@ -1,29 +1,31 @@
 <resources>
     <string name="app_name">Comics</string>
-    <string name="title_home">首页</string>
-    <string name="title_category">分类</string>
-    <string name="title_mine">我的</string>
+    <string name="title_home">Home</string>
+    <string name="title_category">Category</string>
+    <string name="title_mine">Me</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">邮箱</string>
-    <string name="prompt_password">密码(6～32位)</string>
-    <string name="action_sign_in">登录</string>
-    <string name="action_new_register">新用户注册</string>
-    <string name="action_reset_password">忘记密码?</string>
-    <string name="action_submit">提交</string>
-    <string name="action_register">注册</string>
-    <string name="prompt_verify">验证码</string>
-    <string name="action_verify">获取验证码</string>
-    <string name="prompt_countdown">秒后结束</string>
+    <string name="prompt_email">email</string>
+    <string name="prompt_password">password(6～32)</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_new_register">sign up</string>
+    <string name="action_reset_password">forget password?</string>
+    <string name="action_submit">Submit</string>
+    <string name="action_register">Sign up</string>
+    <string name="prompt_verify">verification code</string>
+    <string name="action_verify">Send</string>
+    <string name="prompt_countdown">s</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">邮箱格式有点问题</string>
-    <string name="error_invalid_password">密码不能少于6位数</string>
-    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_invalid_email">email invalid</string>
+    <string name="error_invalid_password">The password can not be less than 6 digits</string>
+    <string name="error_incorrect_password">password error</string>
     <string name="countdown">%1$d&#160;%2$s</string>
-    <string name="tab_recommend">推荐</string>
-    <string name="tab_update">更新</string>
-    <string name="tab_ranking">排行</string>
+    <string name="tab_recommend">Recommend</string>
+    <string name="tab_update">Latest</string>
+    <string name="tab_ranking">Ranking</string>
+    <string name="default_username">Default Name</string>
+    <string name="default_email">DefaultMail@gmail.com</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -32,4 +34,8 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Splash Button</string>
     <string name="dummy_content">WelCome!</string>
+    <string name="theme_type_black">Dark Theme</string>
+    <string name="theme_type_white">Light Theme</string>
+    <string name="favorites">Favorites</string>
+    <string name="history">History</string>
 </resources>

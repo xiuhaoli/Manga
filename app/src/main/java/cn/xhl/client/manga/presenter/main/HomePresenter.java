@@ -4,7 +4,7 @@ import cn.xhl.client.manga.contract.main.HomeContract;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
- * Created by lixiuhao on 2017/10/9 0009.
+ * @author Mike on 2017/10/9 0009.
  * <p>
  * 首页的Presenter
  */

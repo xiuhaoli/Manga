@@ -4,17 +4,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.xhl.client.manga.base.BaseObserver;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.auth.ResetPasswdContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_GetVerify;
 import cn.xhl.client.manga.model.bean.response.Res_ResetPassword;
+import cn.xhl.client.manga.utils.BCrypt;
+import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 
 /**
- * Created by lixiuhao on 2017/9/29 0029.
+ * @author Mike on 2017/9/29 0029.
  * <p>
  * 重置密码Presenter
  */
@@ -85,6 +88,7 @@ public class ResetPasswdPresenter implements ResetPasswdContract.Presenter {
     public void submit(String email, String password, String verify) {
         view.hideKeyboard();
         view.showLoading();
+        password = MD5Util.encrypt(email + password + IConstants.PASSWORD_SALT);
         compositeDisposable.add(RetrofitFactory
                 .getApiUser()
                 .resetPassword(email, password, verify)

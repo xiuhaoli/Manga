@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#3F51B5</color>-->
-    <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -11,6 +8,10 @@
     <color name="system_default_text_color">#94989B</color>
     <color name="black_text_color">#333333</color>
     <color name="black_overlay">#66000000</color>
-    <color name="login_background">#E3E3E3</color>
+    <color name="background_main">#2C2C2C</color>
+    <color name="item_background">#373737</color>
+    <color name="item_text">#747474</color>
+    <color name="background_login">#E3E3E3</color>
+    <!--<color name="text_color_main">#1588FB</color>-->
     <color name="topbar">#00A8E1</color>
 </resources>

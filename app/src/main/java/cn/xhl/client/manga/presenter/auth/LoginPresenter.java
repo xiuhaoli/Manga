@@ -4,17 +4,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.xhl.client.manga.base.BaseObserver;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.contract.auth.LoginContract;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_Login;
+import cn.xhl.client.manga.utils.BCrypt;
 import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 
 /**
- * Created by lixiuhao on 2017/9/22 0022.
+ * @author Mike on 2017/9/22 0022.
  * <p>
  * login presenter
  */
@@ -67,8 +69,8 @@ public class LoginPresenter implements LoginContract.Presenter {
     public void activateLoginTask(String email, String password) {
         loginView.hideKeyboard();
         loginView.showLoading();
-//        password = BCrypt.hashpw(password, BCrypt.gensalt());
-//        password = MD5Util.encrypt(email + password + email);// md5加密password
+        // 加密
+        password = MD5Util.encrypt(email + password + IConstants.PASSWORD_SALT);
         compositeDisposable.add(RetrofitFactory.getApiUser().login(email, password)
                 .compose(RxSchedulesHelper.<BaseResponse<Res_Login>>io_ui())
                 .doOnTerminate(new Action() {

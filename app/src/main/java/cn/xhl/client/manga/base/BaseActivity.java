@@ -20,15 +20,9 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import cn.xhl.client.manga.MyActivityManager;
 import cn.xhl.client.manga.R;
 
-/**
- * Created by lixiuhao on 2017/5/9 0009.
- * <p>
- * 基类
- */
 public abstract class BaseActivity extends RxAppCompatActivity {
     public Activity this_;
-    private QMUITopBar topBar;// 标题栏
-    //        private QMUITopBarLayout topBar;
+    private QMUITopBar topBar;
     private QMUITipDialog loadingDialog;
     private QMUITipDialog failDialog;
     private QMUITipDialog successDialog;
@@ -64,9 +58,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         changeColor(topBar, colorId);
     }
 
-    /**
-     * 添加顶部返回按钮
-     */
     public void addLeftTopBackButton() {
         topBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,11 +83,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         topBar.setTitle(resId);
     }
 
-    /**
-     * 创建loading
-     *
-     * @return
-     */
     public QMUITipDialog createLoading(String msg) {
         if (loadingDialog == null) {
             loadingDialog = new QMUITipDialog.Builder(this)
@@ -108,14 +94,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public QMUITipDialog createLoading() {
-        return createLoading("正在加载");
+        return createLoading("loading...");
     }
 
-    /**
-     * 创建失败框
-     *
-     * @return
-     */
     public QMUITipDialog createFail(String msg) {
         if (failDialog == null) {
             failDialog = new QMUITipDialog.Builder(this)
@@ -127,14 +108,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public QMUITipDialog createFail() {
-        return createFail("发送失败");
+        return createFail("failed");
     }
 
-    /**
-     * 创建成功框
-     *
-     * @return
-     */
     public QMUITipDialog createSuccess(String msg) {
         if (successDialog == null) {
             successDialog = new QMUITipDialog.Builder(this)
@@ -146,7 +122,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public QMUITipDialog createSuccess() {
-        return createSuccess("发送成功");
+        return createSuccess("success");
     }
 
     public void showLoadingDialog() {
@@ -197,7 +173,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     /**
-     * 子类setLayout
+     * child setLayout
      *
      * @return layout id
      */
@@ -228,7 +204,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     /**
-     * 从edittext上获取数据
+     * get data from edittext
      *
      * @param editText
      * @return

@@ -7,14 +7,17 @@ import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_Register;
 import cn.xhl.client.manga.model.bean.response.Res_ResetPassword;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * Created by lixiuhao on 2017/9/18 0018.
+ * @author Mike on 2017/9/18 0018.
  * <p>
  * user模块的api
  */
@@ -26,12 +29,10 @@ public interface ApiUser {
             @Field("password") String password
     );
 
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("v1/auth/refreshtoken")
     Observable<BaseResponse<Res_RefreshToken>> refreshToken(
-            @Field("token") String token,
-            @Field("uid") String uid,
-            @Field("sign") String sign
+            @Body RequestBody requestBody
     );
 
     @GET("v1/auth/verifycode")

@@ -8,7 +8,7 @@ import java.util.List;
 import cn.xhl.client.manga.base.BaseFragment;
 
 /**
- * Created by lixiuhao on 2017/9/30 0030.
+ * @author Mike on 2017/9/30 0030.
  */
 
 public class MyFragmentManager {

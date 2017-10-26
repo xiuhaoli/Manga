@@ -4,13 +4,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import cn.xhl.client.manga.presenter.main.CategoryPresenter;
 import cn.xhl.client.manga.presenter.main.HomePresenter;
+import cn.xhl.client.manga.presenter.main.MinePresenter;
 import cn.xhl.client.manga.view.main.fragment.CategoryFragment;
 import cn.xhl.client.manga.view.main.fragment.HomeFragment;
 import cn.xhl.client.manga.view.main.fragment.MineFragment;
 
 /**
- * Created by lixiuhao on 2017/10/10 0010.
+ * @author Mike on 2017/10/10 0010.
  * <p>
  * MainActivity最外层的适配器
  */
@@ -27,9 +29,13 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
                 new HomePresenter(homeFragment);
                 return homeFragment;
             case 1:
-                return new CategoryFragment();
+                CategoryFragment categoryFragment = new CategoryFragment();
+                new CategoryPresenter(categoryFragment);
+                return categoryFragment;
             case 2:
-                return new MineFragment();
+                MineFragment mineFragment = new MineFragment();
+                new MinePresenter(mineFragment);
+                return mineFragment;
             default:
                 return null;
         }

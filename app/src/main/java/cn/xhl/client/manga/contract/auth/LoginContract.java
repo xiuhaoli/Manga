@@ -5,7 +5,7 @@ import cn.xhl.client.manga.base.BaseView;
 import cn.xhl.client.manga.model.bean.response.Res_Login;
 
 /**
- * Created by lixiuhao on 2017/9/22 0022.
+ * @author Mike on 2017/9/22 0022.
  *
  * login 协议
  */

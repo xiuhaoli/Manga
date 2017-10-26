@@ -2,16 +2,15 @@ package cn.xhl.client.manga.adapter;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
 
-import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.presenter.main.LatestPresenter;
 import cn.xhl.client.manga.view.main.fragment.RankingFragment;
 import cn.xhl.client.manga.view.main.fragment.RecommendFragment;
-import cn.xhl.client.manga.view.main.fragment.UpdateFragment;
+import cn.xhl.client.manga.view.main.fragment.LatestFragment;
 
 /**
- * Created by lixiuhao on 2017/10/10 0010.
+ * @author Mike on 2017/10/10 0010.
  * <p>
  * 首页的适配器
  */
@@ -24,11 +23,18 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     public android.support.v4.app.Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new RecommendFragment();
+                // 在getItem的时候会先从FragmentManager中取，不会每次都new
+                RecommendFragment recommendFragment = new RecommendFragment();
+                new LatestPresenter(recommendFragment);
+                return recommendFragment;
             case 1:
-                return new UpdateFragment();
+                LatestFragment latestFragment = new LatestFragment();
+                new LatestPresenter(latestFragment);
+                return latestFragment;
             case 2:
-                return new RankingFragment();
+                RankingFragment rankingFragment = new RankingFragment();
+                new LatestPresenter(rankingFragment);
+                return rankingFragment;
             default:
                 return null;
         }
@@ -44,11 +50,11 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         // tab会从这里取数据作为标题，父类只返回了null，因此要重写
         switch (position) {
             case 0:
-                return "推荐";
+                return "Recommend";
             case 1:
-                return "更新";
+                return "Latest";
             case 2:
-                return "排行";
+                return "Ranking";
             default:
                 return super.getPageTitle(position);
         }

@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lixiuhao on 2017/9/26 0026.
+ * @author Mike on 2017/9/26 0026.
  */
-
 public class MyActivityManager {
     private static List<Activity> activities = new ArrayList<>();
 

@@ -12,13 +12,12 @@ import java.util.List;
 
 
 /**
- * Created by lixiuhao on 2017/9/23 0023.
+ * @author Mike on 2017/9/23 0023.
  * <p>
  * 自动补全email
  */
 public class EmailAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView implements TextWatcher {
-    private String[] emailSuffixs = {"@qq.com", "@163.com", "@outlook.com", "@gmail.com", "@sina.com", "@hotmail.com",
-            "@yahoo.cn", "@sohu.com", "@126.com", "@foxmail.com", "@139.com", "@yeah.net", "@vip.qq.com", "@vip.sina.com"};
+    private String[] emailSuffixs = {"@gmail.com", "@outlook.com", "@hotmail.com", "@yahoo.cn", "@protonmail.com"};
     private List<String> suffixList;
     private ArrayAdapter<String> arrayAdapter;
 

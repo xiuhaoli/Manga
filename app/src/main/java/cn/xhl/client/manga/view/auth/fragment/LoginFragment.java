@@ -20,7 +20,7 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
 
 
 /**
- * Created by lixiuhao on 2017/9/22 0022.
+ * @author Mike on 2017/9/22 0022.
  * <p>
  * login view
  */
@@ -31,6 +31,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     private TextInputLayout passwordInputLayout;
     private RegisterFragment registerFragment;
     private ResetPasswdFragment resetPasswdFragment;
+    private String email;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -78,7 +79,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
         mActivity.createLoading();
         mActivity.createFail();
         mActivity.addLeftTopBackButton();
-        mActivity.changeTopbarColor(R.color.login_background);
+        mActivity.changeTopbarColor(R.color.background_login);
 
     }
 
@@ -136,7 +137,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button_fragment_login:
-                String email = mActivity.getTextFromEt(emailInputLayout.getEditText());
+                email = mActivity.getTextFromEt(emailInputLayout.getEditText());
                 String password = mActivity.getTextFromEt(passwordInputLayout.getEditText());
                 if (presenter.isEmailValid(email) && presenter.isPasswordValid(password)) {
                     presenter.activateLoginTask(email, password);
@@ -158,15 +159,17 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
         UserInfo userInfo = UserInfo.getInstance();
         String token = res_login.getToken();
         String salt = res_login.getSalt();
-        String uid = res_login.getUid();
+        int uid = res_login.getUid();
         userInfo.setSalt(salt);
         userInfo.setToken(token);
         userInfo.setUid(uid);
+        userInfo.setEmail(email);
         SharedPreferences.Editor editor = PrefUtil.get(mActivity).edit();
         editor.putString("token", token);
         editor.putString("salt", salt);
-        editor.putString("uid", uid);
-        editor.putString("expire_time", res_login.getExpire_time());
+        editor.putInt("uid", uid);
+        editor.putInt("expire_time", res_login.getExpire_time());
+        editor.putString("email", email);
         editor.apply();
     }
 

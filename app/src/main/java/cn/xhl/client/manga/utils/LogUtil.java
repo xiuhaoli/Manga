@@ -4,7 +4,7 @@ import android.util.Log;
 
 
 /**
- * Created by lixiuhao on 2017/9/25 0025.
+ * @author Mike on 2017/9/25 0025.
  */
 
 public class LogUtil {

@@ -5,7 +5,7 @@ import cn.xhl.client.manga.base.BaseView;
 import cn.xhl.client.manga.model.bean.response.Res_RefreshToken;
 
 /**
- * Created by lixiuhao on 2017/9/28 0028.
+ * @author Mike on 2017/9/28 0028.
  * <p>
  * Splash 协议
  */
@@ -17,13 +17,6 @@ public interface SplashContract {
          * 通过SharedPreferences获取用户信息，等初始化操作
          */
         void initUserInfo();
-
-        /**
-         * 显示toast消息
-         *
-         * @param msg 显示的内容
-         */
-        void showTipMsg(String msg);
 
         /**
          * expire_time没过期且token等信息不为空，跳转主界面
@@ -54,7 +47,7 @@ public interface SplashContract {
          * @param expire_time
          * @return
          */
-        boolean isUserInfoAvailable(String token, String uid, String salt, String expire_time);
+        boolean isUserInfoAvailable(String token, int uid, String salt, int expire_time);
 
         /**
          * 刷新登录信息
@@ -64,7 +57,7 @@ public interface SplashContract {
          * @param salt
          * @param expire_time
          */
-        void refreshToken(String token, String uid, String salt, String expire_time);
+        void refreshToken(String token, int uid, String salt, int expire_time);
 
     }
 }

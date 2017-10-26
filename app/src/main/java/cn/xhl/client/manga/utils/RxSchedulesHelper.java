@@ -8,7 +8,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by lixiuhao on 2017/9/25 0025.
+ * @author Mike on 2017/9/25 0025.
  */
 public class RxSchedulesHelper {
     public static <T> ObservableTransformer<T, T> io_ui() {

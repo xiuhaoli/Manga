@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Created by lixiuhao on 2017/5/5 0005.
+ * @author Mike on 2017/5/5 0005.
  */
 
 public class SystemUtil {
@@ -17,8 +17,8 @@ public class SystemUtil {
         return String.valueOf(System.currentTimeMillis() / 1000);
     }
 
-    public static long getTimestamp() {
-        return System.currentTimeMillis() / 1000;
+    public static int getTimestamp() {
+        return Long.valueOf(System.currentTimeMillis() / 1000).intValue();
     }
 
     /**

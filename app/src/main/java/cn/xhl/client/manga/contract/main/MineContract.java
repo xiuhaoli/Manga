@@ -4,12 +4,19 @@ import cn.xhl.client.manga.base.BasePresenter;
 import cn.xhl.client.manga.base.BaseView;
 
 /**
- * Created by lixiuhao on 2017/10/9 0009.
- * <p>
  * 我的协议
+ * <p>
+ * @author Mike on 2017/10/9 0009.
  */
 public interface MineContract {
     interface View extends BaseView<Presenter> {
+        void initAdapter();
+
+        void showLoading();
+
+        void hideLoading();
+
+        void showTipMsg(String msg);
     }
 
     interface Presenter extends BasePresenter {

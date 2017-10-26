@@ -11,7 +11,7 @@ import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.utils.StringUtil;
 
 /**
- * Created by lixiuhao on 2017/9/29 0029.
+ * @author Mike on 2017/9/29 0029.
  * <p>
  * 自定义的倒计时按钮
  */

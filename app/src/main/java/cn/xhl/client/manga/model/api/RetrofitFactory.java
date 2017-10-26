@@ -2,19 +2,26 @@ package cn.xhl.client.manga.model.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
+import java.io.IOException;
+
+import cn.xhl.client.manga.model.bean.response.BaseResponse;
+import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by lixiuhao on 2017/9/18 0018.
+ * @author Mike on 2017/9/18 0018.
  * <p>
  * Retrofit工厂类，实例化Retrofit并提供各模块实例
  */
 public class RetrofitFactory {
-    private static final String BASE_URL = "http://192.168.1.107:9090/";
+    private static final String BASE_URL = "http://192.168.1.117:9090/";
 
     private static Retrofit retrofit;
 
@@ -24,11 +31,12 @@ public class RetrofitFactory {
     public static void init(OkHttpClient okHttpClient) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(builGson()))
+                .addConverterFactory(GsonConverterFactory.create(buildGson()))
                 // Retrofit到RxJava的转换器
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
+
         initService();
     }
 
@@ -53,9 +61,38 @@ public class RetrofitFactory {
 //                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
 //                .registerTypeAdapter(Res_LoginData.class,)
 //    }
-    private static Gson builGson() {
+    private static Gson buildGson() {
         return new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss")
                 .create();
     }
+
+    private static class GalleryAdapter extends TypeAdapter<BaseResponse<Res_GalleryList>> {
+
+        @Override
+        public void write(JsonWriter out, BaseResponse<Res_GalleryList> value) throws IOException {
+
+        }
+
+        @Override
+        public BaseResponse<Res_GalleryList> read(JsonReader in) throws IOException {
+            BaseResponse<Res_GalleryList> baseResponse = new BaseResponse<>();
+            in.beginObject();
+            while (in.hasNext()) {
+                switch (in.nextName()) {
+                    case "code":
+                        baseResponse.setCode(in.nextInt());
+                        break;
+                    case "msg":
+                        baseResponse.setMsg(in.nextString());
+                        break;
+                    case "data":
+                        break;
+                }
+            }
+            in.endObject();
+            return baseResponse;
+        }
+    }
+
 }

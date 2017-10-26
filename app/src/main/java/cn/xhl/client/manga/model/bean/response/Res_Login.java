@@ -1,13 +1,13 @@
 package cn.xhl.client.manga.model.bean.response;
 
 /**
- * Created by lixiuhao on 2017/9/18 0018.
+ * @author Mike on 2017/9/18 0018.
  */
 
 public class Res_Login {
     private String token;
-    private String expire_time;
-    private String uid;
+    private int expire_time;
+    private int uid;
     private String salt;
 
     public String getToken() {
@@ -18,19 +18,19 @@ public class Res_Login {
         this.token = token;
     }
 
-    public String getExpire_time() {
+    public int getExpire_time() {
         return this.expire_time;
     }
 
-    public void setExpire_time(String expire_time) {
+    public void setExpire_time(int expire_time) {
         this.expire_time = expire_time;
     }
 
-    public String getUid() {
+    public int getUid() {
         return this.uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
@@ -44,7 +44,7 @@ public class Res_Login {
 
     public Res_Login() {}
 
-    public Res_Login(String token, String expire_time, String uid, String salt){
+    public Res_Login(String token, int expire_time, int uid, String salt){
         super();
         this.token = token;
         this.expire_time = expire_time;

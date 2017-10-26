@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.View;
 
 /**
- * Created by lixiuhao on 2017/4/18 0018.
+ * @author Mike on 2017/4/18 0018.
  */
 
 public class ControlUtil {

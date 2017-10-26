@@ -9,7 +9,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * Created by lixiuhao on 2017/9/18 0018.
+ * @author Mike on 2017/9/18 0018.
  */
 public abstract class BaseObserver<T> extends DisposableObserver<BaseResponse<T>> {
     private static final String TAG = "BaseObserver";
@@ -37,13 +37,13 @@ public abstract class BaseObserver<T> extends DisposableObserver<BaseResponse<T>
 
     @Override
     public void onError(@NonNull Throwable e) {
-        LogUtil.e(TAG, e.getCause().toString());
-        onHandleError(HttpRespCode.SERVER_ERR, "服务器内部出错啦");
+//        LogUtil.e(TAG, e.getCause().toString());
+        onHandleError(HttpRespCode.SERVER_ERR, "server error");
     }
 
     @Override
     public void onComplete() {
-        LogUtil.e(TAG, "onComplete: ok");
+//        LogUtil.e(TAG, "onComplete: ok");
     }
 
     protected abstract void onHandleSuccess(T t);

@@ -14,7 +14,7 @@ import cn.xhl.client.manga.contract.main.HomeContract;
 import cn.xhl.client.manga.utils.ControlUtil;
 
 /**
- * Created by lixiuhao on 2017/10/9 0009.
+ * @author Mike on 2017/10/9 0009.
  * <p>
  * 主页
  */

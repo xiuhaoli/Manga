@@ -22,10 +22,8 @@ import cn.xhl.client.manga.view.main.MainActivity;
  */
 public class SplashActivity extends BaseActivity implements SplashContract.View {
     private SplashContract.Presenter presenter;
-
     private Runnable jump2AuthTask;
     private Runnable jump2MainTask;
-
     private Handler handler;
 
     private static class AuthTask implements Runnable {
@@ -43,7 +41,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     private static class MainTask implements Runnable {
-        private final WeakReference<SplashActivity> weakReference;
+        private WeakReference<SplashActivity> weakReference;
 
         private MainTask(SplashActivity splashActivity) {
             this.weakReference = new WeakReference<>(splashActivity);
@@ -90,10 +88,13 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     protected void onPause() {
         super.onPause();
         presenter.unSubscribe();
+        handler.removeCallbacks(jump2AuthTask);
+        handler.removeCallbacks(jump2MainTask);
         handler.removeCallbacksAndMessages(null);// 移除全部任务和消息
         jump2AuthTask = null;
         jump2MainTask = null;
         handler = null;
+        presenter = null;
     }
 
     @Override
@@ -105,20 +106,16 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     public void initUserInfo() {
         SharedPreferences sp = PrefUtil.get(this);
         String token = sp.getString("token", "");
-        String uid = sp.getString("uid", "");
+        int uid = sp.getInt("uid", 0);
         String salt = sp.getString("salt", "");
-        String expire_time = sp.getString("expire_time", "");
+        int expire_time = sp.getInt("expire_time", 0);
+        UserInfo.getInstance().setEmail(sp.getString("email", ""));
         boolean available = presenter.isUserInfoAvailable(token, uid, salt, expire_time);
         if (available) {
             presenter.refreshToken(token, uid, salt, expire_time);
         } else {
             change2AuthActivity();
         }
-    }
-
-    @Override
-    public void showTipMsg(String msg) {
-        showToast(msg);
     }
 
     @Override
@@ -137,7 +134,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         SharedPreferences sp = PrefUtil.get(this);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("token", res_refreshToken.getToken());
-        editor.putString("expire_time", res_refreshToken.getExpire_time());
+        editor.putInt("expire_time", res_refreshToken.getExpire_time());
         editor.apply();
     }
 }

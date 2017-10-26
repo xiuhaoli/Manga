@@ -1,10 +1,6 @@
 package cn.xhl.client.manga.view.auth;
 
 import android.os.Bundle;
-import android.transition.Fade;
-import android.view.Window;
-
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.R;

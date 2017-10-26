@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import cn.xhl.client.manga.config.IConstants;
 
 /**
- * Created by lixiuhao on 2017/9/28 0028.
+ * @author Mike on 2017/9/28 0028.
  */
 
 public class PrefUtil {
