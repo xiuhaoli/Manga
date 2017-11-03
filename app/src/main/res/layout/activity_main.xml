@@ -20,6 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
+        app:itemBackground="@color/bottom_item_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation" />
 

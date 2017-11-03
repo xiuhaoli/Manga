@@ -1,5 +1,6 @@
 package cn.xhl.client.manga.model.bean.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class Res_GalleryList {
                 '}';
     }
 
-    public static class GalleryEntity {
+    public static class GalleryEntity implements Serializable{
         private int id;
         private int gid;
         private String token;
@@ -56,11 +57,10 @@ public class Res_GalleryList {
         private int subscribe;
         private int viewed;
         private String language;
-        private int pagetoken;
 
         public GalleryEntity(int id, int gid, String token, String title, String category, String thumb,
                              String uploader, int posted, int filecount, String rating, String artist,
-                             int subscribe, int viewed, String language, int pagetoken) {
+                             int subscribe, int viewed, String language) {
             this.id = id;
             this.gid = gid;
             this.token = token;
@@ -75,7 +75,6 @@ public class Res_GalleryList {
             this.subscribe = subscribe;
             this.viewed = viewed;
             this.language = language;
-            this.pagetoken = pagetoken;
         }
 
         public GalleryEntity() {
@@ -193,14 +192,6 @@ public class Res_GalleryList {
             this.language = language;
         }
 
-        public int getPagetoken() {
-            return pagetoken;
-        }
-
-        public void setPagetoken(int pagetoken) {
-            this.pagetoken = pagetoken;
-        }
-
         @Override
         public String toString() {
             return "GalleryEntity{" +
@@ -218,7 +209,6 @@ public class Res_GalleryList {
                     ", subscribe=" + subscribe +
                     ", viewed=" + viewed +
                     ", language='" + language + '\'' +
-                    ", pagetoken=" + pagetoken +
                     '}';
         }
     }

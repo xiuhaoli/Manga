@@ -1,7 +1,10 @@
 package cn.xhl.client.manga.utils;
 
+import android.support.annotation.Nullable;
+
 import java.io.IOException;
 
+import cn.xhl.client.manga.config.IConstants;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -23,12 +26,23 @@ public final class UserAgentInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@Nullable Chain chain) throws IOException {
+        if (chain == null) {
+            return null;
+        }
         final Request originalRequest = chain.request();
-        final Request requestWithUserAgent = originalRequest.newBuilder()
-                .removeHeader(USER_AGENT_HEADER_NAME)
-                .addHeader(USER_AGENT_HEADER_NAME, userAgentHeaderValue)
-                .build();
+        Request requestWithUserAgent;
+        if (originalRequest.url().toString().contains("e-hentai")) {
+            requestWithUserAgent = originalRequest.newBuilder()
+                    .removeHeader(USER_AGENT_HEADER_NAME)
+                    .addHeader(USER_AGENT_HEADER_NAME, IConstants.USER_AGENT)
+                    .build();
+        } else {
+            requestWithUserAgent = originalRequest.newBuilder()
+                    .removeHeader(USER_AGENT_HEADER_NAME)
+                    .addHeader(USER_AGENT_HEADER_NAME, userAgentHeaderValue)
+                    .build();
+        }
         RequestBody requestBody = requestWithUserAgent.body();
         if (requestBody != null) {
             Buffer buffer = new Buffer();

@@ -15,8 +15,8 @@ import cn.xhl.client.manga.utils.ControlUtil;
 
 /**
  * @author Mike on 2017/10/9 0009.
- * <p>
- * 主页
+ *         <p>
+ *         主页
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View, View.OnClickListener {
     private HomeContract.Presenter presenter;
@@ -48,7 +48,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_update));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_ranking));
         tabLayout.setupWithViewPager(viewPager, false);
-
         searchView = (SimpleDraweeView) ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
     }
 

@@ -82,7 +82,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribeWith(new BaseObserver<Res_Login>() {
                     @Override
                     protected void onHandleSuccess(Res_Login res_login) {
-                        loginView.showTipMsg(res_login.toString());
                         loginView.saveLoginInfo(res_login);
                         loginView.change2MainActivity();
                     }

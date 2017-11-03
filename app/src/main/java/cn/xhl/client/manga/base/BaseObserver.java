@@ -21,7 +21,7 @@ public abstract class BaseObserver<T> extends DisposableObserver<BaseResponse<T>
 
     @Override
     public void onNext(@NonNull BaseResponse<T> tBaseResponse) {
-        LogUtil.e(TAG, tBaseResponse.toString());
+//        LogUtil.e(TAG, tBaseResponse.toString());
         long code = tBaseResponse.getCode();
         String msg = tBaseResponse.getMsg();
         if (code == HttpRespCode.SUCCESS_CODE) {

@@ -10,6 +10,8 @@ public interface IConstants {
     long CACHE_MAX_SIZE = 10 * 1024 * 1024;// 缓存最大容量
     long CONNECT_TIMEOUT = 20 * 1000;// 连接超时时间(毫秒)
     long READ_TIMEOUT = 20 * 1000;// 读取超时时间
+    String USER_AGENT = "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)";
+    String POST_URL = "https://api.e-hentai.org/api.php";
     /**
      * 使用BCrypt加密需要使用的盐，这个盐是固定的
      */
@@ -17,7 +19,7 @@ public interface IConstants {
     /**
      * 请求的书籍类型
      */
-    String ALL = "";
+    String ALL = "All";
     String NON_H = "Non-H";
     String WESTERN = "Western";
     String ARTIST_CG_SETS = "Artist CG Sets";
@@ -26,7 +28,6 @@ public interface IConstants {
     String MANGA = "Manga";
     String IMAGE_SETS = "Image Sets";
     String COSPLAY = "cosplay";
-    String ASIAN_PORN = "Asian Porn";
     String GAME_CG_SETS = "Game CG Sets";
     /**
      * 请求列表的类型
@@ -43,4 +44,16 @@ public interface IConstants {
      * 最新
      */
     String LATEST = "latest";
+    /**
+     * 请求最新数据带category
+     */
+    String CATEGORY_LATEST = "category_latest";
+    /**
+     * 请求浏览历史列表
+     */
+    String HISTORY = "history";
+    /**
+     * 请求收藏列表
+     */
+    String FAVORITE = "favorite";
 }

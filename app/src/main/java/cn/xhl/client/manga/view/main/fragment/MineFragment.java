@@ -1,15 +1,16 @@
 package cn.xhl.client.manga.view.main.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,19 @@ import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.main.MineAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.MineContract;
 import cn.xhl.client.manga.custom.MineItemDecoration;
-import cn.xhl.client.manga.utils.ControlUtil;
+import cn.xhl.client.manga.utils.FileUtil;
+import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
-public class MineFragment extends BaseFragment implements MineContract.View, BaseQuickAdapter.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
+public class MineFragment extends BaseFragment implements MineContract.View, BaseQuickAdapter.OnItemClickListener {
     private MineContract.Presenter presenter;
     private MineAdapter mineAdapter;
     private List<MineAdapter.MineItem> mRecyclerData;
+    private AlertDialog promptDialog;
+    // 缓存一栏的position
+    private int cacheItemPosition;
 
     @Override
     protected int layoutId() {
@@ -63,16 +69,16 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
     public void initAdapter() {
         mRecyclerData = new ArrayList<>();
         MineAdapter.MineItem item;
-        int[] text = {R.string.theme_type_black, R.string.favorites, R.string.history};
-        int[] img = {R.mipmap.moon, R.mipmap.favorite, R.mipmap.history};
-        for (int i = 0; i < text.length; i++) {
+        int[] text = {R.string.favorites, R.string.history, R.string.filter, R.string.cache};
+        int[] img = {R.mipmap.favorite, R.mipmap.history, R.mipmap.blacklist, R.mipmap.broom};
+        cacheItemPosition = text.length - 1;
+        for (int i = 0, size = text.length; i < size; i++) {
             item = new MineAdapter.MineItem();
             item.setIcon(img[i]);
             item.setText(text[i]);
-            if (i == 0) {
-                item.setSwitcher(true);
-                item.setListener(this);
-                item.setChecked(true);
+            if (i == cacheItemPosition) {
+                item.setHaveContent(true);
+                item.setContent(presenter.cacheSize());
             }
             mRecyclerData.add(item);
         }
@@ -96,37 +102,50 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
     }
 
     @Override
+    public void createPromptDialog() {
+        promptDialog = new AlertDialog.Builder(mActivity)
+                .setMessage(R.string.prompt_clear_cache)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.clearCache();
+                    }
+                }).create();
+    }
+
+    @Override
+    public void notifyAdapterForCacheItem(String cacheSize) {
+        mRecyclerData.get(cacheItemPosition).setContent(cacheSize);
+        mineAdapter.notifyItemChanged(cacheItemPosition);
+    }
+
+    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
-            case 1:
+            case 0:
                 // jump to favorite
+                ConcreteCategoryActivity.start(mActivity, IConstants.ALL, IConstants.FAVORITE);
+                break;
+            case 1:
+                // jump to history
+                ConcreteCategoryActivity.start(mActivity, IConstants.ALL, IConstants.HISTORY);
                 break;
             case 2:
-                // jump to history
+                // jump to filter
+
                 break;
-            case 0:
+            case 3:
+                if (promptDialog != null) {
+                    promptDialog.show();
+                } else {
+                    createPromptDialog();
+                    promptDialog.show();
+                }
+                break;
             default:
                 break;
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.switch_item_mine:
-                if (isChecked) {
-                    mRecyclerData.get(0).setIcon(R.mipmap.moon);
-                    mRecyclerData.get(0).setText(R.string.theme_type_black);
-                    mRecyclerData.get(0).setChecked(true);
-                } else {
-                    mRecyclerData.get(0).setIcon(R.mipmap.sun);
-                    mRecyclerData.get(0).setText(R.string.theme_type_white);
-                    mRecyclerData.get(0).setChecked(false);
-                }
-                mineAdapter.notifyItemChanged(0);
-                break;
-            default:
-                break;
-        }
-    }
 }

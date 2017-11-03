@@ -77,10 +77,6 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     @Override
     public void createView() {
         mActivity.createLoading();
-        mActivity.createFail();
-        mActivity.addLeftTopBackButton();
-        mActivity.changeTopbarColor(R.color.background_login);
-
     }
 
     @Override

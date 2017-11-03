@@ -6,6 +6,7 @@ import cn.xhl.client.manga.base.BaseView;
 /**
  * 我的协议
  * <p>
+ *
  * @author Mike on 2017/10/9 0009.
  */
 public interface MineContract {
@@ -17,8 +18,20 @@ public interface MineContract {
         void hideLoading();
 
         void showTipMsg(String msg);
+
+        void createPromptDialog();
+
+        /**
+         * 更新缓存item
+         *
+         * @param cacheSize 清除缓存后的大小
+         */
+        void notifyAdapterForCacheItem(String cacheSize);
     }
 
     interface Presenter extends BasePresenter {
+        String cacheSize();
+
+        void clearCache();
     }
 }

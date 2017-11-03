@@ -26,13 +26,14 @@
         android:textColor="@color/item_text"
         android:textSize="16sp" />
 
-    <Switch
-        android:id="@+id/switch_item_mine"
+    <TextView
+        android:id="@+id/content_item_mine"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:checked="true"
+        android:layout_toStartOf="@+id/arrow_right_item_mine"
+        android:gravity="center"
+        android:textColor="@color/item_text"
+        android:textSize="13sp"
         android:visibility="gone" />
 
     <com.facebook.drawee.view.SimpleDraweeView

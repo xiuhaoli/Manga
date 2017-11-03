@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_main"
+    tools:context="cn.xhl.client.manga.view.gallery.ConcreteMangaActivity">
+
+    <TextView
+        android:id="@+id/title_activity_concrete_manga"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="title"
+        android:textColor="@color/item_text"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_activity_concrete_manga"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15"
+        app:roundedCornerRadius="5dp" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/popularity_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="@color/item_text"
+        android:textSize="18sp"
+        app:imageSpanLeft="@mipmap/viewed"
+        app:layout_constraintBottom_toTopOf="@+id/dotted_line_activity_concrete_manga"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/img_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/star_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="@color/item_text"
+        android:textSize="18sp"
+        app:imageSpanLeft="@mipmap/favorite"
+        app:layout_constraintBottom_toTopOf="@+id/dotted_line_activity_concrete_manga"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintLeft_toRightOf="@+id/img_activity_concrete_manga"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/dotted_line_activity_concrete_manga"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/dotted_line"
+        android:layerType="software"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/author_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/prompt_author"
+        android:textColor="@color/item_text"
+        android:textSize="@dimen/sp_14"
+        app:imageSpanLeft="@mipmap/span_author"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dotted_line_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/category_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/prompt_category"
+        android:textColor="@color/item_text"
+        android:textSize="@dimen/sp_14"
+        app:imageSpanLeft="@mipmap/span_category"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/author_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/posted_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/prompt_posted"
+        android:textColor="@color/item_text"
+        android:textSize="@dimen/sp_14"
+        app:imageSpanLeft="@mipmap/span_posted"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/page_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/prompt_page"
+        android:textColor="@color/item_text"
+        android:textSize="14sp"
+        app:imageSpanLeft="@mipmap/span_filecount"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/posted_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/uploader_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/prompt_uploader"
+        android:textColor="@color/item_text"
+        android:textSize="14sp"
+        app:imageSpanLeft="@mipmap/span_uploader"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/page_activity_concrete_manga" />
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/rating_activity_concrete_manga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/prompt_rating"
+        android:textColor="@color/item_text"
+        android:textSize="14sp"
+        app:imageSpanLeft="@mipmap/span_rating"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploader_activity_concrete_manga" />
+
+    <Button
+        android:id="@+id/btn_activity_concrete_manga"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@color/item_background"
+        android:text="@string/action_read"
+        android:textColor="@color/item_text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

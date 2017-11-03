@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Retrofit工厂类，实例化Retrofit并提供各模块实例
  */
 public class RetrofitFactory {
-    private static final String BASE_URL = "http://192.168.1.117:9090/";
+    private static final String BASE_URL = "http://www.ebandwagon.tk/";
 
     private static Retrofit retrofit;
 
@@ -67,32 +67,32 @@ public class RetrofitFactory {
                 .create();
     }
 
-    private static class GalleryAdapter extends TypeAdapter<BaseResponse<Res_GalleryList>> {
-
-        @Override
-        public void write(JsonWriter out, BaseResponse<Res_GalleryList> value) throws IOException {
-
-        }
-
-        @Override
-        public BaseResponse<Res_GalleryList> read(JsonReader in) throws IOException {
-            BaseResponse<Res_GalleryList> baseResponse = new BaseResponse<>();
-            in.beginObject();
-            while (in.hasNext()) {
-                switch (in.nextName()) {
-                    case "code":
-                        baseResponse.setCode(in.nextInt());
-                        break;
-                    case "msg":
-                        baseResponse.setMsg(in.nextString());
-                        break;
-                    case "data":
-                        break;
-                }
-            }
-            in.endObject();
-            return baseResponse;
-        }
-    }
+//    private static class GalleryAdapter extends TypeAdapter<BaseResponse<Res_GalleryList>> {
+//
+//        @Override
+//        public void write(JsonWriter out, BaseResponse<Res_GalleryList> value) throws IOException {
+//
+//        }
+//
+//        @Override
+//        public BaseResponse<Res_GalleryList> read(JsonReader in) throws IOException {
+//            BaseResponse<Res_GalleryList> baseResponse = new BaseResponse<>();
+//            in.beginObject();
+//            while (in.hasNext()) {
+//                switch (in.nextName()) {
+//                    case "code":
+//                        baseResponse.setCode(in.nextInt());
+//                        break;
+//                    case "msg":
+//                        baseResponse.setDelta(in.nextString());
+//                        break;
+//                    case "data":
+//                        break;
+//                }
+//            }
+//            in.endObject();
+//            return baseResponse;
+//        }
+//    }
 
 }

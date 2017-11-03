@@ -75,6 +75,10 @@ public class BaseRequest {
                 '}';
     }
 
+    /**
+     * 在构建的时候需要设置请求的类和签名
+     * 其他参数默认取userinfo中的参数
+     */
     public static class Builder {
         private String token = UserInfo.getInstance().getToken();
         private int uid = UserInfo.getInstance().getUid();
@@ -109,7 +113,7 @@ public class BaseRequest {
 
         public BaseRequest build() {
             if (StringUtil.isEmpty(sign)) {
-                throw new IllegalArgumentException("签名不能为空");
+                throw new IllegalArgumentException("sign can not be empty");
             }
             return new BaseRequest(this);
         }

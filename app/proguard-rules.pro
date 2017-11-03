@@ -163,3 +163,11 @@
 }
 -dontwarn com.android.volley.toolbox.**
 -dontwarn com.facebook.infer.**
+#BaseRecyclerViewAdapterHelper
+-keep class com.chad.library.adapter.** {*;}
+#保持自定义控件类不被混淆
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+-keep class cn.xhl.client.manga.adapter.**{*;}
+-keep class cn.xhl.client.manga.model.bean.**{*;}

@@ -36,7 +36,7 @@ public class MineItemDecoration extends DividerItemDecoration {
         if (position == 0) {
             outRect.bottom = DpUtil.dp2Px(mContext, 20);
         } else {
-            outRect.bottom = DpUtil.dp2Px(mContext, 5);
+            outRect.bottom = DpUtil.dp2Px(mContext, 1);
         }
     }
 

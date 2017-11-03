@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_item_gallery"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="5dp"
@@ -15,6 +16,8 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_item_gallery"
             android:layout_width="100dp"
+            app:failureImage="@mipmap/failure_img"
+            app:failureImageScaleType="center"
             android:layout_height="140dp"
             android:layout_margin="5dp"
             app:roundedCornerRadius="5dp" />
@@ -105,22 +108,6 @@
 
             <TextView
                 android:id="@+id/subscribe_item_gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
-                android:text="0"
-                android:textColor="@color/item_text"
-                android:textSize="12sp" />
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                app:placeholderImage="@mipmap/good" />
-
-            <TextView
-                android:id="@+id/good_item_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

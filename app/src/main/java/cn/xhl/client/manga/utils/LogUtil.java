@@ -2,6 +2,8 @@ package cn.xhl.client.manga.utils;
 
 import android.util.Log;
 
+import java.io.IOException;
+
 
 /**
  * @author Mike on 2017/9/25 0025.
@@ -80,4 +82,17 @@ public class LogUtil {
         e(tag, msg, null);
     }
 
+    public static void eLocal(String filename, String content) {
+        if (IS_DEBUG) {
+            try {
+                FileUtil.getInstance().printLog(filename, content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void eLocal(String content) {
+        eLocal(SystemUtil.getTimeStamp(), content);
+    }
 }

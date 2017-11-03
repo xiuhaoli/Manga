@@ -157,7 +157,9 @@ public class FileUtil {
         String path = getLogPath();
         File folderFile = new File(path);
         if (!folderFile.exists()) {
-            folderFile.mkdir();
+            if (!folderFile.mkdir()) {
+                return;
+            }
         }
         File file = new File(path + File.separator + fileName);
         FileOutputStream fos = new FileOutputStream(file);
@@ -203,15 +205,19 @@ public class FileUtil {
                 // 如果判断为缓存文件就不删除
                 if (!file.getName().equals("journal")) {
                     if (!file.delete()) {
-                        Log.e(TAG, "delete file fault");
+                        LogUtil.e(TAG, "delete file fault");
                     }
                 }
             } else if (file.isDirectory()) {
                 deleteFile(file); // 递规的方式删除文件夹
             }
         }
-//        不删除目录和缓存的日志文件，不然会出现清了缓存后，图片不能加载
-//        dir.delete();// 删除目录本身
+        // 不删除目录和缓存的日志文件，不然会出现清了缓存后，图片不能加载
+        if (!dir.getName().equals("cache")) {
+            if (!dir.delete()) {
+                LogUtil.e(TAG, "delete dir fault");
+            }
+        }
     }
 
     /**

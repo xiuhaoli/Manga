@@ -6,10 +6,9 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.qmuiteam.qmui.widget.QMUITopBar
+    <include
         android:id="@+id/topbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/qmui_topbar_height"
+        layout="@layout/titlebar_main"
         android:visibility="gone" />
 
     <LinearLayout

@@ -13,6 +13,7 @@ import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import cn.xhl.client.manga.utils.SignUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
 
 /**
  * @author Mike on 2017/10/23 0023.
@@ -41,10 +42,18 @@ public class LatestPresenter implements LatestContract.Presenter {
     }
 
     @Override
-    public void list(String category, String type) {
+    public void list(String category, String type, final boolean isLoadMore) {
         if (!loadMore) {
             view.noMoreToLoad();
             return;
+        }
+        view.hideReTry();
+//        if ((IConstants.RECOMMEND.equals(type) || IConstants.CATEGORY_LATEST.equals(type)
+//                || IConstants.HISTORY.equals(type) || IConstants.FAVORITE.equals(type)) && !isLoadMore) {
+//            view.showLoading();
+//        }
+        if (!isLoadMore) {
+            view.showLoading();
         }
         Req_GalleryList reqGalleryList = new Req_GalleryList();
         reqGalleryList.setCategory(category);
@@ -54,10 +63,16 @@ public class LatestPresenter implements LatestContract.Presenter {
         compositeDisposable.add(RetrofitFactory
                 .getApiComics()
                 .galleryList(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
-                        .setSign(SignUtil.generateSign(String.valueOf(size), String.valueOf(page), category))
+                        .setSign(SignUtil.generateSign(String.valueOf(size), String.valueOf(page), category, type))
                         .setData(reqGalleryList)
                         .build())))
                 .compose(RxSchedulesHelper.<BaseResponse<Res_GalleryList>>io_ui())
+                .doOnTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        view.hideLoading();
+                    }
+                })
                 .subscribeWith(new BaseObserver<Res_GalleryList>() {
                     @Override
                     protected void onHandleSuccess(Res_GalleryList galleryList) {
@@ -68,7 +83,11 @@ public class LatestPresenter implements LatestContract.Presenter {
 
                     @Override
                     protected void onHandleError(long code, String msg) {
-                        view.failLoadMore();
+                        if (isLoadMore) {
+                            view.failLoadMore();
+                        } else {
+                            view.showReTry();
+                        }
                     }
                 }));
     }

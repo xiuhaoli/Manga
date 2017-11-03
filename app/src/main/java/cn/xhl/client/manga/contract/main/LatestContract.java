@@ -22,11 +22,22 @@ public interface LatestContract {
 
         void noMoreToLoad();
 
+        void showReTry();
+
+        void hideReTry();
+
         void notifyAdapter(Res_GalleryList galleryList);
 
     }
 
     interface Presenter extends BasePresenter {
-        void list(String category, String type);
+        /**
+         * 请求列表
+         *
+         * @param category   书籍类型
+         * @param type       请求类型
+         * @param isLoadMore 是否是在加载更多, 该值用于判断是否展示加载圈
+         */
+        void list(String category, String type, boolean isLoadMore);
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Comics</string>
+    <string name="app_name">EhConverter</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
     <string name="title_mine">Me</string>
@@ -38,4 +38,22 @@
     <string name="theme_type_white">Light Theme</string>
     <string name="favorites">Favorites</string>
     <string name="history">History</string>
+    <string name="filter">Filter</string>
+    <string name="cache">Cache</string>
+    <string name="prompt_clear_cache">Are you sure you want to clear the cache?</string>
+    <string name="title_bar">title_bar</string>
+    <string name="loading">loading</string>
+    <string name="item_img">item_img</string>
+    <string name="action_read">read now</string>
+    <string name="action_try_again">try again</string>
+    <string name="prompt_author">Author:&#160;&#160;%1$s</string>
+    <string name="prompt_category">Category:&#160;&#160;%1$s</string>
+    <string name="prompt_posted">Posted:&#160;&#160;%1$s</string>
+    <string name="prompt_page">Filecount:&#160;&#160;%1$d</string>
+    <string name="prompt_uploader">Uploader:&#160;&#160;%1$s</string>
+    <string name="prompt_rating">Rating:&#160;&#160;%1$s</string>
+    <string name="prompt_star">%1$d</string>
+    <string name="prompt_popularity">%1$d</string>
+    <string name="action_retry">Retry</string>
+    <string name="prompt_load_failed">load&#160;failed</string>
 </resources>

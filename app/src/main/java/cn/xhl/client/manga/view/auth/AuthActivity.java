@@ -25,7 +25,6 @@ public class AuthActivity extends BaseActivity implements BaseFragment.BackHandl
         super.onCreate(savedInstanceState);
         this.overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_alpha_out);// 载入载出动画
 
-//        QMUIStatusBarHelper.translucent(this);
         LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_TAG);
         if (loginFragment == null) {
             loginFragment = LoginFragment.newInstance();
