@@ -20,7 +20,6 @@ import cn.xhl.client.manga.utils.DateUtil;
  */
 
 public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.GalleryEntity, GalleryListAdapter.GalleryListViewHolder> {
-    private GalleryListViewHolder holder;
 
     public GalleryListAdapter(@Nullable List<Res_GalleryList.GalleryEntity> data) {
         super(R.layout.item_gallery, data);
@@ -28,7 +27,6 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
 
     @Override
     protected void convert(GalleryListViewHolder helper, Res_GalleryList.GalleryEntity item) {
-        holder = helper;
         helper.setText(R.id.title_item_gallery, item.getTitle());
         helper.setText(R.id.author_item_gallery, item.getArtist());
         helper.setText(R.id.category_item_gallery, item.getCategory());
@@ -36,13 +34,6 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
         helper.setText(R.id.viewed_item_gallery, String.valueOf(item.getViewed()));
         helper.setText(R.id.subscribe_item_gallery, String.valueOf(item.getSubscribe()));
         helper.setUri(R.id.img_item_gallery, item.getThumb());
-    }
-
-    public View getView(int resId) {
-        if (holder != null) {
-            return holder.getView(resId);
-        }
-        return null;
     }
 
     class GalleryListViewHolder extends BaseViewHolder {

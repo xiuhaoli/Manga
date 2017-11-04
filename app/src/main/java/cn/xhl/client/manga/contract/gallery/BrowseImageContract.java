@@ -1,5 +1,7 @@
 package cn.xhl.client.manga.contract.gallery;
 
+import android.net.Uri;
+
 import cn.xhl.client.manga.base.BasePresenter;
 import cn.xhl.client.manga.base.BaseView;
 
@@ -16,17 +18,35 @@ public interface BrowseImageContract {
         void showTipMsg(String msg);
 
         /**
-         * @param page       页数，起始是1
-         * @param url        当前图片的URL
+         * @param page 页数，起始是1
+         * @param uri  当前图片的URL
          */
-        void setUrl(int page, String url);
+        void setUrl(int page, Uri uri);
+
+        /**
+         * 将uri对应的图片清出内存缓存中
+         *
+         * @param uri
+         */
+        void clearUriFromMemoryCache(Uri uri);
+
+        void clearUriFromDiskCache(Uri uri);
     }
 
     interface Presenter extends BasePresenter {
         /**
-         * @param page    页数，起始是1
+         * @param page 页数，起始是1
          */
         void reqImgUrl(int page);
+
+        /**
+         * 开始请除缓存任务
+         *
+         * @param page 当前的页数
+         */
+        void startClearUriMemoryTask(int page);
+
+        boolean haveImgkey(int page);
     }
 
 }

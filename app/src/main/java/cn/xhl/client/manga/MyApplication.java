@@ -2,6 +2,7 @@ package cn.xhl.client.manga;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -94,6 +95,7 @@ public class MyApplication extends Application {
                 .setMainDiskCacheConfig(diskCacheConfig)
                 //-------添加网络组件-----------------
                 .setNetworkFetcher(new OkHttpNetworkFetcher(okHttpClient))
+                .setBitmapsConfig(Bitmap.Config.RGB_565)
                 .build();
         Fresco.initialize(this, config);
     }

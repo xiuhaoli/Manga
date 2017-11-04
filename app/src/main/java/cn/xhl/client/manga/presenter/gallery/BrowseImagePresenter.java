@@ -1,5 +1,6 @@
 package cn.xhl.client.manga.presenter.gallery;
 
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
@@ -12,7 +13,6 @@ import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.gallery.BrowseImageContract;
 import cn.xhl.client.manga.model.bean.request.Req_BrowseImage;
 import cn.xhl.client.manga.model.bean.response.Res_BrowseImage;
-import cn.xhl.client.manga.utils.LogUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -27,20 +27,24 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
     private static final String TAG = "BrowseImagePresenter";
     private BrowseImageContract.View view;
     private Call call;
-    private SparseArray<String> urls;
+    /**
+     * 这里的key值都是按照1为起始位置
+     */
+    private SparseArray<Uri> uris;
     private SparseArray<String> imgkeys;
     private int gid;
     private String showkey;
     private final static String LAST_IMG_KEY = "end";
     private int filecount;
 
-    public BrowseImagePresenter(BrowseImageContract.View view, int filecount, String secondImgkey, int gid, String showkey) {
+    public BrowseImagePresenter(BrowseImageContract.View view, int filecount, String secondImgkey, int gid, String showkey, String firstImgUrl) {
         this.view = view;
         this.filecount = filecount;
         this.gid = gid;
         this.showkey = showkey;
         view.setPresenter(this);
-        urls = new SparseArray<>(filecount);
+        uris = new SparseArray<>(filecount);
+        uris.put(1, Uri.parse(firstImgUrl));
         imgkeys = new SparseArray<>(filecount);
         imgkeys.put(2, secondImgkey);
     }
@@ -52,6 +56,11 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
 
     @Override
     public void unSubscribe() {
+        for (int i = 1; i < uris.size(); i++) {
+            Uri uri = uris.get(i);
+            view.clearUriFromMemoryCache(uri);
+            view.clearUriFromDiskCache(uri);
+        }
         if (call.isCanceled()) {
             return;
         }
@@ -61,8 +70,11 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
     @Override
     public void reqImgUrl(final int page) {
         // 如果发现请求的图片url不为空就直接返回
-        if (StringUtil.isNotEmpty(urls.get(page))) {
-            view.setUrl(page, urls.get(page));
+        if (StringUtil.isNotEmpty(uris.get(page))) {
+            view.setUrl(page, uris.get(page));
+            return;
+        }
+        if (imgkeys.get(page) == null) {
             return;
         }
         Req_BrowseImage req_browseImage = new Req_BrowseImage();
@@ -100,10 +112,10 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
                     }
                     // 这是当前的请求的图片URL
                     String url = res_browseImage.getI3().split("src")[1].split("\"")[1];
-                    urls.put(page, url);
+                    Uri uri = Uri.parse(url);
+                    uris.put(page, uri);
                     imgkeys.put(page + 1, imgkey);
-                    view.setUrl(page, url);
-
+                    view.setUrl(page, uri);
                 } finally {
                     if (body != null) {
                         body.close();
@@ -111,5 +123,27 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
                 }
             }
         });
+    }
+
+    /**
+     * 目前只清除了当前页面的前两页
+     * 暂且不考虑后面往前滑的情况
+     *
+     * @param page 当前的页数
+     */
+    @Override
+    public void startClearUriMemoryTask(int page) {
+        if (page == 1 || page == 2) {
+            return;
+        }
+        Uri uri = uris.get(page - 2);
+        if (uri != null) {
+            view.clearUriFromMemoryCache(uri);
+        }
+    }
+
+    @Override
+    public boolean haveImgkey(int page) {
+        return imgkeys.get(page) != null;
     }
 }

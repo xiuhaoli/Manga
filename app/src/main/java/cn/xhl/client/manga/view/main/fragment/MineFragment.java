@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.MineContract;
 import cn.xhl.client.manga.custom.MineItemDecoration;
-import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
 public class MineFragment extends BaseFragment implements MineContract.View, BaseQuickAdapter.OnItemClickListener {
@@ -69,8 +67,8 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
     public void initAdapter() {
         mRecyclerData = new ArrayList<>();
         MineAdapter.MineItem item;
-        int[] text = {R.string.favorites, R.string.history, R.string.filter, R.string.cache};
-        int[] img = {R.mipmap.favorite, R.mipmap.history, R.mipmap.blacklist, R.mipmap.broom};
+        int[] text = {R.string.favorites, R.string.history, R.string.cache};
+        int[] img = {R.mipmap.favorite, R.mipmap.history, R.mipmap.broom};
         cacheItemPosition = text.length - 1;
         for (int i = 0, size = text.length; i < size; i++) {
             item = new MineAdapter.MineItem();
@@ -132,10 +130,6 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
                 ConcreteCategoryActivity.start(mActivity, IConstants.ALL, IConstants.HISTORY);
                 break;
             case 2:
-                // jump to filter
-
-                break;
-            case 3:
                 if (promptDialog != null) {
                     promptDialog.show();
                 } else {

@@ -55,7 +55,6 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
     @Override
     public void unSubscribe() {
         compositeDisposable.clear();
-        view = null;
         if (call.isCanceled()) {
             return;
         }

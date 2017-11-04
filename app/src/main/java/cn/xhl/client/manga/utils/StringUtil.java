@@ -16,7 +16,7 @@ public class StringUtil {
         return str == null || "".equals(str);
     }
 
-    public static boolean isNotEmpty(String str) {
+    public static boolean isNotEmpty(Object str) {
         return !isEmpty(str);
     }
 

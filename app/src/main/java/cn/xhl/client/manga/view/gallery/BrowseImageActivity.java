@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
@@ -55,7 +57,7 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SET_URL:
-                    activity.get().imgArray.get(msg.arg1).setImageURI((String) msg.obj);
+                    activity.get().imgArray.get(msg.arg1).setImageURI((Uri) msg.obj);
                     break;
                 default:
                     break;
@@ -89,13 +91,13 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
         String secondImgkey = intent.getStringExtra("secondImgkey");
         count = intent.getIntExtra("count", 1);
         int gid = intent.getIntExtra("gid", 0);
-        imgArray = new SparseArray<>(count);
+        imgArray = new SparseArray<>();
 
-        new BrowseImagePresenter(this, count, secondImgkey, gid, showkey);
+        new BrowseImagePresenter(this, count, secondImgkey, gid, showkey, thumb);
         textView = findViewById(R.id.tv_activity_browse_image);
         textView.setText(1 + "/" + count);
         ViewPager viewPager = findViewById(R.id.viewpager_activity_browse_image);
-        viewPager.setAdapter(new BrowseImageAdapter(this, count, thumb));
+        viewPager.setAdapter(new BrowseImageAdapter(this, count));
         viewPager.addOnPageChangeListener(new BrowseImagePageChangeListener());
 
     }
@@ -138,23 +140,31 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
     }
 
     @Override
-    public void setUrl(int page, String url) {
+    public void setUrl(int page, Uri uri) {
         message = new Message();
         message.what = SET_URL;
         message.arg1 = page;
-        message.obj = url;
+        message.obj = uri;
         handler.sendMessage(message);
+    }
+
+    @Override
+    public void clearUriFromMemoryCache(Uri uri) {
+        Fresco.getImagePipeline().evictFromMemoryCache(uri);
+    }
+
+    @Override
+    public void clearUriFromDiskCache(Uri uri) {
+        Fresco.getImagePipeline().evictFromDiskCache(uri);
     }
 
     private static class BrowseImageAdapter extends PagerAdapter {
         private WeakReference<BrowseImageActivity> activity;
         private int count;
-        private String thumb;
 
-        private BrowseImageAdapter(BrowseImageActivity activity, int count, String thumb) {
+        private BrowseImageAdapter(BrowseImageActivity activity, int count) {
             this.activity = new WeakReference<>(activity);
             this.count = count;
-            this.thumb = thumb;
         }
 
         @Override
@@ -167,13 +177,24 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
             return view == object;
         }
 
+        /**
+         * ViewPager在每次滑动的时候都会调用instantiateItem方法
+         * ViewPager在往回滑动的时候，会预加载position - 1位置的item
+         */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            LogUtil.e(TAG, "instantiateItem--->position = " + position);
             // 这里按照起始位置1
             position += 1;
+
+            LogUtil.e(TAG, "当前请求的position" + position);
+
             SimpleDraweeView imgView = activity.get().imgArray.get(position);
+            // 如果ImgView不为空说明之前初始化过
             if (imgView != null) {
+                if (activity.get().presenter.haveImgkey(position) && !activity.get().presenter.haveImgkey(position + 1)) {
+                    // 如果有imgkey且下一个imgkey不存在，说明需要请求下一个imgkey
+                    activity.get().presenter.reqImgUrl(position);
+                }
                 container.addView(imgView);
                 return imgView;
             }
@@ -181,7 +202,6 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
             Drawable loading = ActivityCompat.getDrawable(activity.get(), R.drawable.loading);
             animationDrawable.addFrame(loading, 200);
             animationDrawable.setOneShot(false);
-            // 如果没有就重新创建
             GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(activity.get().getResources());
             GenericDraweeHierarchy hierarchy = builder
                     .setFadeDuration(300)
@@ -191,11 +211,7 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
                     .build();
             SimpleDraweeView simpleDraweeView = new SimpleDraweeView(activity.get(), hierarchy);
             activity.get().imgArray.put(position, simpleDraweeView);
-            if (position == 1) {
-                simpleDraweeView.setImageURI(thumb);
-            } else {
-                activity.get().presenter.reqImgUrl(position);
-            }
+            activity.get().presenter.reqImgUrl(position);
             container.addView(simpleDraweeView);
             return simpleDraweeView;
         }
@@ -216,7 +232,9 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
 
         @Override
         public void onPageSelected(int position) {
-            textView.setText(position + 1 + "/" + count);
+            int pageNum = position + 1;
+            textView.setText(pageNum + "/" + count);
+            presenter.startClearUriMemoryTask(pageNum);
         }
 
         @Override

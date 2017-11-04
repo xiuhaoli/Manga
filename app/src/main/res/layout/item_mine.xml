@@ -11,8 +11,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/dp_10"
-        app:placeholderImage="@mipmap/moon" />
+        android:layout_marginStart="@dimen/dp_10" />
 
     <TextView
         android:id="@+id/text_item_mine"
