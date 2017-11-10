@@ -13,9 +13,9 @@ public interface IConstants {
     String USER_AGENT = "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)";
     String POST_URL = "https://api.e-hentai.org/api.php";
     /**
-     * 使用BCrypt加密需要使用的盐，这个盐是固定的
+     * 这个盐是固定的
      */
-    String PASSWORD_SALT = "$2a$10$4kLirifHUt6Civ0i.P/LoO";
+    String SALT = "$2a$10$4kLirifHUt6Civ0i.P/LoO";
     /**
      * 请求的书籍类型
      */
@@ -56,4 +56,16 @@ public interface IConstants {
      * 请求收藏列表
      */
     String FAVORITE = "favorite";
+    /**
+     * 搜索title类型列表
+     */
+    String TITLE = "title";
+    /**
+     * 搜索author类型列表
+     */
+    String AUTHOR = "author";
+    /**
+     * 搜索uploader类型列表
+     */
+    String UPLOADER = "uploader";
 }

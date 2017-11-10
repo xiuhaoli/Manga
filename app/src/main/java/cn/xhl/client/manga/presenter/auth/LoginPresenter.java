@@ -9,7 +9,6 @@ import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.contract.auth.LoginContract;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_Login;
-import cn.xhl.client.manga.utils.BCrypt;
 import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;
@@ -70,7 +69,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         loginView.hideKeyboard();
         loginView.showLoading();
         // 加密
-        password = MD5Util.encrypt(email + password + IConstants.PASSWORD_SALT);
+        password = MD5Util.encrypt(email + password + IConstants.SALT);
         compositeDisposable.add(RetrofitFactory.getApiUser().login(email, password)
                 .compose(RxSchedulesHelper.<BaseResponse<Res_Login>>io_ui())
                 .doOnTerminate(new Action() {

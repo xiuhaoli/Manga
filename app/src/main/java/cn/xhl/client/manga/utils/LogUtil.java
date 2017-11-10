@@ -84,11 +84,7 @@ public class LogUtil {
 
     public static void eLocal(String filename, String content) {
         if (IS_DEBUG) {
-            try {
-                FileUtil.getInstance().printLog(filename, content);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            FileUtil.getInstance().printLog(filename, content);
         }
     }
 

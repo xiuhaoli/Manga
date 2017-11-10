@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -34,7 +35,13 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     private String category;
     private String type;
     private LinearLayout retry;
+    private TextView noData;// 没有数据的时候显示
 
+    /**
+     * @param activity
+     * @param category 请求的书籍类型，同时又充当搜索的内容
+     * @param type     请求的类型
+     */
     public static void start(Activity activity, String category, String type) {
         Intent intent = new Intent(activity, ConcreteCategoryActivity.class);
         intent.putExtra("category", category);
@@ -47,6 +54,7 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
         super.onCreate(savedInstanceState);
         new LatestPresenter(this);
         retry = findViewById(R.id.linear_activity_concrete_category);
+        noData = findViewById(R.id.no_data_activity_concrete_category);
         ControlUtil.initControlOnClick(R.id.btn_activity_concrete_category, this, this);
         RecyclerView recyclerView = findViewById(R.id.recycler_activity_concrete_category);
         mRecyclerData = new ArrayList<>();
@@ -128,6 +136,16 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     }
 
     @Override
+    public void showNoData() {
+        noData.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoData() {
+        noData.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onLoadMoreRequested() {
         presenter.list(category, type, true);
     }
@@ -140,7 +158,6 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
         intent.putExtra("galleryBundle", bundle);
         startActivity(intent);
     }
-
 
     @Override
     public void onClick(View v) {

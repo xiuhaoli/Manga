@@ -106,6 +106,16 @@ public class RecommendFragment extends BaseFragment implements LatestContract.Vi
     }
 
     @Override
+    public void showNoData() {
+
+    }
+
+    @Override
+    public void hideNoData() {
+
+    }
+
+    @Override
     public void onLoadMoreRequested() {
         presenter.list(IConstants.ALL, IConstants.RECOMMEND, true);
     }

@@ -28,6 +28,9 @@ public interface LatestContract {
 
         void notifyAdapter(Res_GalleryList galleryList);
 
+        void showNoData();
+
+        void hideNoData();
     }
 
     interface Presenter extends BasePresenter {

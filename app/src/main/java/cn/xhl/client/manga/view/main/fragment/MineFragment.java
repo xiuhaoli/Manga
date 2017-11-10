@@ -20,6 +20,7 @@ import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.MineContract;
 import cn.xhl.client.manga.custom.MineItemDecoration;
+import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
 public class MineFragment extends BaseFragment implements MineContract.View, BaseQuickAdapter.OnItemClickListener {
@@ -67,9 +68,9 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
     public void initAdapter() {
         mRecyclerData = new ArrayList<>();
         MineAdapter.MineItem item;
-        int[] text = {R.string.favorites, R.string.history, R.string.cache};
-        int[] img = {R.mipmap.favorite, R.mipmap.history, R.mipmap.broom};
-        cacheItemPosition = text.length - 1;
+        int[] text = {R.string.favorites, R.string.history, R.string.cache, R.string.logout};
+        int[] img = {R.mipmap.favorite, R.mipmap.history, R.mipmap.broom, R.mipmap.logout};
+        cacheItemPosition = text.length - 2;
         for (int i = 0, size = text.length; i < size; i++) {
             item = new MineAdapter.MineItem();
             item.setIcon(img[i]);
@@ -103,8 +104,8 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
     public void createPromptDialog() {
         promptDialog = new AlertDialog.Builder(mActivity)
                 .setMessage(R.string.prompt_clear_cache)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.clearCache();
@@ -136,6 +137,17 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
                     createPromptDialog();
                     promptDialog.show();
                 }
+                break;
+            case 3:
+                new AlertDialog.Builder(mActivity)
+                        .setMessage(R.string.prompt_logout)
+                        .setNegativeButton(R.string.dialog_cancel, null)
+                        .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityUtil.jump2LoginPage(mActivity, true);
+                            }
+                        }).create().show();
                 break;
             default:
                 break;

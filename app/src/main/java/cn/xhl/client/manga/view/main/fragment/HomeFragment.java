@@ -5,22 +5,25 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.HomePagerAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.contract.main.HomeContract;
+import cn.xhl.client.manga.custom.SearchDialog;
 import cn.xhl.client.manga.utils.ControlUtil;
+import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
 /**
+ * 主页
+ *
  * @author Mike on 2017/10/9 0009.
- *         <p>
- *         主页
  */
-public class HomeFragment extends BaseFragment implements HomeContract.View, View.OnClickListener {
+public class HomeFragment extends BaseFragment implements HomeContract.View,
+        View.OnClickListener, SearchDialog.SearchListener, SearchDialog.SpinnerItemSelectedListener {
     private HomeContract.Presenter presenter;
-    private SimpleDraweeView searchView;
+    private SearchDialog searchDialog;
+    private String[] searchType;
+    private String selectedSearchType;
 
     @Override
     public void onResume() {
@@ -48,7 +51,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_update));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_ranking));
         tabLayout.setupWithViewPager(viewPager, false);
-        searchView = (SimpleDraweeView) ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
+        ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
+        searchDialog = new SearchDialog(mActivity);
+        searchDialog.setSearchListener(this);
+        searchDialog.setSpinnerItemSelectedListener(this);
+        searchType = mActivity.getResources().getStringArray(R.array.item_search);
     }
 
     @Override
@@ -78,7 +85,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
 
     @Override
     public void jump2Search() {
-        // start animation and show search page
+        searchDialog.show();
     }
 
     @Override
@@ -90,5 +97,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
             default:
                 break;
         }
+    }
+
+    @Override
+    public void selected(View view, int position) {
+        selectedSearchType = searchType[position];
+        searchDialog.setSearchViewHint(selectedSearchType);
+    }
+
+    @Override
+    public void search(String query) {
+        ConcreteCategoryActivity.start(mActivity, query, selectedSearchType);
     }
 }

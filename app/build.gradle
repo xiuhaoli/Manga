@@ -7,8 +7,8 @@ android {
         applicationId "cn.xhl.client.manga"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.1.0"
+        versionCode 6
+        versionName "1.1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
@@ -20,7 +20,7 @@ android {
         debug {
         }
         release {// 自己的签名文件
-            storeFile file("e:/xiuhaoli/work/project/jks/comics.jks")
+            storeFile file("d:/learn/Project/Android Project/jks/comics.jks")
             storePassword "123456"
             keyAlias "comics"
             keyPassword "123456"

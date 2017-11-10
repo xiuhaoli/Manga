@@ -12,10 +12,8 @@ import cn.xhl.client.manga.model.bean.response.Res_GetVerify;
 import cn.xhl.client.manga.model.bean.response.Res_Register;
 import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
-import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Function;
 
 /**
  * @author Mike on 2017/9/29 0029.
@@ -89,7 +87,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     public void submit(String email, String password, String verify) {
         view.hideKeyboard();
         view.showLoading();
-        password = MD5Util.encrypt(email + password + IConstants.PASSWORD_SALT);
+        password = MD5Util.encrypt(email + password + IConstants.SALT);
         compositeDisposable.add(
                 RetrofitFactory
                         .getApiUser()

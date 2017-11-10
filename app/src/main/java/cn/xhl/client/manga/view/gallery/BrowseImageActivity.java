@@ -185,9 +185,6 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
         public Object instantiateItem(ViewGroup container, int position) {
             // 这里按照起始位置1
             position += 1;
-
-            LogUtil.e(TAG, "当前请求的position" + position);
-
             SimpleDraweeView imgView = activity.get().imgArray.get(position);
             // 如果ImgView不为空说明之前初始化过
             if (imgView != null) {

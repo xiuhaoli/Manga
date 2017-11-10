@@ -106,6 +106,16 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
     }
 
     @Override
+    public void showNoData() {
+
+    }
+
+    @Override
+    public void hideNoData() {
+
+    }
+
+    @Override
     public void onLoadMoreRequested() {
         presenter.list(IConstants.ALL, IConstants.LATEST, true);
     }

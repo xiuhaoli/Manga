@@ -48,10 +48,7 @@ public class LatestPresenter implements LatestContract.Presenter {
             return;
         }
         view.hideReTry();
-//        if ((IConstants.RECOMMEND.equals(type) || IConstants.CATEGORY_LATEST.equals(type)
-//                || IConstants.HISTORY.equals(type) || IConstants.FAVORITE.equals(type)) && !isLoadMore) {
-//            view.showLoading();
-//        }
+        view.hideNoData();
         if (!isLoadMore) {
             view.showLoading();
         }
@@ -77,12 +74,18 @@ public class LatestPresenter implements LatestContract.Presenter {
                     @Override
                     protected void onHandleSuccess(Res_GalleryList galleryList) {
                         ++page;
-                        loadMore = galleryList.isLoadMore();
-                        view.notifyAdapter(galleryList);
+                        loadMore = (size == galleryList.getData().size());
+                        // 如果不是加载更多且返回的集合长度为0，则显示noData
+                        if (!isLoadMore && galleryList.getData().size() == 0) {
+                            view.showNoData();
+                        } else {
+                            view.notifyAdapter(galleryList);
+                        }
                     }
 
                     @Override
                     protected void onHandleError(long code, String msg) {
+                        view.showTipMsg(msg);
                         if (isLoadMore) {
                             view.failLoadMore();
                         } else {

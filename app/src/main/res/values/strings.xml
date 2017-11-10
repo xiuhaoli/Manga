@@ -40,7 +40,9 @@
     <string name="history">History</string>
     <string name="filter">Filter</string>
     <string name="cache">Cache</string>
+    <string name="logout">Logout</string>
     <string name="prompt_clear_cache">Are you sure you want to clear the cache?</string>
+    <string name="prompt_logout">Are you sure you want to logout?</string>
     <string name="title_bar">title_bar</string>
     <string name="loading">loading</string>
     <string name="item_img">item_img</string>
@@ -56,4 +58,13 @@
     <string name="prompt_popularity">%1$d</string>
     <string name="action_retry">Retry</string>
     <string name="prompt_load_failed">load&#160;failed</string>
+    <string name="query_hint">title</string>
+    <array name="item_search">
+        <item>title</item>
+        <item>author</item>
+        <item>uploader</item>
+    </array>
+    <string name="no_data">no data</string>
+    <string name="dialog_cancel">no</string>
+    <string name="dialog_ok">yes</string>
 </resources>

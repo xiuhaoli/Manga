@@ -8,11 +8,9 @@ import java.util.List;
  */
 public class Res_GalleryList {
     private List<GalleryEntity> data;
-    private boolean loadMore;
 
-    public Res_GalleryList(List<GalleryEntity> data, boolean loadMore) {
+    public Res_GalleryList(List<GalleryEntity> data) {
         this.data = data;
-        this.loadMore = loadMore;
     }
 
     public Res_GalleryList() {
@@ -26,19 +24,10 @@ public class Res_GalleryList {
         this.data = data;
     }
 
-    public boolean isLoadMore() {
-        return loadMore;
-    }
-
-    public void setLoadMore(boolean loadMore) {
-        this.loadMore = loadMore;
-    }
-
     @Override
     public String toString() {
         return "Res_GalleryList{" +
                 "data=" + data +
-                ", loadMore=" + loadMore +
                 '}';
     }
 

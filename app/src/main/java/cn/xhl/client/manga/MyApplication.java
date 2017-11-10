@@ -82,7 +82,7 @@ public class MyApplication extends Application {
 
     private void initFresco() {
         FileUtil fileUtil = FileUtil.getInstance();
-        File cacheFile = new File(fileUtil.getCachePath());
+        File cacheFile = new File(fileUtil.getImagePath());
 
         DiskCacheConfig diskCacheConfig = DiskCacheConfig.newBuilder(this)
                 //------设置磁盘缓存目录--------

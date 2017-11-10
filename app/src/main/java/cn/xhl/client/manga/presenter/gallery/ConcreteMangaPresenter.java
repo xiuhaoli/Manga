@@ -86,25 +86,28 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
             public void onResponse(@Nullable Call call, @Nullable Response response) throws IOException {
                 ResponseBody body = null;
                 try {
-                    view.hideLoading();
                     if (response == null) {
                         view.showTipMsg("request failed");
+                        view.hideLoading();
                         return;
                     }
                     body = response.body();
                     if (body == null) {
                         view.showTipMsg("request failed");
+                        view.hideLoading();
                         return;
                     }
                     String text = body.string();
                     if (!text.contains("showkey") || !text.contains("next") || !text.contains("load_image")) {
                         LogUtil.eLocal(TAG + SystemUtil.getTimeStamp(), text);
-                        view.showTipMsg("parse content failed");
+                        view.showTipMsg("This gallery has been removed or is unavailable.");
+                        view.hideLoading();
                         return;
                     }
                     showkey = text.split("showkey")[1].substring(2, 13);
                     imgkey = text.split("next")[1].split("load_image")[1].split("'")[1].substring(0, 10);
                     firstImg = text.split("i3")[1].split("src")[1].split("\"")[1];
+                    view.hideLoading();
                 } finally {
                     if (body != null) {
                         body.close();

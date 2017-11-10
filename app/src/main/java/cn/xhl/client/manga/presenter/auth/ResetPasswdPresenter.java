@@ -10,7 +10,6 @@ import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.Res_GetVerify;
 import cn.xhl.client.manga.model.bean.response.Res_ResetPassword;
-import cn.xhl.client.manga.utils.BCrypt;
 import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;
@@ -88,7 +87,7 @@ public class ResetPasswdPresenter implements ResetPasswdContract.Presenter {
     public void submit(String email, String password, String verify) {
         view.hideKeyboard();
         view.showLoading();
-        password = MD5Util.encrypt(email + password + IConstants.PASSWORD_SALT);
+        password = MD5Util.encrypt(email + password + IConstants.SALT);
         compositeDisposable.add(RetrofitFactory
                 .getApiUser()
                 .resetPassword(email, password, verify)

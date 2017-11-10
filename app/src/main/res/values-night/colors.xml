@@ -16,6 +16,7 @@
 
     <color name="bottom_item_background">#2C2C2C</color>
     <color name="tab_text_color">#B3FFFFFF</color>
+    <color name="search_background">#B3333333</color>
 
     <color name="white_transparent_40">#66FFFFFF</color>
     <color name="black_transparent_50">#80000000</color>

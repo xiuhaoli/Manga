@@ -148,9 +148,8 @@ public class FileUtil {
      *
      * @param fileName 文件名
      * @param content  要输出的内容
-     * @throws IOException
      */
-    public void printLog(String fileName, String content) throws IOException {
+    public void printLog(String fileName, String content) {
         if (content == null) {
             return;
         }
@@ -161,14 +160,42 @@ public class FileUtil {
                 return;
             }
         }
-        File file = new File(path + File.separator + fileName);
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(content.getBytes("utf-8"));
-        fos.flush();
-        fos.close();
+        File file = new File(path + File.separator + fileName + ".txt");
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(content.getBytes("utf-8"));
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void printLog(String content) throws IOException {
+    /**
+     * 存储图片
+     *
+     * @param bytes
+     * @param fileName
+     */
+    public void saveImgByte(byte[] bytes, String fileName) {
+        if (bytes == null) {
+            return;
+        }
+        String path = getImagePath();
+        File folderFile = new File(path);
+        if (!folderFile.exists()) {
+            if (!folderFile.mkdir()) {
+                return;
+            }
+        }
+        File file = new File(path + File.separator + fileName + ".jpg");
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(bytes);
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printLog(String content) {
         printLog(String.valueOf(System.currentTimeMillis()), content);
     }
 
