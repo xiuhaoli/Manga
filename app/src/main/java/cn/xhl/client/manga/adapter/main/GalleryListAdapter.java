@@ -1,6 +1,7 @@
 package cn.xhl.client.manga.adapter.main;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,9 +21,11 @@ import cn.xhl.client.manga.utils.DateUtil;
  */
 
 public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.GalleryEntity, GalleryListAdapter.GalleryListViewHolder> {
+    private List<Res_GalleryList.GalleryEntity> data;
 
     public GalleryListAdapter(@Nullable List<Res_GalleryList.GalleryEntity> data) {
         super(R.layout.item_gallery, data);
+        this.data = data;
     }
 
     @Override
@@ -34,6 +37,23 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
         helper.setText(R.id.viewed_item_gallery, String.valueOf(item.getViewed()));
         helper.setText(R.id.subscribe_item_gallery, String.valueOf(item.getSubscribe()));
         helper.setUri(R.id.img_item_gallery, item.getThumb());
+        // init view for create_time
+        if (item.getCreate_time() == 0) {
+            return;
+        }
+        int position = helper.getAdapterPosition();
+        String date = DateUtil.stampToDate(item.getCreate_time());
+        if (position == 0) {
+            helper.setGone(R.id.text_sticky_item_gallery, true);
+            helper.setText(R.id.text_sticky_item_gallery, date);
+        } else {
+            if (!TextUtils.equals(date, DateUtil.stampToDate(data.get(position - 1).getCreate_time()))) {
+                helper.setGone(R.id.text_sticky_item_gallery, true);
+                helper.setText(R.id.text_sticky_item_gallery, date);
+            } else {
+                helper.setGone(R.id.text_sticky_item_gallery, false);
+            }
+        }
     }
 
     class GalleryListViewHolder extends BaseViewHolder {

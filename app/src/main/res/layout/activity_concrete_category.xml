@@ -46,7 +46,7 @@
         android:drawableTop="@mipmap/no_data"
         android:gravity="center"
         android:text="@string/no_data"
-        android:visibility="gone"
         android:textColor="@color/item_text"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 </RelativeLayout>

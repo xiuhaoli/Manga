@@ -68,4 +68,5 @@ public interface IConstants {
      * 搜索uploader类型列表
      */
     String UPLOADER = "uploader";
+
 }

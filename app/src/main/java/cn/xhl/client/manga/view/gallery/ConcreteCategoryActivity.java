@@ -18,6 +18,7 @@ import java.util.List;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
 import cn.xhl.client.manga.presenter.main.LatestPresenter;
@@ -170,4 +171,5 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
         }
 
     }
+
 }
