@@ -31,9 +31,6 @@ import cn.xhl.client.manga.contract.gallery.BrowseImageContract;
 import cn.xhl.client.manga.presenter.gallery.BrowseImagePresenter;
 import cn.xhl.client.manga.utils.LogUtil;
 
-/**
- * 还需要增加还没请求到下一张图片的imgkey时，禁止滑动
- */
 public class BrowseImageActivity extends BaseActivity implements BrowseImageContract.View {
     private static final String TAG = "BrowseImageActivity";
     private BrowseImageContract.Presenter presenter;
@@ -95,7 +92,7 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
 
         new BrowseImagePresenter(this, count, secondImgkey, gid, showkey, thumb);
         textView = findViewById(R.id.tv_activity_browse_image);
-        textView.setText(1 + "/" + count);
+        textView.setText(getResources().getString(R.string.prompt_page_number, 1, count));
         ViewPager viewPager = findViewById(R.id.viewpager_activity_browse_image);
         viewPager.setAdapter(new BrowseImageAdapter(this, count));
         viewPager.addOnPageChangeListener(new BrowseImagePageChangeListener());
@@ -150,12 +147,16 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
 
     @Override
     public void clearUriFromMemoryCache(Uri uri) {
-        Fresco.getImagePipeline().evictFromMemoryCache(uri);
+        if (uri != null) {
+            Fresco.getImagePipeline().evictFromMemoryCache(uri);
+        }
     }
 
     @Override
     public void clearUriFromDiskCache(Uri uri) {
-        Fresco.getImagePipeline().evictFromDiskCache(uri);
+        if (uri != null) {
+            Fresco.getImagePipeline().evictFromDiskCache(uri);
+        }
     }
 
     private static class BrowseImageAdapter extends PagerAdapter {
@@ -230,7 +231,7 @@ public class BrowseImageActivity extends BaseActivity implements BrowseImageCont
         @Override
         public void onPageSelected(int position) {
             int pageNum = position + 1;
-            textView.setText(pageNum + "/" + count);
+            textView.setText(getResources().getString(R.string.prompt_page_number, pageNum, count));
             presenter.startClearUriMemoryTask(pageNum);
         }
 

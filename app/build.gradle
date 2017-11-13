@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "cn.xhl.client.manga"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 6
-        versionName "1.1.3"
+        versionCode 9
+        versionName "1.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
@@ -52,12 +51,9 @@ android {
             signingConfig signingConfigs.release
 
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "EhConverter-v${defaultConfig.versionName}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
+                variant.outputs.all {
+                    def apkName = "EhConverter_v${variant.versionName}.apk"
+                    outputFileName = apkName
                 }
             }
         }
@@ -65,34 +61,34 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 //    compile('com.qmuiteam:qmui:1.0.3', {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
 
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:design:26.0.2'
-    compile 'com.android.support:cardview-v7:26.0.2'
-    compile 'com.android.support:recyclerview-v7:26.0.2'
-    compile 'com.android.support:support-annotations:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.3'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
-    compile 'com.facebook.fresco:fresco:1.5.0'
-    compile 'com.facebook.fresco:imagepipeline-okhttp3:1.5.0'
-    compile 'com.facebook.fresco:animated-gif:1.5.0'
-    compile 'com.android.support:support-v4:26.0.2'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testCompile 'junit:junit:4.12'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:support-annotations:27.0.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
+    implementation 'com.facebook.fresco:fresco:1.5.0'
+    implementation 'com.facebook.fresco:imagepipeline-okhttp3:1.5.0'
+    implementation 'com.facebook.fresco:animated-gif:1.5.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testImplementation 'junit:junit:4.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }

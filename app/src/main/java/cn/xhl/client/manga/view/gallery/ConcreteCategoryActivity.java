@@ -20,6 +20,7 @@ import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
+import cn.xhl.client.manga.listener.GalleryListScrollListener;
 import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
 import cn.xhl.client.manga.presenter.main.LatestPresenter;
 import cn.xhl.client.manga.utils.ControlUtil;
@@ -58,6 +59,7 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
         noData = findViewById(R.id.no_data_activity_concrete_category);
         ControlUtil.initControlOnClick(R.id.btn_activity_concrete_category, this, this);
         RecyclerView recyclerView = findViewById(R.id.recycler_activity_concrete_category);
+        addScrollListener(recyclerView);
         mRecyclerData = new ArrayList<>();
         mRecyclerAdapter = new GalleryListAdapter(mRecyclerData);
         mRecyclerAdapter.setOnItemClickListener(this);
@@ -172,4 +174,33 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
 
     }
 
+    private void addScrollListener(RecyclerView recyclerView) {
+        recyclerView.addOnScrollListener(new GalleryListScrollListener() {
+            @Override
+            public void onScrolledUp(int firstVisible, int lastVisible) {
+                for (int i = 0; i < firstVisible; i++) {
+                    mRecyclerAdapter.evictImageFromMemoryCache(i);
+                }
+            }
+
+            @Override
+            public void onScrolledDown(int firstVisible, int lastVisible) {
+                for (int i = mRecyclerData.size() - 1; i > lastVisible; i--) {
+                    mRecyclerAdapter.evictImageFromMemoryCache(i);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        evictAllImageFromMemoryCache();
+    }
+
+    private void evictAllImageFromMemoryCache() {
+        for (int i = 0, length = mRecyclerData.size(); i < length; i++) {
+            mRecyclerAdapter.evictImageFromMemoryCache(i);
+        }
+    }
 }

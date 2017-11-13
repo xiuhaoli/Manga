@@ -161,6 +161,10 @@
 -keepclassmembers class * {
     @com.facebook.common.internal.DoNotStrip *;
 }
+-keep class com.facebook.animated.webp.** { *; }
+-keep class com.facebook.animated.gif.** { *; }
+-keep class com.facebook.imagepipeline.gif.** { *; }
+-keep class com.facebook.imagepipeline.webp.** { *; }
 -dontwarn com.android.volley.toolbox.**
 -dontwarn com.facebook.infer.**
 #BaseRecyclerViewAdapterHelper

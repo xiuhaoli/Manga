@@ -126,20 +126,16 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
     }
 
     /**
-     * 目前只清除了当前页面的前两页
-     * 暂且不考虑后面往前滑的情况
+     * 将当前页面的隔一页的地方的图片清除
      *
      * @param page 当前的页数
      */
     @Override
     public void startClearUriMemoryTask(int page) {
-        if (page == 1 || page == 2) {
-            return;
-        }
-        Uri uri = uris.get(page - 2);
-        if (uri != null) {
-            view.clearUriFromMemoryCache(uri);
-        }
+        Uri before = uris.get(page - 2);
+        Uri after = uris.get(page + 2);
+        view.clearUriFromMemoryCache(before);
+        view.clearUriFromMemoryCache(after);
     }
 
     @Override

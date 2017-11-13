@@ -4,7 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/background_main"
-    android:descendantFocusability="afterDescendants"
     android:orientation="vertical">
 
     <TextView
@@ -19,126 +18,116 @@
         android:textColor="@color/item_text"
         android:visibility="gone" />
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardview_item_gallery"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="3dp"
-        android:background="@color/item_background"
-        app:cardCornerRadius="5dp"
-        app:contentPadding="1dp">
+        android:background="@drawable/item_gallery_background">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/item_background">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img_item_gallery"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:layout_margin="5dp"
+            app:failureImage="@mipmap/failure_img"
+            app:failureImageScaleType="center"
+            app:roundedCornerRadius="5dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_item_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="title"
+                android:textColor="@color/item_text"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toRightOf="@+id/img_item_gallery" />
+
+            <TextView
+                android:id="@+id/author_item_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="author"
+                android:textColor="@color/item_text"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/category_item_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="category"
+                android:textColor="@color/item_text"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/posted_item_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="posted"
+                android:textColor="@color/item_text"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/img_item_gallery"
-                android:layout_width="100dp"
-                android:layout_height="140dp"
-                android:layout_margin="5dp"
-                app:failureImage="@mipmap/failure_img"
-                app:failureImageScaleType="center"
-                app:roundedCornerRadius="5dp" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:placeholderImage="@mipmap/viewed" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/viewed_item_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"
+                android:text="0"
+                android:textColor="@color/item_text"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/title_item_gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="title"
-                    android:textColor="@color/item_text"
-                    android:textSize="18sp"
-                    app:layout_constraintLeft_toRightOf="@+id/img_item_gallery" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                app:placeholderImage="@mipmap/favorite" />
 
-                <TextView
-                    android:id="@+id/author_item_gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="author"
-                    android:textColor="@color/item_text"
-                    android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:id="@+id/category_item_gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="category"
-                    android:textColor="@color/item_text"
-                    android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:id="@+id/posted_item_gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="posted"
-                    android:textColor="@color/item_text"
-                    android:textSize="@dimen/sp_14" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/subscribe_item_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="3dp"
-                android:layout_marginEnd="5dp"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"
+                android:text="0"
+                android:textColor="@color/item_text"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    app:placeholderImage="@mipmap/viewed" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/viewed_item_gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="3dp"
-                    android:text="0"
-                    android:textColor="@color/item_text"
-                    android:textSize="12sp" />
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="5dp"
-                    app:placeholderImage="@mipmap/favorite" />
-
-                <TextView
-                    android:id="@+id/subscribe_item_gallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="3dp"
-                    android:text="0"
-                    android:textColor="@color/item_text"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
 </LinearLayout>

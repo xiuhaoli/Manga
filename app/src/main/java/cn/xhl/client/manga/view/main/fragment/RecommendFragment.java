@@ -17,6 +17,7 @@ import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
+import cn.xhl.client.manga.listener.GalleryListScrollListener;
 import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
@@ -48,6 +49,7 @@ public class RecommendFragment extends BaseFragment implements LatestContract.Vi
         mRecyclerAdapter.openLoadAnimation();
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        addScrollListener(recyclerView);
         presenter.list(IConstants.ALL, IConstants.RECOMMEND, false);
     }
 
@@ -138,5 +140,23 @@ public class RecommendFragment extends BaseFragment implements LatestContract.Vi
             default:
                 break;
         }
+    }
+
+    private void addScrollListener(RecyclerView recyclerView) {
+        recyclerView.addOnScrollListener(new GalleryListScrollListener() {
+            @Override
+            public void onScrolledUp(int firstVisible, int lastVisible) {
+                for (int i = 0; i < firstVisible; i++) {
+                    mRecyclerAdapter.evictImageFromMemoryCache(i);
+                }
+            }
+
+            @Override
+            public void onScrolledDown(int firstVisible, int lastVisible) {
+                for (int i = mRecyclerData.size() - 1; i > lastVisible; i--) {
+                    mRecyclerAdapter.evictImageFromMemoryCache(i);
+                }
+            }
+        });
     }
 }
