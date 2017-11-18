@@ -8,7 +8,7 @@ import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.contract.auth.LoginContract;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
-import cn.xhl.client.manga.model.bean.response.Res_Login;
+import cn.xhl.client.manga.model.bean.response.auth.Res_Login;
 import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;

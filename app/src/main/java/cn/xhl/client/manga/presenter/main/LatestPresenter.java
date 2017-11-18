@@ -6,9 +6,9 @@ import cn.xhl.client.manga.base.BaseObserver;
 import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.request.BaseRequest;
-import cn.xhl.client.manga.model.bean.request.Req_GalleryList;
+import cn.xhl.client.manga.model.bean.request.gallery.Req_GalleryList;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
-import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import cn.xhl.client.manga.utils.SignUtil;
 import cn.xhl.client.manga.utils.StringUtil;
@@ -24,7 +24,7 @@ public class LatestPresenter implements LatestContract.Presenter {
     private CompositeDisposable compositeDisposable;
     private int page = 0;
     private int size = 10;
-    private boolean loadMore = true;
+    private boolean loadMore = false;
 
     public LatestPresenter(LatestContract.View view) {
         this.view = view;
@@ -43,15 +43,16 @@ public class LatestPresenter implements LatestContract.Presenter {
 
     @Override
     public void list(String category, String type, final boolean isLoadMore) {
-        if (!loadMore) {
-            view.noMoreToLoad();
-            return;
+        if (!isLoadMore) {
+            view.showLoading();
+        } else {
+            if (!loadMore) {
+                view.noMoreToLoad();
+                return;
+            }
         }
         view.hideReTry();
         view.hideNoData();
-        if (!isLoadMore) {
-            view.showLoading();
-        }
         Req_GalleryList reqGalleryList = new Req_GalleryList();
         reqGalleryList.setCategory(category);
         reqGalleryList.setPage(page);

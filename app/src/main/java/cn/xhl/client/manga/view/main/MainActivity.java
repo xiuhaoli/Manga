@@ -6,8 +6,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.Tracker;
+
 import java.lang.ref.WeakReference;
 
+import cn.xhl.client.manga.MyApplication;
 import cn.xhl.client.manga.adapter.MainPagerAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.R;
@@ -79,6 +82,8 @@ public class MainActivity extends BaseActivity {
 
         listener = new MyPageChangeListener(this);
         viewPager.addOnPageChangeListener(listener);
+
+
     }
 
     @Override

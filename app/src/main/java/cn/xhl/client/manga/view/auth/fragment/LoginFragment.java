@@ -9,7 +9,7 @@ import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.contract.auth.LoginContract;
-import cn.xhl.client.manga.model.bean.response.Res_Login;
+import cn.xhl.client.manga.model.bean.response.auth.Res_Login;
 import cn.xhl.client.manga.presenter.auth.RegisterPresenter;
 import cn.xhl.client.manga.presenter.auth.ResetPasswdPresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
@@ -21,8 +21,8 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
  * @author Mike on 2017/9/22 0022.
- * <p>
- * login view
+ *         <p>
+ *         login view
  */
 public class LoginFragment extends BaseFragment implements LoginContract.View, View.OnClickListener {
 

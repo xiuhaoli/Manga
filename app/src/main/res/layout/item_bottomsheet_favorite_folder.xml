@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/background_main"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/icon_item_bottomsheet_favorite_folder"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_10"
+        app:placeholderImage="@mipmap/icon_folder" />
+
+    <TextView
+        android:id="@+id/text_item_bottomsheet_favorite_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/icon_item_bottomsheet_favorite_folder"
+        android:gravity="center"
+        android:text="@string/theme_type_black"
+        android:textColor="@color/item_text"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/content_item_bottomsheet_favorite_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/checkbox_item_bottomsheet_favorite_folder"
+        android:textColor="@color/item_text"
+        android:textSize="13sp" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_item_bottomsheet_favorite_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:enabled="false"
+        android:focusable="false" />
+</RelativeLayout>

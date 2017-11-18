@@ -8,7 +8,8 @@ import cn.xhl.client.manga.contract.SplashContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.request.BaseRequest;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
-import cn.xhl.client.manga.model.bean.response.Res_RefreshToken;
+import cn.xhl.client.manga.model.bean.response.auth.Res_RefreshToken;
+import cn.xhl.client.manga.utils.AnalyticsUtil;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import cn.xhl.client.manga.utils.SignUtil;
 import cn.xhl.client.manga.utils.StringUtil;
@@ -34,6 +35,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void subscribe() {
         splashView.initUserInfo();
+        new AnalyticsUtil.ScreenBuilder().setScreenName("SplashActivity").build();
     }
 
     @Override

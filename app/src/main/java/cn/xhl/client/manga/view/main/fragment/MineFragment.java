@@ -22,13 +22,14 @@ import cn.xhl.client.manga.contract.main.MineContract;
 import cn.xhl.client.manga.custom.MineItemDecoration;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
+import cn.xhl.client.manga.view.gallery.FavoriteActivity;
 
 public class MineFragment extends BaseFragment implements MineContract.View, BaseQuickAdapter.OnItemClickListener {
     private MineContract.Presenter presenter;
     private MineAdapter mineAdapter;
     private List<MineAdapter.MineItem> mRecyclerData;
     private AlertDialog promptDialog;
-    // 缓存一栏的position
+    // 缓存那一栏的position
     private int cacheItemPosition;
 
     @Override
@@ -124,7 +125,7 @@ public class MineFragment extends BaseFragment implements MineContract.View, Bas
         switch (position) {
             case 0:
                 // jump to favorite
-                ConcreteCategoryActivity.start(mActivity, IConstants.ALL, IConstants.FAVORITE);
+                ActivityUtil.jump2Activity(mActivity, FavoriteActivity.class);
                 break;
             case 1:
                 // jump to history

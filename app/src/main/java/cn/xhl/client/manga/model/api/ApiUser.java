@@ -1,11 +1,11 @@
 package cn.xhl.client.manga.model.api;
 
-import cn.xhl.client.manga.model.bean.response.Res_RefreshToken;
-import cn.xhl.client.manga.model.bean.response.Res_GetVerify;
-import cn.xhl.client.manga.model.bean.response.Res_Login;
+import cn.xhl.client.manga.model.bean.response.auth.Res_RefreshToken;
+import cn.xhl.client.manga.model.bean.response.auth.Res_GetVerify;
+import cn.xhl.client.manga.model.bean.response.auth.Res_Login;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
-import cn.xhl.client.manga.model.bean.response.Res_Register;
-import cn.xhl.client.manga.model.bean.response.Res_ResetPassword;
+import cn.xhl.client.manga.model.bean.response.auth.Res_Register;
+import cn.xhl.client.manga.model.bean.response.auth.Res_ResetPassword;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;

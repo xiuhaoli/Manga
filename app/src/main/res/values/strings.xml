@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EhConverter</string>
+    <string name="app_name">EhConvert</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
     <string name="title_mine">Me</string>
@@ -68,4 +68,8 @@
     <string name="dialog_cancel">no</string>
     <string name="dialog_ok">yes</string>
     <string name="prompt_page_number">%1$d/%2$d</string>
+    <string name="prompt_title_bottomsheet_favorite">select a folder</string>
+    <string name="action_new_folder_title_bottomsheet_favorite">+ new folder</string>
+    <string name="prompt_new_folder_title">folder name</string>
+    <string name="hint_new_folder_dialog">less than 16</string>
 </resources>

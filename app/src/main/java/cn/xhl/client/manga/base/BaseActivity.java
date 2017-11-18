@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
 import cn.xhl.client.manga.MyActivityManager;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.custom.QMUITipDialog;
 
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     public Activity this_;
     private View topBar;
     private TextView title;

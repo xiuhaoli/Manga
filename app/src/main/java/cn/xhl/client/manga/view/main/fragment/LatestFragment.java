@@ -18,7 +18,7 @@ import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.listener.GalleryListScrollListener;
-import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
 
@@ -124,11 +124,7 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Intent intent = new Intent(mActivity, ConcreteMangaActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("GalleryEntity", mRecyclerData.get(position));
-        intent.putExtra("galleryBundle", bundle);
-        startActivity(intent);
+        ConcreteMangaActivity.start(mActivity, mRecyclerData.get(position));
     }
 
     @Override

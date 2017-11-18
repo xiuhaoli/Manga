@@ -6,8 +6,8 @@ android {
         applicationId "cn.xhl.client.manga"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 9
-        versionName "1.1.6"
+        versionCode 12
+        versionName "1.1.15_alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
@@ -52,7 +52,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    def apkName = "EhConverter_v${variant.versionName}.apk"
+                    def apkName = "EhConvert_v${variant.versionName}.apk"
                     outputFileName = apkName
                 }
             }
@@ -73,6 +73,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:support-annotations:27.0.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
@@ -81,14 +82,14 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
+    implementation 'com.google.android.gms:play-services-analytics:11.6.0'
     implementation 'com.facebook.fresco:fresco:1.5.0'
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:1.5.0'
     implementation 'com.facebook.fresco:animated-gif:1.5.0'
-    implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testImplementation 'junit:junit:4.12'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }
+apply plugin: 'com.google.gms.google-services'

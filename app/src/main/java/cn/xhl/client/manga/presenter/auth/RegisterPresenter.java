@@ -8,8 +8,8 @@ import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.auth.RegisterContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
-import cn.xhl.client.manga.model.bean.response.Res_GetVerify;
-import cn.xhl.client.manga.model.bean.response.Res_Register;
+import cn.xhl.client.manga.model.bean.response.auth.Res_GetVerify;
+import cn.xhl.client.manga.model.bean.response.auth.Res_Register;
 import cn.xhl.client.manga.utils.MD5Util;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,8 +17,8 @@ import io.reactivex.functions.Action;
 
 /**
  * @author Mike on 2017/9/29 0029.
- * <p>
- * 注册逻辑
+ *         <p>
+ *         注册逻辑
  */
 public class RegisterPresenter implements RegisterContract.Presenter {
     private RegisterContract.View view;

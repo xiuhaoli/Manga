@@ -18,11 +18,11 @@ import java.util.List;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
-import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.listener.GalleryListScrollListener;
-import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.main.LatestPresenter;
+import cn.xhl.client.manga.utils.AnalyticsUtil;
 import cn.xhl.client.manga.utils.ControlUtil;
 
 /**
@@ -87,6 +87,7 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     public void onResume() {
         super.onResume();
         presenter.subscribe();
+        new AnalyticsUtil.ScreenBuilder().setScreenName("ConcreteCategoryActivity:" + category).build();
     }
 
     @Override
@@ -155,11 +156,7 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Intent intent = new Intent(this, ConcreteMangaActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("GalleryEntity", mRecyclerData.get(position));
-        intent.putExtra("galleryBundle", bundle);
-        startActivity(intent);
+        ConcreteMangaActivity.start(this, mRecyclerData.get(position));
     }
 
     @Override

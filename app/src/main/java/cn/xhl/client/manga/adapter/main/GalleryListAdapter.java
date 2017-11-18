@@ -2,7 +2,6 @@ package cn.xhl.client.manga.adapter.main;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
@@ -15,9 +14,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
-import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.DateUtil;
-import cn.xhl.client.manga.utils.LogUtil;
 
 /**
  * gallery列表的适配器

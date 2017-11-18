@@ -2,17 +2,16 @@ package cn.xhl.client.manga.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
  * @author Mike on 2017/9/22 0022.
  */
-public abstract class BaseFragment extends RxFragment {
+public abstract class BaseFragment extends Fragment {
     protected BaseActivity mActivity;
     protected BackHandledInterface backHandledInterface;
 
@@ -55,15 +54,7 @@ public abstract class BaseFragment extends RxFragment {
     protected abstract void initView(View view, Bundle savedInstanceState);
 
     public void onBackPressed() {
-        mActivity.onBackPressed();
-//        if (backHandledInterface == null) {
-//            return;
-//        }
-//        if (mActivity.getFragmentManager().getBackStackEntryCount() != 1) {
-//            mActivity.getFragmentManager().popBackStack();
-//        } else {
-//            mActivity.onBackPressed();
-//        }
+        mActivity.finish();
     }
 
 

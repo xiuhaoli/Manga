@@ -2,7 +2,7 @@ package cn.xhl.client.manga.contract;
 
 import cn.xhl.client.manga.base.BasePresenter;
 import cn.xhl.client.manga.base.BaseView;
-import cn.xhl.client.manga.model.bean.response.Res_RefreshToken;
+import cn.xhl.client.manga.model.bean.response.auth.Res_RefreshToken;
 
 /**
  * @author Mike on 2017/9/28 0028.

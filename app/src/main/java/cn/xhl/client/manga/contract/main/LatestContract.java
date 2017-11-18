@@ -3,7 +3,7 @@ package cn.xhl.client.manga.contract.main;
 
 import cn.xhl.client.manga.base.BasePresenter;
 import cn.xhl.client.manga.base.BaseView;
-import cn.xhl.client.manga.model.bean.response.Res_GalleryList;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 
 /**
  * @author Mike on 2017/10/23 0023.

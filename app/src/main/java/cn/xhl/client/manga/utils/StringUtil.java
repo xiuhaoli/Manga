@@ -2,6 +2,8 @@ package cn.xhl.client.manga.utils;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -11,6 +13,7 @@ import okhttp3.RequestBody;
  */
 
 public class StringUtil {
+    private static final Pattern p = Pattern.compile("^(?!_)(?!.*?_$)[a-zA-Z0-9_\\u4e00-\\u9fa5]+$");
 
     public static boolean isEmpty(Object str) {
         return str == null || "".equals(str);
@@ -52,5 +55,10 @@ public class StringUtil {
             }
         }
         return s;
+    }
+
+    public static boolean isValidName(String str) {
+        Matcher matcher = p.matcher(str);
+        return matcher.matches();
     }
 }

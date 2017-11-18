@@ -1,9 +1,7 @@
 package cn.xhl.client.manga;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.facebook.cache.disk.DiskCacheConfig;
@@ -11,10 +9,11 @@ import com.facebook.common.util.ByteConstants;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import cn.xhl.client.manga.config.IConstants;
@@ -24,14 +23,8 @@ import cn.xhl.client.manga.utils.DeviceUtil;
 import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.utils.HttpsUtil;
 import cn.xhl.client.manga.utils.UserAgentInterceptor;
-import io.reactivex.Observable;
 import okhttp3.Cache;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @author Mike on 2017/9/21 0021.
@@ -40,16 +33,31 @@ import okhttp3.Response;
 public class MyApplication extends Application {
 
     @SuppressWarnings("StaticFieldLeak")
-    private static Context context;
+    private static MyApplication context;
 
     private static OkHttpClient okHttpClient;
+    private Tracker mTracker;
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     *
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker("UA-109771729-1");
+        }
+        return mTracker;
+    }
 
     @Override
     public void onCreate() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
 
         super.onCreate();
-        context = getApplicationContext();
+        context = this;
 
         initOKHttpClient();// OkHttp
         initFresco();// Fresco
@@ -117,7 +125,7 @@ public class MyApplication extends Application {
         LeakCanary.install(this);
     }
 
-    public static Context getAppContext() {
+    public static MyApplication getAppContext() {
         return context;
     }
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_main"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/prompt_title_bottomsheet_favorite_folder"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical|start"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:text="@string/prompt_title_bottomsheet_favorite"
+        android:textColor="@color/item_text"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/action_new_folder_bottomsheet_favorite_folder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/prompt_title_bottomsheet_favorite_folder"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical|end"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:text="@string/action_new_folder_title_bottomsheet_favorite"
+        android:textColor="@color/item_text"
+        android:textSize="18sp" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_bottomsheet_favorite_folder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/prompt_title_bottomsheet_favorite_folder">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_bottomsheet_favorite_folder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_bottomsheet_favorite_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/prompt_bottomsheet_favorite_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/prompt_load_failed"
+            android:textColor="@color/item_text"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_bottomsheet_favorite_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_retry"
+            android:textColor="@color/item_text"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_data_bottomsheet_favorite_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@mipmap/no_data"
+        android:gravity="center"
+        android:text="@string/no_data"
+        android:textColor="@color/item_text"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:layout_above="@+id/submit_bottomsheet_favorite_folder"-->
+        <!--android:background="@color/item_text" />-->
+
+    <Button
+        android:id="@+id/submit_bottomsheet_favorite_folder"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/item_background"
+        android:text="@string/action_submit"
+        android:textColor="@color/item_text" />
+</RelativeLayout>
