@@ -1,29 +1,34 @@
 package cn.xhl.client.manga.view.gallery;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +36,7 @@ import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.gallery.FavoriteFolderDialogAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.gallery.ConcreteMangaContract;
+import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.TextImageSpan;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
@@ -38,6 +44,7 @@ import cn.xhl.client.manga.presenter.gallery.ConcreteMangaPresenter;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.DateUtil;
 import cn.xhl.client.manga.utils.DpUtil;
+import cn.xhl.client.manga.utils.LogUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 
 /**
@@ -63,7 +70,7 @@ public class ConcreteMangaActivity extends BaseActivity
     private BottomSheetDialog bottomSheetDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private MyHandler handler;
-    private AlertDialog newFolderDialog;
+    private Dialog newFolderDialog;
 
     private static class MyHandler extends Handler {
 
@@ -232,29 +239,16 @@ public class ConcreteMangaActivity extends BaseActivity
     }
 
     private void createNewFolderDialog() {
-        int dp = DpUtil.dp2Px(this, 25);
-        final EditText editText = new EditText(this);
-        editText.setHeight(DpUtil.dp2Px(this, 50));
-        editText.setTextSize(DpUtil.dp2Px(this, 10));
-        editText.setHint(R.string.hint_new_folder_dialog);
-        editText.setMaxEms(16);
-        editText.setGravity(Gravity.CENTER_VERTICAL);
-        editText.setSingleLine();
-        editText.setPadding(dp, 0, 0, 0);
-        newFolderDialog = new AlertDialog.Builder(this)
+        newFolderDialog = new CustomDialog.EditTextBuilder(this)
                 .setTitle(R.string.prompt_new_folder_title)
-                .setView(editText)
-                .setNegativeButton(R.string.dialog_cancel, null)
-                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                .setHint(R.string.hint_new_folder_dialog)
+                .setPositiveListener(new CustomDialog.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedFolder = editText.getText().toString();
-                        if (originalFolder.equals(selectedFolder)) {
-                            return;
-                        }
-                        if (StringUtil.isNotEmpty(selectedFolder) && selectedFolder.length() < 17
-                                && StringUtil.isValidName(selectedFolder)) {
-                            presenter.favorite(galleryEntity.getId(), selectedFolder);
+                    public void onClick(View v, String inputText) {
+                        if (StringUtil.isNotEmpty(inputText) && inputText.length() < 17
+                                && StringUtil.isValidName(inputText)) {
+                            presenter.favorite(galleryEntity.getId(), inputText);
+                            newFolderDialog.cancel();
                             bottomSheetDialog.cancel();
                         } else {
                             showToastMsg("invalid name");
@@ -322,7 +316,6 @@ public class ConcreteMangaActivity extends BaseActivity
         mSwipeRefreshLayout.setOnRefreshListener(this);// 设置刷新监听
         retry = view.findViewById(R.id.linear_bottomsheet_favorite_folder);
         ControlUtil.initControlOnClick(R.id.btn_bottomsheet_favorite_folder, view, this);
-        ControlUtil.initControlOnClick(R.id.submit_bottomsheet_favorite_folder, view, this);
         ControlUtil.initControlOnClick(R.id.action_new_folder_bottomsheet_favorite_folder, view, this);
         noData = view.findViewById(R.id.no_data_bottomsheet_favorite_folder);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_bottomsheet_favorite_folder);
@@ -333,7 +326,26 @@ public class ConcreteMangaActivity extends BaseActivity
 
         bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(view);
+        createBottomSheetCheckButton();
         bottomSheetDialog.create();
+    }
+
+    @Override
+    public void createBottomSheetCheckButton() {
+        RelativeLayout buttonParent = new RelativeLayout(this);
+        ViewGroup.LayoutParams rlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        buttonParent.setLayoutParams(rlp);
+        Button checkButton = new Button(this);
+        checkButton.setId(R.id.submit_bottomsheet_favorite_folder);
+        checkButton.setText(R.string.action_submit);
+        checkButton.setOnClickListener(this);
+        checkButton.setTextColor(ActivityCompat.getColor(this, R.color.item_text));
+        checkButton.setBackgroundColor(ActivityCompat.getColor(this, R.color.item_background));
+        RelativeLayout.LayoutParams blp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2Px(this, 50));
+        blp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        checkButton.setLayoutParams(blp);
+        buttonParent.addView(checkButton);
+        bottomSheetDialog.addContentView(buttonParent, rlp);
     }
 
     @Override
@@ -349,9 +361,23 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     public void showBottomSheet() {
         bottomSheetDialog.show();
+        changeBottomSheetHeight();
         mRecyclerData.clear();
         presenter.initReqListData();
         mSwipeRefreshLayout.post(new RefreshTask(this));
+    }
+
+    private void changeBottomSheetHeight() {
+        Window window = bottomSheetDialog.getWindow();
+        WindowManager windowManager = getWindowManager();
+        DisplayMetrics dm = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM);
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.height = dm.heightPixels * 11 / 16;
+            window.setAttributes(params);
+        }
     }
 
     @Override

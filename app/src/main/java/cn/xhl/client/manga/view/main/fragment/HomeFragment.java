@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.SearchView;
 
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.HomePagerAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.contract.main.HomeContract;
-import cn.xhl.client.manga.custom.SearchDialog;
+import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
@@ -19,9 +20,9 @@ import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
  * @author Mike on 2017/10/9 0009.
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View,
-        View.OnClickListener, SearchDialog.SearchListener, SearchDialog.SpinnerItemSelectedListener {
+        View.OnClickListener, CustomDialog.OnCheckedListener, SearchView.OnQueryTextListener  {
     private HomeContract.Presenter presenter;
-    private SearchDialog searchDialog;
+    private CustomDialog searchDialog;
     private String[] searchType;
     private String selectedSearchType;
 
@@ -52,10 +53,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_ranking));
         tabLayout.setupWithViewPager(viewPager, false);
         ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
-        searchDialog = new SearchDialog(mActivity);
-        searchDialog.setSearchListener(this);
-        searchDialog.setSpinnerItemSelectedListener(this);
+
         searchType = mActivity.getResources().getStringArray(R.array.item_search);
+        selectedSearchType = searchType[0];
+        searchDialog = new CustomDialog.SearchViewBuilder(mActivity)
+                .setTitle(R.string.prompt_search_title)
+                .setSearchViewHint(R.string.search_title)
+                .setSearchType(searchType)
+                .setSearchListener(this)
+                .setOnCheckedListener(this)
+                .create();
     }
 
     @Override
@@ -100,13 +107,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     }
 
     @Override
-    public void selected(View view, int position) {
-        selectedSearchType = searchType[position];
-        searchDialog.setSearchViewHint(selectedSearchType);
+    public boolean onQueryTextSubmit(String query) {
+        ConcreteCategoryActivity.start(mActivity, query, selectedSearchType);
+        return false;
     }
 
     @Override
-    public void search(String query) {
-        ConcreteCategoryActivity.start(mActivity, query, selectedSearchType);
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public void checked(int position, String checked) {
+        selectedSearchType = checked;
     }
 }

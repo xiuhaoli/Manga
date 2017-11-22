@@ -17,7 +17,7 @@ import cn.xhl.client.manga.utils.DpUtil;
  *
  * @author lixiuhao on 2017/11/1 0001.
  */
-public class TextImageSpan extends android.support.v7.widget.AppCompatTextView {
+public class TextImageSpan extends android.support.v7.widget.AppCompatEditText{
     public TextImageSpan(Context context) {
         this(context, null, 0);
     }

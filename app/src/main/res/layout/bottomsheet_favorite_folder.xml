@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_main"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="@color/background_main">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/prompt_title_bottomsheet_favorite_folder"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -80,18 +79,9 @@
         android:textSize="16sp"
         android:visibility="gone" />
 
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1px"-->
-        <!--android:layout_above="@+id/submit_bottomsheet_favorite_folder"-->
-        <!--android:background="@color/item_text" />-->
-
-    <Button
-        android:id="@+id/submit_bottomsheet_favorite_folder"
+    <View
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/item_background"
-        android:text="@string/action_submit"
-        android:textColor="@color/item_text" />
+        android:background="@android:color/transparent" />
 </RelativeLayout>

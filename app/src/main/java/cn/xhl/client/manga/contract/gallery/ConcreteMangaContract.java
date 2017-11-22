@@ -38,6 +38,11 @@ public interface ConcreteMangaContract {
 
         void createBottomSheet();
 
+        /**
+         * 在BottomSheet这个dialog上创建一个浮在底部的button
+         */
+        void createBottomSheetCheckButton();
+
         void startRefreshing();
 
         void stopRefreshing();

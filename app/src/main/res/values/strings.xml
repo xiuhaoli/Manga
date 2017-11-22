@@ -59,6 +59,9 @@
     <string name="action_retry">Retry</string>
     <string name="prompt_load_failed">load&#160;failed</string>
     <string name="query_hint">title</string>
+    <string name="search_title">title</string>
+    <string name="search_author">author</string>
+    <string name="search_uploader">uploader</string>
     <array name="item_search">
         <item>title</item>
         <item>author</item>
@@ -72,4 +75,6 @@
     <string name="action_new_folder_title_bottomsheet_favorite">+ new folder</string>
     <string name="prompt_new_folder_title">folder name</string>
     <string name="hint_new_folder_dialog">less than 16</string>
+    <string name="prompt_search_title">Search</string>
+
 </resources>

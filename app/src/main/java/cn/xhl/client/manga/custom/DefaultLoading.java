@@ -18,7 +18,7 @@ public class DefaultLoading extends Dialog {
     private TextView tv;
 
     public DefaultLoading(@NonNull Context context) {
-        super(context, R.style.loadingProgressbarStyle);
+        super(context, R.style.customDialogStyle);
     }
 
     @Override

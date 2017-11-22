@@ -1,6 +1,7 @@
 package cn.xhl.client.manga.utils;
 
 import android.content.Context;
+import android.view.WindowManager;
 
 /**
  * @author lixiuhao on 2017/5/12 0012.
@@ -20,13 +21,14 @@ public class DpUtil {
 
     /**
      * px转dip
+     *
      * @param context
      * @param pxValue
      * @return
      */
-    public static int px2Dp(Context context, float pxValue){
+    public static int px2Dp(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(pxValue / scale + 0.5f);
+        return (int) (pxValue / scale + 0.5f);
     }
 
 }
