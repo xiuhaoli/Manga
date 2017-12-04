@@ -21,4 +21,15 @@ public class RxSchedulesHelper {
             }
         };
     }
+
+    public static <T> ObservableTransformer<T, T> computation_ui() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<T> upstream) {
+                return upstream
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
 }

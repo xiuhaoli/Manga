@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
+import android.view.Window;
+import android.view.WindowManager;
 
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.base.BaseFragment;
@@ -11,8 +13,8 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
  * @author Mike on 2017/4/19 0019.
- * <p>
- * Activity跳转，Fragment切换等
+ *         <p>
+ *         Activity跳转，Fragment切换等
  */
 public class ActivityUtil {
     /**
@@ -146,5 +148,30 @@ public class ActivityUtil {
                 transaction.remove(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
         }
+    }
+
+    /**
+     * 设置当前activity的屏幕亮度
+     *
+     * @param paramFloat 0-1.0f
+     * @param activity   需要调整亮度的activity
+     */
+    public static void setActivityBrightness(float paramFloat, Activity activity) {
+        Window localWindow = activity.getWindow();
+        WindowManager.LayoutParams params = localWindow.getAttributes();
+        params.screenBrightness = paramFloat;
+        localWindow.setAttributes(params);
+    }
+
+    /**
+     * 获取当前activity的屏幕亮度
+     *
+     * @param activity 当前的activity对象
+     * @return 亮度值范围为0-0.1f，如果为-1.0，则亮度与全局同步。
+     */
+    public static float getActivityBrightness(Activity activity) {
+        Window localWindow = activity.getWindow();
+        WindowManager.LayoutParams params = localWindow.getAttributes();
+        return params.screenBrightness;
     }
 }

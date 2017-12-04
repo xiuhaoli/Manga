@@ -42,6 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:background="@drawable/icon_check"
+        android:button="@null"
         android:enabled="false"
         android:focusable="false" />
 </RelativeLayout>

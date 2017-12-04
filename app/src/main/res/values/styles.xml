@@ -25,6 +25,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="DefaultTheme" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
     <style name="AuthTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
@@ -62,6 +68,10 @@
     </style>
 
     <!--<style name="ConcreteMangaActivity" parent="AppTheme">-->
-        <!--<item name="android:windowContentTransitions">true</item>-->
+    <!--<item name="android:windowContentTransitions">true</item>-->
     <!--</style>-->
+    <style name="popupWindow">
+        <item name="android:windowEnterAnimation">@anim/popup_alpha_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_alpha_out</item>
+    </style>
 </resources>

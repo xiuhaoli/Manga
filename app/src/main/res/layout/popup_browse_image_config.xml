@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_relative_popup_browse_image_config"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/item_background"
+    android:paddingEnd="5dp"
+    android:paddingStart="5dp">
+
+    <TextView
+        android:id="@+id/prompt_popup_browse_image_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/prompt_popup_configuration"
+        android:textColor="@color/item_text"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/save_popup_browse_image_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:text="@string/action_save"
+        android:textColor="@color/item_text"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/dotted_line0_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/prompt_popup_browse_image_config"
+        android:layout_margin="3dp"
+        android:background="@drawable/dotted_line" />
+
+    <RelativeLayout
+        android:id="@+id/brightness_relative_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dotted_line0_popup_browse_image_config">
+
+        <ImageView
+            android:id="@+id/icon_brightness_low_popup_browse_image_config"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:background="@mipmap/icon_brightness_low" />
+
+        <SeekBar
+            android:id="@+id/action_brightness_popup_browse_image_config"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@id/icon_brightness_low_popup_browse_image_config"
+            android:layout_toEndOf="@id/icon_brightness_low_popup_browse_image_config"
+            android:layout_toStartOf="@id/icon_brightness_high_popup_browse_image_config"
+            android:progress="50" />
+
+        <ImageView
+            android:id="@+id/icon_brightness_high_popup_browse_image_config"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:background="@mipmap/icon_brightness_high" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/dotted_line1_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/brightness_relative_popup_browse_image_config"
+        android:layout_margin="3dp"
+        android:background="@drawable/dotted_line" />
+
+    <Switch
+        android:id="@+id/left_or_right_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/dotted_line1_popup_browse_image_config"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/left_or_right"
+        android:textColor="@color/item_text"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/dotted_line2_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/left_or_right_popup_browse_image_config"
+        android:layout_margin="3dp"
+        android:background="@drawable/dotted_line" />
+
+    <Switch
+        android:id="@+id/vertical_or_horizontal_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/dotted_line2_popup_browse_image_config"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/vertical_or_horizontal"
+        android:textColor="@color/item_text"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/dotted_line3_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/vertical_or_horizontal_popup_browse_image_config"
+        android:layout_margin="3dp"
+        android:background="@drawable/dotted_line" />
+
+    <Switch
+        android:id="@+id/scroll_vertically_popup_browse_image_config"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/dotted_line3_popup_browse_image_config"
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/scroll_vertically"
+        android:textColor="@color/item_text"
+        android:textSize="16sp" />
+</RelativeLayout>

@@ -35,7 +35,6 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void subscribe() {
         splashView.initUserInfo();
-        new AnalyticsUtil.ScreenBuilder().setScreenName("SplashActivity").build();
     }
 
     @Override

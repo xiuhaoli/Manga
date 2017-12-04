@@ -1,6 +1,8 @@
 package cn.xhl.client.manga;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,20 +13,15 @@ import java.util.List;
 public class MyActivityManager {
     private static List<Activity> activities = new ArrayList<>();
 
-    public static void add(Activity activity) {
-        if (activity == null) {
-            throw new NullPointerException("activity is null");
-        }
+    public static void add(@NonNull Activity activity) {
         activities.add(activity);
     }
 
-    public static void remove(Activity activity) {
-        if (activity == null) {
-            throw new NullPointerException("activity is null");
-        }
+    public static void remove(@NonNull Activity activity) {
         activities.remove(activity);
     }
 
+    @Nullable
     public static Activity pop() {
         int length = activities.size();
         if (length == 0) {
@@ -32,7 +29,7 @@ public class MyActivityManager {
         }
         return activities.remove(length - 1);
     }
-
+    @Nullable
     public static Activity peek() {
         int length = activities.size();
         if (length == 0) {

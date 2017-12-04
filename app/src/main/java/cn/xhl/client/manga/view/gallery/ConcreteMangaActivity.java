@@ -4,16 +4,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +40,6 @@ import cn.xhl.client.manga.presenter.gallery.ConcreteMangaPresenter;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.DateUtil;
 import cn.xhl.client.manga.utils.DpUtil;
-import cn.xhl.client.manga.utils.LogUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 
 /**
@@ -56,11 +51,10 @@ public class ConcreteMangaActivity extends BaseActivity
         SwipeRefreshLayout.OnRefreshListener {
     private ConcreteMangaContract.Presenter presenter;
     private Res_GalleryList.GalleryEntity galleryEntity;
-    private final static int SHOW_TOAST = 1;
     private TextImageSpan star;
     private TextImageSpan popularity;
-    public static final String GALLERY_BUNDLE = "GalleryBundle";
-    public static final String GALLERY_ENTITY = "GalleryEntity";
+    private static final String GALLERY_BUNDLE = "GalleryBundle";
+    private static final String GALLERY_ENTITY = "GalleryEntity";
     private String selectedFolder = "";// 被选中的文件夹
     private String originalFolder = "";// 原来被选中的folder（没有就为空）该值主要用于判断是否发起请求
     private LinearLayout retry;
@@ -69,29 +63,7 @@ public class ConcreteMangaActivity extends BaseActivity
     private FavoriteFolderDialogAdapter mRecyclerAdapter;
     private BottomSheetDialog bottomSheetDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private MyHandler handler;
     private Dialog newFolderDialog;
-
-    private static class MyHandler extends Handler {
-
-        private WeakReference<ConcreteMangaActivity> activity;
-
-        private MyHandler(ConcreteMangaActivity activity) {
-            this.activity = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SHOW_TOAST:
-                    activity.get().showToast((String) msg.obj);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    }
 
     public static void start(Activity activity, Res_GalleryList.GalleryEntity galleryEntity) {
         Intent intent = new Intent(activity, ConcreteMangaActivity.class);
@@ -105,7 +77,6 @@ public class ConcreteMangaActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ConcreteMangaPresenter(this);
-        handler = new MyHandler(this);
 
         galleryEntity = (Res_GalleryList.GalleryEntity) getIntent().getBundleExtra(GALLERY_BUNDLE).getSerializable(GALLERY_ENTITY);
         SimpleDraweeView titleImg = findViewById(R.id.img_activity_concrete_manga);
@@ -124,7 +95,7 @@ public class ConcreteMangaActivity extends BaseActivity
         title.setText(galleryEntity.getTitle());
         author.setText(getResources().getString(R.string.prompt_author, galleryEntity.getArtist()));
         category.setText(getResources().getString(R.string.prompt_category, galleryEntity.getCategory()));
-        posted.setText(getResources().getString(R.string.prompt_posted, DateUtil.stampToDate(galleryEntity.getPosted())));
+        posted.setText(getResources().getString(R.string.prompt_posted, DateUtil.stampToDateWithHMS(galleryEntity.getPosted())));
         page.setText(getResources().getString(R.string.prompt_page, galleryEntity.getFilecount()));
         uploader.setText(getResources().getString(R.string.prompt_uploader, galleryEntity.getUploader()));
         rating.setText(getResources().getString(R.string.prompt_rating, galleryEntity.getRating()));
@@ -134,7 +105,6 @@ public class ConcreteMangaActivity extends BaseActivity
 
         presenter.viewed(galleryEntity.getId());
         presenter.parsePage(galleryEntity);
-        createBottomSheet();
     }
 
     @Override
@@ -170,14 +140,6 @@ public class ConcreteMangaActivity extends BaseActivity
     }
 
     @Override
-    public void showTipMsg(String msg) {
-        Message message = new Message();
-        message.what = SHOW_TOAST;
-        message.obj = msg;
-        handler.sendMessage(message);
-    }
-
-    @Override
     public void showToastMsg(String msg) {
         super.showToast(msg);
     }
@@ -196,7 +158,6 @@ public class ConcreteMangaActivity extends BaseActivity
     public void onBackPressed() {
         super.onBackPressed();
         presenter.unSubscribe();
-        hideLoading();
     }
 
     @Override
@@ -211,6 +172,10 @@ public class ConcreteMangaActivity extends BaseActivity
                 BrowseImageActivity.start(this, presenter.getShowKey(), presenter.getFirstImg(), galleryEntity.getFilecount(), presenter.getImgKey(), galleryEntity.getGid());
                 break;
             case R.id.star_activity_concrete_manga:
+                if (bottomSheetDialog == null) {
+                    // 这玩意儿放在onCreate里面但是一次都不show的话会leak
+                    createBottomSheet();
+                }
                 // 点击了收藏弹出底部栏
                 showBottomSheet();
                 break;
@@ -361,10 +326,17 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     public void showBottomSheet() {
         bottomSheetDialog.show();
-        changeBottomSheetHeight();
+//        changeBottomSheetHeight();
         mRecyclerData.clear();
         presenter.initReqListData();
         mSwipeRefreshLayout.post(new RefreshTask(this));
+    }
+
+    @Override
+    public void dismissBottomSheet() {
+        if (bottomSheetDialog != null) {
+            bottomSheetDialog.dismiss();
+        }
     }
 
     private void changeBottomSheetHeight() {
@@ -419,4 +391,6 @@ public class ConcreteMangaActivity extends BaseActivity
             weakReference.get().onRefresh();
         }
     }
+
+
 }

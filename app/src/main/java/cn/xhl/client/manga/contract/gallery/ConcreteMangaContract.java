@@ -14,8 +14,6 @@ public interface ConcreteMangaContract {
 
         void hideLoading();
 
-        void showTipMsg(String msg);
-
         void showToastMsg(String msg);
 
         void changeStarNumber(int delta);
@@ -48,6 +46,8 @@ public interface ConcreteMangaContract {
         void stopRefreshing();
 
         void showBottomSheet();
+
+        void dismissBottomSheet();
     }
 
     interface Presenter extends BasePresenter {

@@ -6,36 +6,55 @@
     android:layout_height="match_parent"
     tools:context="cn.xhl.client.manga.view.gallery.BrowseImageActivity">
 
-    <android.support.v4.view.ViewPager
+    <cn.xhl.client.manga.custom.VerticalViewPager
         android:id="@+id/viewpager_activity_browse_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/black"
+        android:background="@color/browse_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_activity_browse_image"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:textColor="@color/system_default_text_color"
-        android:textSize="14sp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/browse_button"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_4"
+        android:paddingEnd="@dimen/dp_4"
+        android:paddingStart="6dp"
+        android:paddingTop="@dimen/dp_4"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent">
 
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:format24Hour="h:m"
-        android:textColor="@color/system_default_text_color"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:format24Hour="hh:mm"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
+        <TextView
+            android:id="@+id/tv_activity_browse_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/browse_button"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/setting_activity_browse_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:src="@mipmap/icon_setting"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

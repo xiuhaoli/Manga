@@ -31,43 +31,43 @@ public class AnalyticsUtil {
             tracker.setScreenName(screenBuilder.screenName);
         }
         if (StringUtil.isNotEmpty(screenBuilder.location)) {
-            tracker.setScreenName(screenBuilder.location);
+            tracker.setLocation(screenBuilder.location);
         }
         if (StringUtil.isNotEmpty(screenBuilder.referrer)) {
-            tracker.setScreenName(screenBuilder.referrer);
+            tracker.setReferrer(screenBuilder.referrer);
         }
         if (StringUtil.isNotEmpty(screenBuilder.appInstallerId)) {
-            tracker.setScreenName(screenBuilder.appInstallerId);
+            tracker.setAppInstallerId(screenBuilder.appInstallerId);
         }
         if (StringUtil.isNotEmpty(screenBuilder.appId)) {
-            tracker.setScreenName(screenBuilder.appId);
+            tracker.setAppId(screenBuilder.appId);
         }
         if (StringUtil.isNotEmpty(screenBuilder.appName)) {
-            tracker.setScreenName(screenBuilder.appName);
+            tracker.setAppName(screenBuilder.appName);
         }
         if (StringUtil.isNotEmpty(screenBuilder.clientId)) {
-            tracker.setScreenName(screenBuilder.clientId);
+            tracker.setClientId(screenBuilder.clientId);
         }
         if (StringUtil.isNotEmpty(screenBuilder.viewportSize)) {
-            tracker.setScreenName(screenBuilder.viewportSize);
+            tracker.setViewportSize(screenBuilder.viewportSize);
         }
         if (StringUtil.isNotEmpty(screenBuilder.screenColors)) {
-            tracker.setScreenName(screenBuilder.screenColors);
+            tracker.setScreenColors(screenBuilder.screenColors);
         }
         if (StringUtil.isNotEmpty(screenBuilder.encoding)) {
-            tracker.setScreenName(screenBuilder.encoding);
+            tracker.setEncoding(screenBuilder.encoding);
         }
         if (StringUtil.isNotEmpty(screenBuilder.language)) {
-            tracker.setScreenName(screenBuilder.language);
+            tracker.setLanguage(screenBuilder.language);
         }
         if (StringUtil.isNotEmpty(screenBuilder.title)) {
-            tracker.setScreenName(screenBuilder.title);
+            tracker.setTitle(screenBuilder.title);
         }
         if (StringUtil.isNotEmpty(screenBuilder.hostname)) {
-            tracker.setScreenName(screenBuilder.hostname);
+            tracker.setHostname(screenBuilder.hostname);
         }
         if (StringUtil.isNotEmpty(screenBuilder.page)) {
-            tracker.setScreenName(screenBuilder.page);
+            tracker.setPage(screenBuilder.page);
         }
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }

@@ -61,4 +61,5 @@ public class TextImageSpan extends android.support.v7.widget.AppCompatEditText{
         Paint.FontMetrics fm = paint.getFontMetrics();
         return (int) Math.ceil(fm.descent - fm.ascent) + 2;
     }
+
 }

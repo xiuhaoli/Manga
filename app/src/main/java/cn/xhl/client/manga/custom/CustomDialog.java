@@ -2,7 +2,6 @@ package cn.xhl.client.manga.custom;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -14,15 +13,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.utils.DpUtil;
@@ -35,7 +30,7 @@ import cn.xhl.client.manga.utils.DpUtil;
 
 public class CustomDialog extends Dialog {
 
-    public CustomDialog(@NonNull Context context) {
+    private CustomDialog(@NonNull Context context) {
         super(context, R.style.customDialogStyle);
         setCancelable(true);
         setCanceledOnTouchOutside(true);
@@ -57,10 +52,6 @@ public class CustomDialog extends Dialog {
         WindowManager.LayoutParams wmlp = window.getAttributes();
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         window.setAttributes(wmlp);
-    }
-
-    public static class TextViewBuilder {
-
     }
 
     /**

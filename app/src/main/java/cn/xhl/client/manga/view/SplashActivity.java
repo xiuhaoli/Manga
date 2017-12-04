@@ -5,11 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-import com.google.android.gms.analytics.Tracker;
-
 import java.lang.ref.WeakReference;
 
-import cn.xhl.client.manga.MyApplication;
 import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.R;
@@ -28,7 +25,6 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     private Runnable jump2AuthTask;
     private Runnable jump2MainTask;
     private Handler handler;
-    private Tracker mTracker;
 
     private static class AuthTask implements Runnable {
         private final WeakReference<SplashActivity> weakReference;
@@ -77,8 +73,6 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     private void init() {
-        mTracker = MyApplication.getAppContext().getDefaultTracker();
-
         jump2AuthTask = new AuthTask(this);
         jump2MainTask = new MainTask(this);
         handler = new Handler();

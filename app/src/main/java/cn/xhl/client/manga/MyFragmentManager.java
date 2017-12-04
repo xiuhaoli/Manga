@@ -1,6 +1,8 @@
 package cn.xhl.client.manga;
 
-import android.app.Activity;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +16,15 @@ import cn.xhl.client.manga.base.BaseFragment;
 public class MyFragmentManager {
     private static List<BaseFragment> fragments = new ArrayList<>();
 
-    public static void add(BaseFragment fragment) {
-        if (fragment == null) {
-            throw new NullPointerException("fragment is null");
-        }
+    public static void add(@NonNull BaseFragment fragment) {
         fragments.add(fragment);
     }
 
-    public static void remove(BaseFragment fragment) {
-        if (fragment == null) {
-            throw new NullPointerException("fragment is null");
-        }
+    public static void remove(@NonNull BaseFragment fragment) {
         fragments.remove(fragment);
     }
 
-    public static BaseFragment pop() {
+    @Nullable public static BaseFragment pop() {
         int length = fragments.size();
         if (length == 0) {
             return null;
@@ -36,7 +32,7 @@ public class MyFragmentManager {
         return fragments.remove(length - 1);
     }
 
-    public static BaseFragment peek() {
+    @Nullable public static BaseFragment peek() {
         int length = fragments.size();
         if (length == 0) {
             return null;

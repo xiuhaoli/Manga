@@ -1,6 +1,5 @@
 package cn.xhl.client.manga.presenter.gallery;
 
-import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
@@ -8,7 +7,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import cn.xhl.client.manga.MyApplication;
 import cn.xhl.client.manga.base.BaseObserver;
 import cn.xhl.client.manga.contract.gallery.ConcreteMangaContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
@@ -28,10 +26,8 @@ import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.utils.SystemUtil;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
+import io.reactivex.observers.DisposableObserver;
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
@@ -40,7 +36,6 @@ import okhttp3.ResponseBody;
 public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
     private static final String TAG = "ConcreteMangaPresenter";
     private ConcreteMangaContract.View view;
-    private Call call;
     private String showkey;
     private String imgkey;
     private String firstImg;
@@ -61,11 +56,9 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
 
     @Override
     public void unSubscribe() {
+        view.hideLoading();
+        view.dismissBottomSheet();
         compositeDisposable.clear();
-        if (call.isCanceled()) {
-            return;
-        }
-        call.cancel();
     }
 
     @Override
@@ -77,52 +70,46 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
         String firstImgkey = galleryEntity.getThumb().split("/")[5].substring(0, 10);
         int gid = galleryEntity.getGid();
         String url = "https://e-hentai.org/s/" + firstImgkey + "/" + gid + "-1";
-
-        call = MyApplication.getOkHttpClient().newCall(new Request.Builder()
-                .url(url)
-                .get()
-                .build());
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@Nullable Call call, @Nullable IOException e) {
-                view.hideLoading();
-                view.showTipMsg("request failed");
-            }
-
-            @Override
-            public void onResponse(@Nullable Call call, @Nullable Response response) throws IOException {
-                ResponseBody body = null;
-                try {
-                    if (response == null) {
-                        view.showTipMsg("request failed");
+        compositeDisposable.add(RetrofitFactory
+                .getApiEh()
+                .parseThirdPage(url)
+                .doOnTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
                         view.hideLoading();
-                        return;
                     }
-                    body = response.body();
-                    if (body == null) {
-                        view.showTipMsg("request failed");
-                        view.hideLoading();
-                        return;
+                })
+                .compose(RxSchedulesHelper.<ResponseBody>io_ui())
+                .subscribeWith(new DisposableObserver<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        try {
+                            String text = responseBody.string();
+                            if (!text.contains("showkey") || !text.contains("next") || !text.contains("load_image")) {
+                                LogUtil.eLocal(TAG + SystemUtil.getTimeStamp(), text);
+                                view.showToastMsg("This gallery has been removed or is unavailable.");
+                                return;
+                            }
+                            showkey = text.split("showkey")[1].substring(2, 13);
+                            imgkey = text.split("next")[1].split("load_image")[1].split("'")[1].substring(0, 10);
+                            firstImg = text.split("i3")[1].split("src")[1].split("\"")[1];
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            responseBody.close();
+                        }
                     }
-                    String text = body.string();
-                    if (!text.contains("showkey") || !text.contains("next") || !text.contains("load_image")) {
-                        LogUtil.eLocal(TAG + SystemUtil.getTimeStamp(), text);
-                        view.showTipMsg("This gallery has been removed or is unavailable.");
-                        view.hideLoading();
-                        return;
-                    }
-                    showkey = text.split("showkey")[1].substring(2, 13);
-                    imgkey = text.split("next")[1].split("load_image")[1].split("'")[1].substring(0, 10);
-                    firstImg = text.split("i3")[1].split("src")[1].split("\"")[1];
-                    view.hideLoading();
-                } finally {
-                    if (body != null) {
-                        body.close();
-                    }
-                }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showToastMsg("request failed: onFailure");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                })
+        );
 
     }
 
@@ -248,7 +235,7 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
 
                     @Override
                     protected void onHandleError(long code, String msg) {
-                        view.showTipMsg(msg);
+                        view.showToastMsg(msg);
                         if (isLoadMore) {
                             view.failLoadMore();
                         } else {
@@ -273,6 +260,5 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
             }
         }
     }
-
 
 }

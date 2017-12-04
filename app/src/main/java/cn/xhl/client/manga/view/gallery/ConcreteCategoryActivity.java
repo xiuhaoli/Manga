@@ -24,6 +24,7 @@ import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.main.LatestPresenter;
 import cn.xhl.client.manga.utils.AnalyticsUtil;
 import cn.xhl.client.manga.utils.ControlUtil;
+import cn.xhl.client.manga.utils.LogUtil;
 
 /**
  * 这个是具体类型的列表，本来可以和首页的fragment共用

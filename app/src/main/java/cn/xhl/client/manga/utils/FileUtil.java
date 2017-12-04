@@ -12,6 +12,8 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import cn.xhl.client.manga.MyApplication;
 
@@ -143,6 +145,27 @@ public class FileUtil {
         return file;
     }
 
+    public void saveInputStream(InputStream inputStream, String path) throws IOException {
+        if (inputStream == null) {
+            return;
+        }
+        OutputStream os = null;
+        try {
+            byte[] buffer = new byte[1024];
+            os = new FileOutputStream(path);
+            int read;
+            while ((read = inputStream.read(buffer)) != -1) {
+                os.write(buffer, 0, read);
+            }
+            os.flush();
+        } finally {
+            inputStream.close();
+            if (os != null) {
+                os.close();
+            }
+        }
+    }
+
     /**
      * 输出日志文件
      *
@@ -267,4 +290,5 @@ public class FileUtil {
         }
         return size;
     }
+
 }

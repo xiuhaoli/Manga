@@ -13,6 +13,8 @@
     <color name="item_text">#333333</color>
     <color name="background_login">#E3E3E3</color>
     <color name="discard">#00A8E1</color>
+    <color name="browse_background">#010101</color>
+    <color name="browse_button_background">#323232</color>
 
     <color name="bottom_item_background">#FFFFFF</color>
     <color name="tab_text_color">#333333</color>

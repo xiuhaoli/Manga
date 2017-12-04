@@ -10,8 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author Mike on 2017/9/18 0018.
- * <p>
- * Retrofit工厂类，实例化Retrofit并提供各模块实例
+ *         <p>
+ *         Retrofit工厂类，实例化Retrofit并提供各模块实例
  */
 public class RetrofitFactory {
     private static final String BASE_URL = "http://www.ebandwagon.tk/";
@@ -20,6 +20,7 @@ public class RetrofitFactory {
 
     private static ApiUser apiUser;
     private static ApiComics apiComics;
+    private static ApiEh apiEh;
 
     public static void init(OkHttpClient okHttpClient) {
         retrofit = new Retrofit.Builder()
@@ -37,6 +38,7 @@ public class RetrofitFactory {
     private static void initService() {
         apiUser = retrofit.create(ApiUser.class);
         apiComics = retrofit.create(ApiComics.class);
+        apiEh = retrofit.create(ApiEh.class);
     }
 
     public static ApiUser getApiUser() {
@@ -45,6 +47,10 @@ public class RetrofitFactory {
 
     public static ApiComics getApiComics() {
         return apiComics;
+    }
+
+    public static ApiEh getApiEh() {
+        return apiEh;
     }
 
     // 可以个性化定制Gson的相关规则

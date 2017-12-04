@@ -32,6 +32,7 @@ public final class UserAgentInterceptor implements Interceptor {
         }
         final Request originalRequest = chain.request();
         Request requestWithUserAgent;
+        LogUtil.e(TAG, "url = " + originalRequest.url().toString());
         if (originalRequest.url().toString().contains("e-hentai")) {
             requestWithUserAgent = originalRequest.newBuilder()
                     .removeHeader(USER_AGENT_HEADER_NAME)

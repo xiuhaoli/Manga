@@ -76,5 +76,9 @@
     <string name="prompt_new_folder_title">folder name</string>
     <string name="hint_new_folder_dialog">less than 16</string>
     <string name="prompt_search_title">Search</string>
-
+    <string name="action_save">save</string>
+    <string name="prompt_popup_configuration">Global Configuration</string>
+    <string name="left_or_right">left/right</string>
+    <string name="vertical_or_horizontal">vertical/horizontal</string>
+    <string name="scroll_vertically">scroll vertically</string>
 </resources>

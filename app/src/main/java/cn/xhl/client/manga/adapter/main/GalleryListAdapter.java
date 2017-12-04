@@ -16,6 +16,7 @@ import java.util.List;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.DateUtil;
+import cn.xhl.client.manga.utils.StringUtil;
 
 /**
  * gallery列表的适配器
@@ -43,11 +44,17 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
         helper.setText(R.id.title_item_gallery, item.getTitle());
         helper.setText(R.id.author_item_gallery, item.getArtist());
         helper.setText(R.id.category_item_gallery, item.getCategory());
-        helper.setText(R.id.posted_item_gallery, DateUtil.stampToDate(item.getPosted()));
+        helper.setText(R.id.posted_item_gallery, getPosted(item.getPosted()));
         helper.setText(R.id.viewed_item_gallery, String.valueOf(item.getViewed()));
         helper.setText(R.id.subscribe_item_gallery, String.valueOf(item.getSubscribe()));
+        if (StringUtil.isEmpty(item.getLanguage())) {
+            helper.setGone(R.id.language_item_gallery, false);
+        } else {
+            helper.setText(R.id.language_item_gallery, item.getLanguage());
+        }
         helper.setUri(R.id.img_item_gallery, uri);
-        // init view for create_time
+
+        // 下面的代码是处理粘滞view
         if (item.getCreate_time() == 0) {
             return;
         }
@@ -63,6 +70,16 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
                 helper.setGone(R.id.text_sticky_item_gallery, false);
             }
         }
+    }
+
+    private String getPosted(long timestamp) {
+        if (DateUtil.isToday(timestamp)) {
+            return DateUtil.stampToHourAndMinute(timestamp);
+        }
+        if (DateUtil.isThisYear(timestamp)) {
+            return DateUtil.stampToMonthAndDay(timestamp);
+        }
+        return DateUtil.stampToDate(timestamp);
     }
 
     /**
