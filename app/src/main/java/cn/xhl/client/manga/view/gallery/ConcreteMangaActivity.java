@@ -207,7 +207,7 @@ public class ConcreteMangaActivity extends BaseActivity
         newFolderDialog = new CustomDialog.EditTextBuilder(this)
                 .setTitle(R.string.prompt_new_folder_title)
                 .setHint(R.string.hint_new_folder_dialog)
-                .setPositiveListener(new CustomDialog.OnClickListener() {
+                .setPositiveListener(new CustomDialog.OnInputClickListener() {
                     @Override
                     public void onClick(View v, String inputText) {
                         if (StringUtil.isNotEmpty(inputText) && inputText.length() < 17

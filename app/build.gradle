@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 14
-        versionName "1.1.23_alpha"
+        versionName "1.1.24_alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。

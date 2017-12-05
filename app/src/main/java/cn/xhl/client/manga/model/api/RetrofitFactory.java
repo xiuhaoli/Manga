@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  *         Retrofit工厂类，实例化Retrofit并提供各模块实例
  */
 public class RetrofitFactory {
-    private static final String BASE_URL = "http://www.ebandwagon.tk/";
+    private static final String BASE_URL = "http://api.ebandwagon.tk/";
 
     private static Retrofit retrofit;
 

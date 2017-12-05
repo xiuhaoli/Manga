@@ -23,7 +23,7 @@ public class LatestPresenter implements LatestContract.Presenter {
     private LatestContract.View view;
     private CompositeDisposable compositeDisposable;
     private int page = 0;
-    private int size = 10;
+    private int size = 15;
     private boolean loadMore = false;
 
     public LatestPresenter(LatestContract.View view) {

@@ -73,7 +73,7 @@
     <string name="prompt_page_number">%1$d/%2$d</string>
     <string name="prompt_title_bottomsheet_favorite">select a folder</string>
     <string name="action_new_folder_title_bottomsheet_favorite">+ new folder</string>
-    <string name="prompt_new_folder_title">folder name</string>
+    <string name="prompt_new_folder_title">Folder name</string>
     <string name="hint_new_folder_dialog">less than 16</string>
     <string name="prompt_search_title">Search</string>
     <string name="action_save">save</string>
@@ -81,4 +81,9 @@
     <string name="left_or_right">left/right</string>
     <string name="vertical_or_horizontal">vertical/horizontal</string>
     <string name="scroll_vertically">scroll vertically</string>
+
+    <string name="rename">Rename</string>
+    <string name="rename_hint">input your new name</string>
+    <string name="delete">Delete</string>
+    <string name="delete_hint">Do you really want to delete the folder named %1$s ?</string>
 </resources>

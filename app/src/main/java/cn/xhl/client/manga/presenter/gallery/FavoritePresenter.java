@@ -3,13 +3,17 @@ package cn.xhl.client.manga.presenter.gallery;
 import com.google.gson.Gson;
 
 import cn.xhl.client.manga.base.BaseObserver;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.gallery.FavoriteContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.request.BaseRequest;
-import cn.xhl.client.manga.model.bean.request.gallery.Req_Favorite;
+import cn.xhl.client.manga.model.bean.request.gallery.Req_DeleteFolder;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_FavoriteFolder;
+import cn.xhl.client.manga.model.bean.request.gallery.Req_GalleryList;
+import cn.xhl.client.manga.model.bean.request.gallery.Req_RenameFolder;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_Folder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import cn.xhl.client.manga.utils.SignUtil;
@@ -62,7 +66,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
         compositeDisposable.add(RetrofitFactory
                 .getApiComics()
                 .listFavoriteFolders(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
-                        .setSign(SignUtil.generateSign(String.valueOf(0),String.valueOf(size), String.valueOf(page)))
+                        .setSign(SignUtil.generateSign(String.valueOf(0), String.valueOf(size), String.valueOf(page)))
                         .setData(reqFavoriteFolder)
                         .build())))
                 .compose(RxSchedulesHelper.<BaseResponse<Res_FavoriteFolder>>io_ui())
@@ -110,14 +114,15 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
         }
         view.hideReTry();
         view.hideNoData();
-        Req_Favorite reqFavorite = new Req_Favorite();
+        Req_GalleryList reqFavorite = new Req_GalleryList();
         reqFavorite.setPage(page);
         reqFavorite.setSize(size);
-        reqFavorite.setFolder(folder);
+        reqFavorite.setCategory(folder);
+        reqFavorite.setType(IConstants.FAVORITE);
         compositeDisposable.add(RetrofitFactory
                 .getApiComics()
-                .listFavorite(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
-                        .setSign(SignUtil.generateSign(folder, String.valueOf(size), String.valueOf(page)))
+                .galleryList(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
+                        .setSign(SignUtil.generateSign(IConstants.FAVORITE, folder, String.valueOf(size), String.valueOf(page)))
                         .setData(reqFavorite)
                         .build())))
                 .compose(RxSchedulesHelper.<BaseResponse<Res_GalleryList>>io_ui())
@@ -150,5 +155,65 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
                         }
                     }
                 }));
+    }
+
+    @Override
+    public void renameFolder(String oldName, final String newName) {
+        view.showLoading();
+        compositeDisposable.add(RetrofitFactory.getApiComics()
+                .renameFolder(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
+                        .setSign(SignUtil.generateSign(oldName, newName))
+                        .setData(new Req_RenameFolder(oldName, newName))
+                        .build())))
+                .compose(RxSchedulesHelper.<BaseResponse<Res_Folder>>io_ui())
+                .doOnTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        view.hideLoading();
+                    }
+                })
+                .subscribeWith(new BaseObserver<Res_Folder>() {
+                    @Override
+                    protected void onHandleSuccess(Res_Folder res_folder) {
+                        view.showTipMsg(res_folder.getMsg());
+                        view.notifyAdapter2Rename(newName);
+                    }
+
+                    @Override
+                    protected void onHandleError(long code, String msg) {
+                        view.showTipMsg(msg);
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void deleteFolder(String folder) {
+        view.showLoading();
+        compositeDisposable.add(RetrofitFactory.getApiComics()
+                .deleteFolder(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
+                        .setSign(SignUtil.generateSign(folder))
+                        .setData(new Req_DeleteFolder(folder))
+                        .build())))
+                .compose(RxSchedulesHelper.<BaseResponse<Res_Folder>>io_ui())
+                .doOnTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        view.hideLoading();
+                    }
+                })
+                .subscribeWith(new BaseObserver<Res_Folder>() {
+                    @Override
+                    protected void onHandleSuccess(Res_Folder res_folder) {
+                        view.showTipMsg(res_folder.getMsg());
+                        view.notifyAdapter2Remove();
+                    }
+
+                    @Override
+                    protected void onHandleError(long code, String msg) {
+                        view.showTipMsg(msg);
+                    }
+                })
+        );
     }
 }

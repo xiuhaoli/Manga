@@ -65,13 +65,13 @@ public class CustomDialog extends Dialog {
         private View rootView;
         private TextView titleView;
         private EditText inputView;
-        private Button negativeButton;
-        private Button positiveButton;
-
         private String title;
         private String hint;
-        private OnClickListener negativeListener;
-        private OnClickListener positiveListener;
+
+        private Button negativeButton;
+        private Button positiveButton;
+        private OnInputClickListener negativeListener;
+        private OnInputClickListener positiveListener;
 
         private View.OnClickListener defaultListener;
 
@@ -101,12 +101,12 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
-        public EditTextBuilder setNegativeListener(OnClickListener negativeListener) {
+        public EditTextBuilder setNegativeListener(OnInputClickListener negativeListener) {
             this.negativeListener = negativeListener;
             return this;
         }
 
-        public EditTextBuilder setPositiveListener(OnClickListener positiveListener) {
+        public EditTextBuilder setPositiveListener(OnInputClickListener positiveListener) {
             this.positiveListener = positiveListener;
             return this;
         }
@@ -143,6 +143,126 @@ public class CustomDialog extends Dialog {
             mDialog.addContentView(rootView, new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             return mDialog;
+        }
+    }
+
+    public static class SingleSelectViewBuilder {
+        private Context mContext;
+        private CustomDialog mDialog;
+        private LayoutInflater mInflater;
+
+        private View rootView;
+        private TextView titleView;
+
+        private RadioGroup radioGroup;
+        private SparseIntArray radioButtonIds;
+        private int checkedPosition;
+
+        private String[] selectType;
+        private String title;
+
+        private Button negativeButton;
+        private Button positiveButton;
+        private OnSingleSelectClickListener negativeListener;
+        private OnSingleSelectClickListener positiveListener;
+
+        public SingleSelectViewBuilder(Context context) {
+            this.mContext = context;
+            mInflater = LayoutInflater.from(context);
+        }
+
+        public SingleSelectViewBuilder setNegativeListener(OnSingleSelectClickListener onCheckedListener) {
+            this.negativeListener = onCheckedListener;
+            return this;
+        }
+
+        public SingleSelectViewBuilder setPositiveListener(OnSingleSelectClickListener onCheckedListener) {
+            this.positiveListener = onCheckedListener;
+            return this;
+        }
+
+        public SingleSelectViewBuilder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public SingleSelectViewBuilder setSelectType(String... selectType) {
+            this.selectType = selectType;
+            return this;
+        }
+
+        public SingleSelectViewBuilder setTitle(int resId) {
+            this.title = mContext.getResources().getString(resId);
+            return this;
+        }
+
+        public CustomDialog create() {
+            mDialog = new CustomDialog(mContext);
+            rootView = mInflater.inflate(R.layout.dialog_single_select, null);
+
+            titleView = rootView.findViewById(R.id.title_dialog_single_select);
+            radioGroup = rootView.findViewById(R.id.radio_group_dialog_single_select);
+            negativeButton = rootView.findViewById(R.id.negative_dialog_single_select);
+            positiveButton = rootView.findViewById(R.id.positive_dialog_single_select);
+
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (negativeListener != null) {
+                        negativeListener.onClick(v, checkedPosition);
+                    }
+                    mDialog.dismiss();
+                }
+            });
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (positiveListener != null) {
+                        positiveListener.onClick(v, checkedPosition);
+                    }
+                    mDialog.dismiss();
+                }
+            });
+
+            titleView.setText(title);
+            createRadioButton();
+
+            mDialog.addContentView(rootView, new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return mDialog;
+        }
+
+        private void createRadioButton() {
+            if (selectType == null) {
+                radioGroup.setVisibility(View.GONE);
+                return;
+            }
+            int num = selectType.length;
+            radioButtonIds = new SparseIntArray(num);
+            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            for (int i = 0; i < num; i++) {
+                int id = View.generateViewId();
+                RadioButton radioButton = new RadioButton(mContext);
+                radioButton.setId(id);
+                radioButton.setLayoutParams(layoutParams);
+                radioButton.setButtonDrawable(null);
+                radioButton.setText(selectType[i]);
+                radioButton.setPadding(DpUtil.dp2Px(mContext, 15), 0, 0, 0);
+                radioButton.setCompoundDrawablesWithIntrinsicBounds(null, null, ActivityCompat.getDrawable(mContext, R.drawable.icon_check), null);
+                radioButton.setTextColor(ActivityCompat.getColor(mContext, R.color.item_text));
+                radioButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                radioButtonIds.put(i, id);
+                if (i == 0) {
+                    radioButton.setChecked(true);
+                }
+                radioGroup.addView(radioButton);
+            }
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    checkedPosition = radioButtonIds.indexOfValue(checkedId);
+                }
+            });
         }
     }
 
@@ -184,7 +304,7 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
-        public SearchViewBuilder setSearchType(String[] searchType) {
+        public SearchViewBuilder setSearchType(String... searchType) {
             this.searchType = searchType;
             return this;
         }
@@ -265,7 +385,11 @@ public class CustomDialog extends Dialog {
         void checked(int position, String checked);
     }
 
-    public interface OnClickListener {
+    public interface OnInputClickListener {
         void onClick(View view, String inputText);
+    }
+
+    public interface OnSingleSelectClickListener {
+        void onClick(View view, int checkedPosition);
     }
 }

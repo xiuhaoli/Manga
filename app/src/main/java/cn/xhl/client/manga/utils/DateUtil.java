@@ -28,9 +28,23 @@ public class DateUtil {
     }
 
     public static String stampToDateWithHMS(long s) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
-        Date date = new Date(s * 1000);
-        return simpleDateFormat.format(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(s * 1000);
+        String minute;
+        if (calendar.get(Calendar.MINUTE) < 10) {
+            minute = "0" + calendar.get(Calendar.MINUTE);
+        } else {
+            minute = String.valueOf(calendar.get(Calendar.MINUTE));
+        }
+        String second;
+        if (calendar.get(Calendar.SECOND) < 10) {
+            second = "0" + calendar.get(Calendar.SECOND);
+        } else {
+            second = String.valueOf(calendar.get(Calendar.SECOND));
+        }
+        return calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1)
+                + "-" + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                + calendar.get(Calendar.HOUR_OF_DAY) + ":" + minute + ":" + second;
     }
 
     /**
@@ -52,9 +66,15 @@ public class DateUtil {
     }
 
     public static String stampToHourAndMinute(long s) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm", Locale.getDefault());
-        Date date = new Date(s * 1000);
-        return simpleDateFormat.format(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(s * 1000);
+        String minute;
+        if (calendar.get(Calendar.MINUTE) < 10) {
+            minute = "0" + calendar.get(Calendar.MINUTE);
+        } else {
+            minute = String.valueOf(calendar.get(Calendar.MINUTE));
+        }
+        return calendar.get(Calendar.HOUR_OF_DAY) + ":" + minute;
     }
 
     public static boolean isToday(long s) {

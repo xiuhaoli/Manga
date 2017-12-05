@@ -1,7 +1,8 @@
 package cn.xhl.client.manga.view.gallery.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,13 +18,14 @@ import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.gallery.FavoriteFolderAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.contract.gallery.FavoriteContract;
+import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.FavoriteItemDecoration;
-import cn.xhl.client.manga.custom.MineItemDecoration;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.FavoritePresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.utils.ControlUtil;
+import cn.xhl.client.manga.utils.StringUtil;
 
 /**
  * Created by xiuhaoli on 2017/11/17.
@@ -31,13 +33,16 @@ import cn.xhl.client.manga.utils.ControlUtil;
 
 public class FavoriteFolderFragment extends BaseFragment
         implements FavoriteContract.View, View.OnClickListener,
-        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener,
+        BaseQuickAdapter.OnItemLongClickListener {
     public static final String TAG = "FavoriteFolderFragment";
     private FavoriteContract.Presenter presenter;
     private LinearLayout retry;
     private TextView noData;// 没有数据的时候显示
     private List<Res_FavoriteFolder.Data> mRecyclerData;
     private FavoriteFolderAdapter mRecyclerAdapter;
+    private CustomDialog renameDialog;
+    private int longClickItemPosition;
 
     @Override
     protected int layoutId() {
@@ -54,6 +59,7 @@ public class FavoriteFolderFragment extends BaseFragment
         mRecyclerData = new ArrayList<>();
         mRecyclerAdapter = new FavoriteFolderAdapter(mRecyclerData);
         mRecyclerAdapter.setOnItemClickListener(this);
+        mRecyclerAdapter.setOnItemLongClickListener(this);
         mRecyclerAdapter.setOnLoadMoreListener(this, recyclerView);
         mRecyclerAdapter.openLoadAnimation();
         recyclerView.setAdapter(mRecyclerAdapter);
@@ -132,6 +138,17 @@ public class FavoriteFolderFragment extends BaseFragment
     }
 
     @Override
+    public void notifyAdapter2Remove() {
+        mRecyclerAdapter.remove(longClickItemPosition);
+    }
+
+    @Override
+    public void notifyAdapter2Rename(String newFolder) {
+        mRecyclerData.get(longClickItemPosition).setFolder(newFolder);
+        mRecyclerAdapter.notifyItemChanged(longClickItemPosition);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fragment_favorite:
@@ -154,5 +171,58 @@ public class FavoriteFolderFragment extends BaseFragment
     @Override
     public void onLoadMoreRequested() {
         presenter.listFolder(true);
+    }
+
+    @Override
+    public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+        longClickItemPosition = position;
+        final String clickedFolderName = mRecyclerData.get(position).getFolder();
+        String[] items = {"rename", "delete"};
+        new CustomDialog.SingleSelectViewBuilder(getActivity())
+                .setTitle(mRecyclerData.get(position).getFolder())
+                .setSelectType(items)
+                .setPositiveListener(new CustomDialog.OnSingleSelectClickListener() {
+                    @Override
+                    public void onClick(View view, int checkedPosition) {
+                        if (checkedPosition == 0) {
+                            createRenameDialog(clickedFolderName);
+                        } else {
+                            createDeleteDialog(clickedFolderName);
+                        }
+                    }
+                }).create().show();
+        return true;
+    }
+
+    private void createRenameDialog(final String clickedFolderName) {
+        renameDialog = new CustomDialog.EditTextBuilder(getActivity())
+                .setTitle(R.string.rename)
+                .setHint(R.string.rename_hint)
+                .setPositiveListener(new CustomDialog.OnInputClickListener() {
+                    @Override
+                    public void onClick(View view, String inputText) {
+                        if (StringUtil.isNotEmpty(inputText) && inputText.length() < 17
+                                && StringUtil.isValidName(inputText)) {
+                            presenter.renameFolder(clickedFolderName, inputText);
+                            renameDialog.dismiss();
+                        } else {
+                            showTipMsg("invalid name");
+                        }
+                    }
+                }).create();
+        renameDialog.show();
+    }
+
+    private void createDeleteDialog(final String clickedFolderName) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.delete)
+                .setMessage(getString(R.string.delete_hint, clickedFolderName))
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.deleteFolder(clickedFolderName);
+                    }
+                }).create().show();
     }
 }

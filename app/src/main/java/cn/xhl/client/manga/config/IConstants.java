@@ -29,6 +29,21 @@ public interface IConstants {
     String IMAGE_SETS = "Image Sets";
     String COSPLAY = "cosplay";
     String GAME_CG_SETS = "Game CG Sets";
+    String JAPANESE = "Japanese";
+    String ENGLISH = "English";
+    String CHINESE = "Chinese";
+    String KOREAN = "Korean";
+    String SPANISH = "Spanish";
+    String RUSSIAN = "Russian";
+    String VIETNAMESE = "Vietnamese";
+    String FRENCH = "French";
+    String PORTUGUESE = "Portuguese";
+    String THAI = "Thai";
+    String GERMAN = "German";
+    String POLISH = "Polish";
+    String ITALIAN = "Italian";
+    String GREEK = "Greek";
+
     /**
      * 请求列表的类型
      * 排行
@@ -68,5 +83,8 @@ public interface IConstants {
      * 搜索uploader类型列表
      */
     String UPLOADER = "uploader";
-
+    /**
+     * 语种的列表类型
+     */
+    String LANGUAGE = "language";
 }

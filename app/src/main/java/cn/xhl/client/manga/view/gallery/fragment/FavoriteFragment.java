@@ -142,6 +142,16 @@ public class FavoriteFragment extends BaseFragment
     }
 
     @Override
+    public void notifyAdapter2Remove() {
+
+    }
+
+    @Override
+    public void notifyAdapter2Rename(String newFolder) {
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fragment_favorite:

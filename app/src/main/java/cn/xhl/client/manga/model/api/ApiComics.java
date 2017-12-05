@@ -2,6 +2,7 @@ package cn.xhl.client.manga.model.api;
 
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_Folder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_Subscribe;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_Viewed;
@@ -42,8 +43,14 @@ public interface ApiComics {
     );
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("v1/comics/list/favorite")
-    Observable<BaseResponse<Res_GalleryList>> listFavorite(
+    @POST("v1/comics/favorite/folder/rename")
+    Observable<BaseResponse<Res_Folder>> renameFolder(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/comics/favorite/folder/delete")
+    Observable<BaseResponse<Res_Folder>> deleteFolder(
             @Body RequestBody requestBody
     );
 }

@@ -42,7 +42,7 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
 
     /**
      * @param activity
-     * @param category 请求的书籍类型，同时又充当搜索的内容
+     * @param category 请求的书籍类型（Non-H，doujinshi等），同时又充当搜索的内容
      * @param type     请求的类型
      */
     public static void start(Activity activity, String category, String type) {

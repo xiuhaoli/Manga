@@ -102,7 +102,11 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.showToastMsg("request failed: onFailure");
+                        if (e.toString().contains("HTTP 404")) {
+                            view.showToastMsg("This gallery has been removed or is unavailable.");
+                        } else {
+                            view.showToastMsg("request failed");
+                        }
                     }
 
                     @Override

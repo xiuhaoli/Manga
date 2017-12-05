@@ -33,6 +33,10 @@ public interface FavoriteContract {
         void showNoData();
 
         void hideNoData();
+
+        void notifyAdapter2Remove();
+
+        void notifyAdapter2Rename(String newFolder);
     }
 
     interface Presenter extends BasePresenter {
@@ -50,5 +54,9 @@ public interface FavoriteContract {
          * @param folder     文件夹名字
          */
         void listFavorite(boolean isLoadMore, String folder);
+
+        void renameFolder(String oldName, String newName);
+
+        void deleteFolder(String folder);
     }
 }

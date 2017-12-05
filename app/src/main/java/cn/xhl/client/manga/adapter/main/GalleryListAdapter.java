@@ -50,6 +50,7 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
         if (StringUtil.isEmpty(item.getLanguage())) {
             helper.setGone(R.id.language_item_gallery, false);
         } else {
+            helper.setGone(R.id.language_item_gallery, true);
             helper.setText(R.id.language_item_gallery, item.getLanguage());
         }
         helper.setUri(R.id.img_item_gallery, uri);
@@ -73,6 +74,8 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
     }
 
     private String getPosted(long timestamp) {
+        // 不知道为什么爬过来的时间戳少了四个小时，暂时在客户端加上
+        timestamp += 14400;
         if (DateUtil.isToday(timestamp)) {
             return DateUtil.stampToHourAndMinute(timestamp);
         }

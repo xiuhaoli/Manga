@@ -49,42 +49,8 @@
                 android:id="@+id/radio_group_dialog_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"/>
 
-                <!--<RadioButton-->
-                <!--android:id="@+id/title_radio_dialog_search"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="15dp"-->
-                <!--android:button="@null"-->
-                <!--android:checked="true"-->
-                <!--android:drawableEnd="@drawable/icon_check"-->
-                <!--android:text="@string/search_title"-->
-                <!--android:textColor="@color/item_text"-->
-                <!--android:textSize="16sp" />-->
-
-                <!--<RadioButton-->
-                <!--android:id="@+id/author_radio_dialog_search"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="15dp"-->
-                <!--android:button="@null"-->
-                <!--android:drawableEnd="@drawable/icon_check"-->
-                <!--android:text="@string/search_author"-->
-                <!--android:textColor="@color/item_text"-->
-                <!--android:textSize="16sp" />-->
-
-                <!--<RadioButton-->
-                <!--android:id="@+id/uploader_radio_dialog_search"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="15dp"-->
-                <!--android:button="@null"-->
-                <!--android:drawableEnd="@drawable/icon_check"-->
-                <!--android:text="@string/search_uploader"-->
-                <!--android:textColor="@color/item_text"-->
-                <!--android:textSize="16sp" />-->
-            </RadioGroup>
         </ScrollView>
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

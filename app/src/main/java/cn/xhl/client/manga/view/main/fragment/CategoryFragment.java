@@ -31,7 +31,11 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
      */
     private static final int COLUMN = 3;
     private String[] category = {IConstants.NON_H, IConstants.DOUJINSHI, IConstants.ARTIST_CG_SETS, IConstants.COSPLAY,
-            IConstants.GAME_CG_SETS, IConstants.IMAGE_SETS, IConstants.MANGA, IConstants.MISC, IConstants.WESTERN};
+            IConstants.GAME_CG_SETS, IConstants.IMAGE_SETS, IConstants.MANGA, IConstants.MISC, IConstants.WESTERN,
+            IConstants.JAPANESE, IConstants.ENGLISH, IConstants.CHINESE, IConstants.KOREAN, IConstants.SPANISH,
+            IConstants.RUSSIAN, IConstants.VIETNAMESE, IConstants.FRENCH, IConstants.THAI, IConstants.PORTUGUESE,
+            IConstants.GERMAN, IConstants.POLISH, IConstants.GREEK, IConstants.ITALIAN
+    };
 
     @Override
     protected int layoutId() {
@@ -71,7 +75,10 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
     public void initRecyclerData() {
 
         int[] img = {R.mipmap.non_h, R.mipmap.doujinshi, R.mipmap.artist_cg_sets, R.mipmap.cosplay,
-                R.mipmap.game_cg, R.mipmap.image_sets, R.mipmap.manga, R.mipmap.misc, R.mipmap.western};
+                R.mipmap.game_cg, R.mipmap.image_sets, R.mipmap.manga, R.mipmap.misc, R.mipmap.western,
+                R.mipmap.japanese, R.mipmap.english, R.mipmap.chinese, R.mipmap.korean, R.mipmap.spanish
+                , R.mipmap.russian, R.mipmap.vietnamese, R.mipmap.french, R.mipmap.portuguese, R.mipmap.thai
+                , R.mipmap.german, R.mipmap.polish, R.mipmap.italian, R.mipmap.greek};
         CategoryAdapter.CategoryItem item;
         for (int i = 0; i < img.length; i++) {
             item = new CategoryAdapter.CategoryItem();
@@ -84,6 +91,10 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ConcreteCategoryActivity.start(mActivity, category[position], IConstants.CATEGORY_LATEST);
+        if (position < 9) {
+            ConcreteCategoryActivity.start(mActivity, category[position], IConstants.CATEGORY_LATEST);
+        } else {
+            ConcreteCategoryActivity.start(mActivity, category[position], IConstants.LANGUAGE);
+        }
     }
 }
