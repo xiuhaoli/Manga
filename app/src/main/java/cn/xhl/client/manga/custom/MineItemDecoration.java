@@ -19,10 +19,12 @@ import cn.xhl.client.manga.utils.DpUtil;
  */
 public class MineItemDecoration extends DividerItemDecoration {
     private Context mContext;
+    private int size;
 
-    public MineItemDecoration(Context context) {
+    public MineItemDecoration(Context context, int size) {
         super(context, LinearLayout.VERTICAL);
         this.mContext = context;
+        this.size = size;
         // the default drawable will lead to draw a white line, so I should change the color as same as background
         Drawable drawable = mContext.getDrawable(R.drawable.mine_divider);
         if (drawable != null) {
@@ -34,6 +36,8 @@ public class MineItemDecoration extends DividerItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
         if (position == 0) {
+            outRect.bottom = DpUtil.dp2Px(mContext, 15);
+        } else if (position == size - 1) {
             outRect.bottom = DpUtil.dp2Px(mContext, 20);
         } else {
             outRect.bottom = DpUtil.dp2Px(mContext, 1);

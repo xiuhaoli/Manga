@@ -1,6 +1,9 @@
 package cn.xhl.client.manga.model.api;
 
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_Comment;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_CommentList;
+import cn.xhl.client.manga.model.bean.response.gallery.Res_DeleteComment;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_Folder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
@@ -13,9 +16,10 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
+ * Comics模块api
+ * <p>
+ *
  * @author Mike on 2017/9/21 0021.
- *         <p>
- *         Comics模块api
  */
 public interface ApiComics {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
@@ -51,6 +55,24 @@ public interface ApiComics {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("v1/comics/favorite/folder/delete")
     Observable<BaseResponse<Res_Folder>> deleteFolder(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/comics/list/comment")
+    Observable<BaseResponse<Res_CommentList>> listComment(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/comics/comment")
+    Observable<BaseResponse<Res_Comment>> comment(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/comics/comment/delete")
+    Observable<BaseResponse<Res_DeleteComment>> deleteComment(
             @Body RequestBody requestBody
     );
 }

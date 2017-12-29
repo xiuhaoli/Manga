@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitFactory {
     private static final String BASE_URL = "http://api.ebandwagon.tk/";
+//    private static final String BASE_URL = "http://192.168.1.110/";
 
     private static Retrofit retrofit;
 

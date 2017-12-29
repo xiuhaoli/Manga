@@ -9,12 +9,13 @@ package cn.xhl.client.manga;
 public class UserInfo {
     private static UserInfo userInfo = new UserInfo();
 
-    private String url_avatar;// 头像的URL
+    private String profile_picture;// 头像的URL
     private String username;
     private String token;
     private String salt;
     private int uid;
     private String email;
+    private boolean isNightMode;
 
     private UserInfo() {
     }
@@ -60,12 +61,12 @@ public class UserInfo {
         this.salt = salt;
     }
 
-    public String getUrl_avatar() {
-        return url_avatar;
+    public String getProfile_picture() {
+        return profile_picture;
     }
 
-    public void setUrl_avatar(String url_avatar) {
-        this.url_avatar = url_avatar;
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
     }
 
     public String getEmail() {
@@ -74,5 +75,13 @@ public class UserInfo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isNightMode() {
+        return isNightMode;
+    }
+
+    public void setNightMode(boolean nightMode) {
+        isNightMode = nightMode;
     }
 }

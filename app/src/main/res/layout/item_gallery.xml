@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/background_main"
+    android:background="?attr/main_background"
     android:orientation="vertical">
 
     <TextView
@@ -15,13 +15,15 @@
         android:gravity="center_vertical"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:visibility="gone" />
 
     <RelativeLayout
+        android:id="@+id/relative_item_gallery"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="3dp"
+        android:tag="@string/tag_item_round_bg"
         android:background="@drawable/item_gallery_background">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -38,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
+            android:tag="@string/tag_constant_bg"
             android:layout_toEndOf="@id/img_item_gallery"
             android:orientation="vertical">
 
@@ -49,7 +52,7 @@
                 android:maxLines="1"
                 android:text="title"
                 android:textStyle="bold"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toRightOf="@+id/img_item_gallery" />
 
@@ -61,7 +64,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="author"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
@@ -72,7 +75,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="category"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
@@ -83,7 +86,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="language"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
@@ -94,7 +97,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="posted"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -104,6 +107,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="3dp"
+            android:tag="@string/tag_constant_bg"
             android:layout_marginEnd="5dp"
             android:orientation="horizontal">
 
@@ -119,7 +123,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="3dp"
                 android:text="0"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
                 android:textSize="12sp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -135,7 +139,23 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="3dp"
                 android:text="0"
-                android:textColor="@color/item_text"
+                android:textColor="?attr/item_text"
+                android:textSize="12sp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                app:placeholderImage="@mipmap/comment" />
+
+            <TextView
+                android:id="@+id/comment_item_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"
+                android:text="0"
+                android:textColor="?attr/item_text"
                 android:textSize="12sp" />
         </LinearLayout>
 

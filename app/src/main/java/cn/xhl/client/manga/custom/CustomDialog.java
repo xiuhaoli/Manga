@@ -54,6 +54,96 @@ public class CustomDialog extends Dialog {
         window.setAttributes(wmlp);
     }
 
+    public static class DefaultBuilder {
+        private Context mContext;
+        private CustomDialog mDialog;
+        private LayoutInflater mInflater;
+        private View rootView;
+
+        private String title;
+        private String content;
+
+        private TextView titleView;
+        private TextView contentView;
+        private Button negativeButton;
+        private Button positiveButton;
+        private View.OnClickListener positiveListener;
+        private View.OnClickListener negativeListener;
+
+        public DefaultBuilder(Context context) {
+            this.mContext = context;
+            mInflater = LayoutInflater.from(context);
+        }
+
+        public DefaultBuilder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public DefaultBuilder setTitle(int resId) {
+            this.title = mContext.getResources().getString(resId);
+            return this;
+        }
+
+        public DefaultBuilder setContent(int resId) {
+            this.content = mContext.getResources().getString(resId);
+            return this;
+        }
+
+        public DefaultBuilder setContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public DefaultBuilder setPositiveListener(View.OnClickListener positiveListener) {
+            this.positiveListener = positiveListener;
+            return this;
+        }
+
+        public DefaultBuilder setNegativeListener(View.OnClickListener negativeListener) {
+            this.negativeListener = negativeListener;
+            return this;
+        }
+
+        public CustomDialog create() {
+            mDialog = new CustomDialog(mContext);
+            rootView = mInflater.inflate(R.layout.dialog_default, null);
+
+            titleView = rootView.findViewById(R.id.title_dialog_default);
+            contentView = rootView.findViewById(R.id.content_dialog_default);
+            negativeButton = rootView.findViewById(R.id.negative_dialog_default);
+            positiveButton = rootView.findViewById(R.id.positive_dialog_default);
+
+            if (title == null || title.equals("")) {
+                titleView.setVisibility(View.GONE);
+            } else {
+                titleView.setText(title);
+            }
+            contentView.setText(content);
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (negativeListener != null) {
+                        negativeListener.onClick(v);
+                    }
+                    mDialog.dismiss();
+                }
+            });
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (positiveListener != null) {
+                        positiveListener.onClick(v);
+                    }
+                    mDialog.dismiss();
+                }
+            });
+            mDialog.addContentView(rootView, new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return mDialog;
+        }
+    }
+
     /**
      * 构建有编辑框的dialog
      */
@@ -67,6 +157,7 @@ public class CustomDialog extends Dialog {
         private EditText inputView;
         private String title;
         private String hint;
+        private String content;
 
         private Button negativeButton;
         private Button positiveButton;
@@ -101,6 +192,16 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
+        public EditTextBuilder setContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public EditTextBuilder setContent(int resId) {
+            this.content = mContext.getResources().getString(resId);
+            return this;
+        }
+
         public EditTextBuilder setNegativeListener(OnInputClickListener negativeListener) {
             this.negativeListener = negativeListener;
             return this;
@@ -122,6 +223,9 @@ public class CustomDialog extends Dialog {
 
             titleView.setText(title);
             inputView.setHint(hint);
+            if (content != null && !content.equals("")) {
+                inputView.setText(content);
+            }
             defaultListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -131,13 +235,13 @@ public class CustomDialog extends Dialog {
             negativeButton.setOnClickListener(negativeListener == null ? defaultListener : new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    negativeListener.onClick(v, inputView.getText().toString());
+                    negativeListener.onClick(mDialog, v, inputView.getText().toString());
                 }
             });
             positiveButton.setOnClickListener(positiveListener == null ? defaultListener : new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    positiveListener.onClick(v, inputView.getText().toString());
+                    positiveListener.onClick(mDialog, v, inputView.getText().toString());
                 }
             });
             mDialog.addContentView(rootView, new ViewGroup.LayoutParams(
@@ -239,7 +343,8 @@ public class CustomDialog extends Dialog {
             }
             int num = selectType.length;
             radioButtonIds = new SparseIntArray(num);
-            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             for (int i = 0; i < num; i++) {
                 int id = View.generateViewId();
                 RadioButton radioButton = new RadioButton(mContext);
@@ -248,8 +353,9 @@ public class CustomDialog extends Dialog {
                 radioButton.setButtonDrawable(null);
                 radioButton.setText(selectType[i]);
                 radioButton.setPadding(DpUtil.dp2Px(mContext, 15), 0, 0, 0);
-                radioButton.setCompoundDrawablesWithIntrinsicBounds(null, null, ActivityCompat.getDrawable(mContext, R.drawable.icon_check), null);
-                radioButton.setTextColor(ActivityCompat.getColor(mContext, R.color.item_text));
+                radioButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                        ActivityCompat.getDrawable(mContext, R.drawable.icon_check), null);
+                radioButton.setTextColor(getTextColor());
                 radioButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 radioButtonIds.put(i, id);
                 if (i == 0) {
@@ -263,6 +369,13 @@ public class CustomDialog extends Dialog {
                     checkedPosition = radioButtonIds.indexOfValue(checkedId);
                 }
             });
+        }
+
+        private int getTextColor() {
+            TypedValue typedValue = new TypedValue();
+            mContext.getTheme().resolveAttribute(
+                    R.attr.item_text, typedValue, true);
+            return typedValue.data;
         }
     }
 
@@ -358,8 +471,9 @@ public class CustomDialog extends Dialog {
                 radioButton.setButtonDrawable(null);
                 radioButton.setText(searchType[i]);
                 radioButton.setPadding(DpUtil.dp2Px(mContext, 15), 0, 0, 0);
-                radioButton.setCompoundDrawablesWithIntrinsicBounds(null, null, ActivityCompat.getDrawable(mContext, R.drawable.icon_check), null);
-                radioButton.setTextColor(ActivityCompat.getColor(mContext, R.color.item_text));
+                radioButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                        ActivityCompat.getDrawable(mContext, R.drawable.icon_check), null);
+                radioButton.setTextColor(getTextColor());
                 radioButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 radioButtonIds.put(i, id);
                 if (i == 0) {
@@ -379,6 +493,13 @@ public class CustomDialog extends Dialog {
                 }
             });
         }
+
+        private int getTextColor() {
+            TypedValue typedValue = new TypedValue();
+            mContext.getTheme().resolveAttribute(
+                    R.attr.item_text, typedValue, true);
+            return typedValue.data;
+        }
     }
 
     public interface OnCheckedListener {
@@ -386,7 +507,7 @@ public class CustomDialog extends Dialog {
     }
 
     public interface OnInputClickListener {
-        void onClick(View view, String inputText);
+        void onClick(CustomDialog dialog, View view, String inputText);
     }
 
     public interface OnSingleSelectClickListener {

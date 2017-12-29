@@ -1,4 +1,11 @@
 <resources>
+    <string name="default_img_description">this is icon</string>
+    <string name="tag_item_bg">tag_item_bg</string>
+    <string name="tag_main_bg">tag_main_bg</string>
+    <string name="tag_constant_bg">tag_constant_bg</string>
+    <string name="tag_item_round_bg">tag_item_round_bg</string>
+    <string name="tag_recycler">tag_recycler</string>
+
     <string name="app_name">EhConvert</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
@@ -24,7 +31,7 @@
     <string name="tab_recommend">Recommend</string>
     <string name="tab_update">Latest</string>
     <string name="tab_ranking">Ranking</string>
-    <string name="default_username">Default Name</string>
+    <string name="default_username">noname</string>
     <string name="default_email">DefaultMail@gmail.com</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -36,6 +43,7 @@
     <string name="dummy_content">WelCome!</string>
     <string name="theme_type_black">Dark Theme</string>
     <string name="theme_type_white">Light Theme</string>
+    <string name="night_mode">Night mode</string>
     <string name="favorites">Favorites</string>
     <string name="history">History</string>
     <string name="filter">Filter</string>
@@ -56,7 +64,7 @@
     <string name="prompt_rating">Rating:&#160;&#160;%1$s</string>
     <string name="prompt_star">%1$d</string>
     <string name="prompt_popularity">%1$d</string>
-    <string name="action_retry">Retry</string>
+    <string name="action_retry">retry</string>
     <string name="prompt_load_failed">load&#160;failed</string>
     <string name="query_hint">title</string>
     <string name="search_title">title</string>
@@ -73,17 +81,24 @@
     <string name="prompt_page_number">%1$d/%2$d</string>
     <string name="prompt_title_bottomsheet_favorite">select a folder</string>
     <string name="action_new_folder_title_bottomsheet_favorite">+ new folder</string>
-    <string name="prompt_new_folder_title">Folder name</string>
+    <string name="prompt_new_folder_title">folder name</string>
     <string name="hint_new_folder_dialog">less than 16</string>
-    <string name="prompt_search_title">Search</string>
+    <string name="prompt_search_title">search</string>
     <string name="action_save">save</string>
     <string name="prompt_popup_configuration">Global Configuration</string>
     <string name="left_or_right">left/right</string>
     <string name="vertical_or_horizontal">vertical/horizontal</string>
     <string name="scroll_vertically">scroll vertically</string>
 
-    <string name="rename">Rename</string>
+    <string name="rename">rename</string>
     <string name="rename_hint">input your new name</string>
-    <string name="delete">Delete</string>
+    <string name="delete">delete</string>
     <string name="delete_hint">Do you really want to delete the folder named %1$s ?</string>
+    <string name="prompt_warning">warning</string>
+    <string name="prompt_comment">comment</string>
+    <string name="tab_summary">summary</string>
+    <string name="tab_comment">comment（%1$d）</string>
+    <string name="comment_hint">say something</string>
+    <string name="profile_header_hint">input a image url</string>
+    <string name="profile_header">profile header</string>
 </resources>

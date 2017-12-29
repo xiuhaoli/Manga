@@ -1,11 +1,9 @@
 package cn.xhl.client.manga.view.main.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -17,21 +15,21 @@ import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
+import cn.xhl.client.manga.custom.EmptyView;
 import cn.xhl.client.manga.listener.GalleryListScrollListener;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
-import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
 
 /**
  * @author Mike on 2017/10/10 0010.
  */
 
-public class RankingFragment extends BaseFragment implements LatestContract.View, View.OnClickListener,
+public class RankingFragment extends BaseFragment implements LatestContract.View,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
     private LatestContract.Presenter presenter;
     private List<Res_GalleryList.GalleryEntity> mRecyclerData;
     private GalleryListAdapter mRecyclerAdapter;
-    private LinearLayout retry;
+    private EmptyView emptyView;
 
     @Override
     protected int layoutId() {
@@ -40,8 +38,7 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        retry = view.findViewById(R.id.linear_fragment_latest);
-        ControlUtil.initControlOnClick(R.id.btn_fragment_latest, view, this);
+        emptyView = view.findViewById(R.id.empty_fragment_latest);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_fragment_latest);
         mRecyclerData = new ArrayList<>();
         mRecyclerAdapter = new GalleryListAdapter(mRecyclerData);
@@ -92,12 +89,17 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
 
     @Override
     public void showReTry() {
-        retry.setVisibility(View.VISIBLE);
+        emptyView.showRetry(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.list(IConstants.ALL, IConstants.RANKING, false);
+            }
+        });
     }
 
     @Override
     public void hideReTry() {
-        retry.setVisibility(View.GONE);
+        emptyView.hideRetry();
     }
 
     @Override
@@ -110,12 +112,12 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
 
     @Override
     public void showNoData() {
-
+        emptyView.showNodata();
     }
 
     @Override
     public void hideNoData() {
-
+        emptyView.hideNodata();
     }
 
     @Override
@@ -127,18 +129,15 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         ConcreteMangaActivity.start(mActivity, mRecyclerData.get(position));
     }
-
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_fragment_latest:
-                presenter.list(IConstants.ALL, IConstants.RANKING, false);
-                break;
-            default:
-                break;
-        }
+    public void showEmptyLoading() {
+        emptyView.showLoading();
     }
 
+    @Override
+    public void hideEmptyLoading() {
+        emptyView.hideLoading();
+    }
     private void addScrollListener(RecyclerView recyclerView) {
         recyclerView.addOnScrollListener(new GalleryListScrollListener() {
             @Override

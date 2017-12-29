@@ -29,6 +29,7 @@ public class MyActivityManager {
         }
         return activities.remove(length - 1);
     }
+
     @Nullable
     public static Activity peek() {
         int length = activities.size();

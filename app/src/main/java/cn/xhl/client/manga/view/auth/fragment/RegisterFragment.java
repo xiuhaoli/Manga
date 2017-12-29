@@ -15,10 +15,11 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
  * @author Mike on 2017/9/22 0022.
- * <p>
- * 注册fragment
+ *         <p>
+ *         注册fragment
  */
-public class RegisterFragment extends BaseFragment implements RegisterContract.View, View.OnClickListener {
+public class RegisterFragment extends BaseFragment implements RegisterContract.View,
+        View.OnClickListener {
     private RegisterContract.Presenter presenter;
     private TextInputLayout emailInputLayout;
     private TextInputLayout verifyInputLayout;
@@ -48,6 +49,7 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
 
         button = (CountDownButton) ControlUtil.initControlOnClick(R.id.verify_button_fragment_register, view, this);
         ControlUtil.initControlOnClick(R.id.submit_button_fragment_register, view, this);
+        ControlUtil.initControlOnClick(R.id.back_fragment_register, view, this);
     }
 
     @Override
@@ -118,6 +120,9 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
                 if (presenter.isEmailValid(email_) && presenter.isPasswordValid(password) && StringUtil.isNotEmpty(verify)) {
                     presenter.submit(email_, password, verify);
                 }
+                break;
+            case R.id.back_fragment_register:
+                onBackPressed();
                 break;
             default:
                 break;

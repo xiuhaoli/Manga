@@ -2,38 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main"
+    android:background="?attr/main_background"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_fragment_latest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        android:tag="@string/tag_recycler" />
 
-    <LinearLayout
-        android:id="@+id/linear_fragment_latest"
+    <cn.xhl.client.manga.custom.EmptyView
+        android:id="@+id/empty_fragment_latest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/prompt_fragment_latest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/prompt_load_failed"
-            android:textColor="@color/item_text"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_fragment_latest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_retry"
-            android:textColor="@color/item_text"
-            android:textSize="14sp" />
-    </LinearLayout>
+        android:layout_centerInParent="true" />
 </RelativeLayout>

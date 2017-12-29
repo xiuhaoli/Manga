@@ -19,7 +19,7 @@ public interface HomeContract {
 
         void hideKeyboard();
 
-        void jump2Search();
+        void showSearchDialog();
     }
 
     interface Presenter extends BasePresenter {

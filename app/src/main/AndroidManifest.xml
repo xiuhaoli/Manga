@@ -19,6 +19,10 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
@@ -55,21 +59,22 @@
         <activity
             android:name=".view.gallery.ConcreteCategoryActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent.Light" />
         <activity
             android:name=".view.gallery.ConcreteMangaActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/DefaultTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent.Light" />
         <activity
             android:name=".view.gallery.BrowseImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullscreenTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.gallery.FavoriteActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent.Light" />
     </application>
 
 </manifest>

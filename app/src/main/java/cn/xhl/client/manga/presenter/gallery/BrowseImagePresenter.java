@@ -62,7 +62,9 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
     private int filecount;
     private CompositeDisposable compositeDisposable;
 
-    public BrowseImagePresenter(BrowseImageContract.View view, int filecount, String secondImgkey, int gid, String showkey, String firstImgUrl) {
+    public BrowseImagePresenter(BrowseImageContract.View view,
+                                int filecount, String secondImgkey,
+                                int gid, String showkey, String firstImgUrl) {
         this.view = view;
         this.filecount = filecount;
         this.gid = gid;
@@ -78,7 +80,6 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
 
     @Override
     public void subscribe() {
-
     }
 
     @Override

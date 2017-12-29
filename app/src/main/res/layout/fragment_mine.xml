@@ -4,8 +4,7 @@
     android:id="@+id/root_fragment_mine"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main"
-    android:orientation="vertical">
+    android:background="?attr/main_background">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/cover_fragment_mine"
@@ -28,14 +27,15 @@
         app:placeholderImage="@mipmap/profile_header"
         app:roundAsCircle="true" />
 
-    <TextView
+    <cn.xhl.client.manga.custom.TextImageSpan
         android:id="@+id/username_fragment_mine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/default_username"
-        android:textColor="@color/tab_text_color"
+        android:textColor="?attr/tab_text_color"
         android:textSize="17sp"
+        app:imageSpanRight="@mipmap/edit"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_fragment_mine" />
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/default_email"
-        android:textColor="@color/tab_text_color"
+        android:textColor="?attr/tab_text_color"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -55,7 +55,7 @@
     <View
         android:id="@+id/dotted_line_fragment_mine"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_margin="@dimen/dp_10"
         android:background="@drawable/dotted_line"
         android:layerType="software"
@@ -67,9 +67,9 @@
         android:id="@+id/recycler_fragment_mine"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scrollbars="none"
+        android:background="?attr/main_background"
         android:overScrollMode="never"
-        android:background="@color/background_main"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

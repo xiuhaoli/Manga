@@ -1,7 +1,6 @@
 package cn.xhl.client.manga.presenter.main;
 
 import cn.xhl.client.manga.contract.main.HomeContract;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * @author Mike on 2017/10/9 0009.
@@ -27,6 +26,6 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void search() {
-        view.jump2Search();
+        view.showSearchDialog();
     }
 }

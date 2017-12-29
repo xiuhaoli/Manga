@@ -34,6 +34,10 @@ public interface FavoriteContract {
 
         void hideNoData();
 
+        void showEmptyLoading();
+
+        void hideEmptyLoading();
+
         void notifyAdapter2Remove();
 
         void notifyAdapter2Rename(String newFolder);

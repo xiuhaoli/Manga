@@ -15,8 +15,8 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
 
 /**
  * @author Mike on 2017/9/22 0022.
- *
- * 重置密码View
+ *         <p>
+ *         重置密码View
  */
 public class ResetPasswdFragment extends BaseFragment implements ResetPasswdContract.View, View.OnClickListener {
     private ResetPasswdContract.Presenter presenter;
@@ -48,6 +48,7 @@ public class ResetPasswdFragment extends BaseFragment implements ResetPasswdCont
 
         button = (CountDownButton) ControlUtil.initControlOnClick(R.id.verify_button_fragment_reset_password, view, this);
         ControlUtil.initControlOnClick(R.id.submit_button_fragment_reset_password, view, this);
+        ControlUtil.initControlOnClick(R.id.back_fragment_reset_password, view, this);
     }
 
     @Override
@@ -118,6 +119,9 @@ public class ResetPasswdFragment extends BaseFragment implements ResetPasswdCont
                 if (presenter.isEmailValid(email_) && presenter.isPasswordValid(password) && StringUtil.isNotEmpty(verify)) {
                     presenter.submit(email_, password, verify);
                 }
+                break;
+            case R.id.back_fragment_reset_password:
+                onBackPressed();
                 break;
             default:
                 break;

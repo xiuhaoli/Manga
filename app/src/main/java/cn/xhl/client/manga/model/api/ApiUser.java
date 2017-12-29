@@ -18,8 +18,8 @@ import retrofit2.http.Query;
 
 /**
  * @author Mike on 2017/9/18 0018.
- * <p>
- * user模块的api
+ *         <p>
+ *         user模块的api
  */
 public interface ApiUser {
     @FormUrlEncoded
@@ -29,7 +29,7 @@ public interface ApiUser {
             @Field("password") String password
     );
 
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("v1/auth/refreshtoken")
     Observable<BaseResponse<Res_RefreshToken>> refreshToken(
             @Body RequestBody requestBody
@@ -54,5 +54,17 @@ public interface ApiUser {
             @Field("email") String email,
             @Field("password") String password,
             @Field("verifycode") String verify
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/user/userinfo/profileheader")
+    Observable<BaseResponse<String>> modifyProfileHeader(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/user/userinfo/username")
+    Observable<BaseResponse<String>> modifyUsername(
+            @Body RequestBody requestBody
     );
 }

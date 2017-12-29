@@ -20,9 +20,8 @@ import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
  * @author Mike on 2017/10/9 0009.
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View,
-        View.OnClickListener, CustomDialog.OnCheckedListener, SearchView.OnQueryTextListener  {
+        View.OnClickListener, CustomDialog.OnCheckedListener, SearchView.OnQueryTextListener {
     private HomeContract.Presenter presenter;
-    private CustomDialog searchDialog;
     private String[] searchType;
     private String selectedSearchType;
 
@@ -46,23 +45,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         ViewPager viewPager = view.findViewById(R.id.viewpager_fragment_home);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new HomePagerAdapter(mActivity.getSupportFragmentManager()));
         TabLayout tabLayout = view.findViewById(R.id.tab_fragment_home);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_recommend));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_update));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_ranking));
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_recommend));
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_update));
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_ranking));
         tabLayout.setupWithViewPager(viewPager, false);
         ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
 
         searchType = mActivity.getResources().getStringArray(R.array.item_search);
         selectedSearchType = searchType[0];
-        searchDialog = new CustomDialog.SearchViewBuilder(mActivity)
-                .setTitle(R.string.prompt_search_title)
-                .setSearchViewHint(R.string.search_title)
-                .setSearchType(searchType)
-                .setSearchListener(this)
-                .setOnCheckedListener(this)
-                .create();
+
     }
 
     @Override
@@ -91,8 +85,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
     }
 
     @Override
-    public void jump2Search() {
-        searchDialog.show();
+    public void showSearchDialog() {
+        new CustomDialog.SearchViewBuilder(mActivity)
+                .setTitle(R.string.prompt_search_title)
+                .setSearchViewHint(R.string.search_title)
+                .setSearchType(searchType)
+                .setSearchListener(this)
+                .setOnCheckedListener(this)
+                .create()
+                .show();
     }
 
     @Override

@@ -2,27 +2,39 @@ package cn.xhl.client.manga.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import cn.xhl.client.manga.MyActivityManager;
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.custom.QMUITipDialog;
+import cn.xhl.client.manga.utils.DpUtil;
+import cn.xhl.client.manga.utils.QMUIStatusBarHelper;
+import cn.xhl.client.manga.utils.ResourceUtil;
 
 public abstract class BaseActivity extends AppCompatActivity {
     public Activity this_;
@@ -30,16 +42,55 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView title;
     private QMUITipDialog loadingDialog;
     private LinearLayout llContent;
+    private ImageButton leftButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        if (transparentTheme()) {
+            initTransparentTheme();
+        } else {
+            initTheme();
+        }
         this_ = this;
+        setContentView(R.layout.activity_base);
         initView();
         setBaseContentView(layoutId());
-        translucentStatusBar(this, true);
         MyActivityManager.add(this_);
+    }
+
+    private void initTheme() {
+        if (UserInfo.getInstance().isNightMode()) {
+            setTheme(R.style.AppTheme_Night);
+            QMUIStatusBarHelper.translucent(this,
+                    ActivityCompat.getColor(this, R.color.night_main_background));
+        } else {
+            setTheme(R.style.AppTheme);
+            QMUIStatusBarHelper.translucent(this,
+                    ActivityCompat.getColor(this, R.color.day_main_background));
+        }
+    }
+
+    private void initTransparentTheme() {
+        if (UserInfo.getInstance().isNightMode()) {
+            setTheme(R.style.Theme_Transparent_Night);
+            QMUIStatusBarHelper.translucent(this,
+                    ActivityCompat.getColor(this, R.color.night_main_background));
+        } else {
+            setTheme(R.style.Theme_Transparent_Light);
+            QMUIStatusBarHelper.translucent(this,
+                    ActivityCompat.getColor(this, R.color.day_main_background));
+        }
+    }
+
+    /**
+     * 如果要设置为透明主题的话
+     * 让子类覆写该方法
+     *
+     * @return if true, set Transparent Theme
+     */
+    protected boolean transparentTheme() {
+        return false;
     }
 
     @Override
@@ -52,51 +103,79 @@ public abstract class BaseActivity extends AppCompatActivity {
         topBar = findViewById(R.id.topbar);
         llContent = findViewById(R.id.v_content); //v_content是在基类布局文件中预定义的layout区域
         title = findViewById(R.id.text_title);
+        leftButton = findViewById(R.id.button_back);
     }
 
-    private void setStatusBarColor(Activity activity, int statusColor) {
-        Window window = activity.getWindow();
-        //取消状态栏透明
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //添加Flag把状态栏设为可绘制模式
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        //设置状态栏颜色
-        window.setStatusBarColor(statusColor);
-        //设置系统状态栏处于可见状态
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-        //让view不根据系统窗口来调整自己的布局
-        ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
-        View mChildView = mContentView.getChildAt(0);
-        if (mChildView != null) {
-            mChildView.setFitsSystemWindows(false);
-            ViewCompat.requestApplyInsets(mChildView);
-        }
-    }
-
-    protected void translucentStatusBar(Activity activity, boolean hideStatusBarBackground) {
-        Window window = activity.getWindow();
-        //添加Flag把状态栏设为可绘制模式
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        if (hideStatusBarBackground) {
-            //如果为全透明模式，取消设置Window半透明的Flag
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //设置状态栏为透明
-            window.setStatusBarColor(Color.TRANSPARENT);
-            //设置window的状态栏不可见
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    public void changeTheme(boolean isNightMode) {
+        UserInfo.getInstance().setNightMode(isNightMode);
+        if (isNightMode) {
+            setTheme(R.style.AppTheme_Night);
+            QMUIStatusBarHelper.translucent(this,
+                    ActivityCompat.getColor(this, R.color.night_main_background));
         } else {
-            //如果为半透明模式，添加设置Window半透明的Flag
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //设置系统状态栏处于可见状态
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            setTheme(R.style.AppTheme);
+            QMUIStatusBarHelper.translucent(this,
+                    ActivityCompat.getColor(this, R.color.day_main_background));
         }
-        // 这段代码可以把view顶上去
-//        ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
-//        View mChildView = mContentView.getChildAt(0);
-//        if (mChildView != null) {
-//            mChildView.setFitsSystemWindows(false);
-//            ViewCompat.requestApplyInsets(mChildView);
-//        }
+        changeMode(llContent);
+    }
+
+    private void changeMode(View view) {
+        TypedValue typedValue = new TypedValue();
+        if (view instanceof ViewGroup) {
+            if (view instanceof BottomNavigationView) {
+                int resId = UserInfo.getInstance().isNightMode() ?
+                        R.color.night_main_background : R.color.day_main_background;
+                ((BottomNavigationView) view).setItemBackgroundResource(resId);
+                return;
+            }
+            if (view instanceof TabLayout) {
+                ((TabLayout) view).setTabTextColors(
+                        ResourceUtil.getAttrData(R.attr.tab_text_color, typedValue),
+                        ActivityCompat.getColor(this, R.color.theme_color)
+                );
+                return;
+            }
+            if (getString(R.string.tag_item_bg).equals(view.getTag())) {
+                view.setBackgroundColor(
+                        ResourceUtil.getAttrData(R.attr.item_background, typedValue)
+                );
+            } else if (getString(R.string.tag_constant_bg).equals(view.getTag())) {
+                // do nothing
+            } else if (getString(R.string.tag_recycler).equals(view.getTag())) {
+                RecyclerView recyclerView = (RecyclerView) view;
+                try {
+                    Field declaredField = RecyclerView.class.getDeclaredField("mRecycler");
+                    declaredField.setAccessible(true);
+                    Method declaredMethod = Class.forName(RecyclerView.Recycler.class.getName())
+                            .getDeclaredMethod("clear");
+                    declaredMethod.setAccessible(true);
+                    declaredMethod.invoke(declaredField.get(recyclerView));
+                    recyclerView.getRecycledViewPool().clear();
+                } catch (IllegalAccessException | InvocationTargetException |
+                        NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else if (getString(R.string.tag_item_round_bg).equals(view.getTag())) {
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setCornerRadius(DpUtil.dp2Px(this, 5));
+                drawable.setStroke(1,
+                        ResourceUtil.getAttrData(R.attr.item_background, typedValue));
+                drawable.setColor(ResourceUtil.getAttrData(R.attr.item_background, typedValue));
+                view.setBackground(drawable);
+            } else {
+                view.setBackgroundColor(
+                        ResourceUtil.getAttrData(R.attr.main_background, typedValue)
+                );
+            }
+            for (int i = 0, len = ((ViewGroup) view).getChildCount(); i < len; i++) {
+                changeMode(((ViewGroup) view).getChildAt(i));
+            }
+        } else if (view instanceof TextView) {
+            ((TextView) view).setTextColor(
+                    ResourceUtil.getAttrData(R.attr.item_text, typedValue)
+            );
+        }
     }
 
     public void changeColor(View view, int colorId) {
@@ -113,6 +192,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showTopBar() {
         topBar.setVisibility(View.VISIBLE);
+    }
+
+    public void addLeftBackListener() {
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    public void addLeftListener(View.OnClickListener listener) {
+        leftButton.setOnClickListener(listener);
     }
 
     public void changeTitle(String str) {
@@ -156,8 +248,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void hideKeyboard() {
         View view = getCurrentFocus();
         if (view != null) {
-            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).
-                    hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            InputMethodManager methodManager = ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+            if (methodManager != null) {
+                methodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -186,14 +280,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         View v = inflater.inflate(layoutResID, llContent, false);
         llContent.addView(v);
 
-    }
-
-    public void changeBackgroundColor(int color) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            llContent.setBackgroundColor(getResources().getColor(color, null));
-        } else {
-            llContent.setBackgroundColor(getResources().getColor(color));
-        }
     }
 
     /**

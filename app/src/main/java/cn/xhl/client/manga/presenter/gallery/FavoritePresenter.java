@@ -50,7 +50,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
     @Override
     public void listFolder(final boolean isLoadMore) {
         if (!isLoadMore) {
-            view.showLoading();
+            view.showEmptyLoading();
         } else {
             if (!loadMore) {
                 view.noMoreToLoad();
@@ -73,7 +73,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        view.hideLoading();
+                        view.hideEmptyLoading();
                     }
                 })
                 .subscribeWith(new BaseObserver<Res_FavoriteFolder>() {
@@ -105,7 +105,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
     @Override
     public void listFavorite(final boolean isLoadMore, String folder) {
         if (!isLoadMore) {
-            view.showLoading();
+            view.showEmptyLoading();
         } else {
             if (!loadMore) {
                 view.noMoreToLoad();
@@ -129,7 +129,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        view.hideLoading();
+                        view.hideEmptyLoading();
                     }
                 })
                 .subscribeWith(new BaseObserver<Res_GalleryList>() {

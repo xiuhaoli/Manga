@@ -44,7 +44,7 @@ public class LatestPresenter implements LatestContract.Presenter {
     @Override
     public void list(String category, String type, final boolean isLoadMore) {
         if (!isLoadMore) {
-            view.showLoading();
+            view.showEmptyLoading();
         } else {
             if (!loadMore) {
                 view.noMoreToLoad();
@@ -68,7 +68,7 @@ public class LatestPresenter implements LatestContract.Presenter {
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        view.hideLoading();
+                        view.hideEmptyLoading();
                     }
                 })
                 .subscribeWith(new BaseObserver<Res_GalleryList>() {

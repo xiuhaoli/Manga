@@ -54,8 +54,6 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-
         super.onCreate();
         context = this;
 
@@ -63,7 +61,7 @@ public class MyApplication extends Application {
         initFresco();// Fresco
         initRetrofit();// retrofit
         initCrashUtil();// 初始化奔溃日志收集工具
-        initLeadCanary();// 内存泄漏的检测工具
+//        initLeadCanary();// 内存泄漏的检测工具
 
     }
 

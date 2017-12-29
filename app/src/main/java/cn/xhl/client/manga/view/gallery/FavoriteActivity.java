@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.base.BaseFragment;
+import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.view.gallery.fragment.FavoriteFolderFragment;
 
@@ -23,7 +24,21 @@ public class FavoriteActivity extends BaseActivity implements BaseFragment.BackH
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityUtil.switchContentHideCurrent(this, null, new FavoriteFolderFragment(), FavoriteFolderFragment.TAG, R.id.framelayout_activity_favorite);
+        ActivityUtil.switchContentHideCurrent(this, null,
+                new FavoriteFolderFragment(),
+                FavoriteFolderFragment.TAG, R.id.framelayout_activity_favorite);
+
+        SlipBackLayout.init(this, new SlipBackLayout.OnWindowCloseListener() {
+            @Override
+            public void onFinish() {
+                this_.finish();
+            }
+        });
+    }
+
+    @Override
+    protected boolean transparentTheme() {
+        return true;
     }
 
     @Override

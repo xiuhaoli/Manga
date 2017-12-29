@@ -31,6 +31,10 @@ public interface LatestContract {
         void showNoData();
 
         void hideNoData();
+
+        void showEmptyLoading();
+
+        void hideEmptyLoading();
     }
 
     interface Presenter extends BasePresenter {

@@ -10,6 +10,7 @@ import java.lang.ref.WeakReference;
 import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.SplashContract;
 import cn.xhl.client.manga.model.bean.response.auth.Res_RefreshToken;
 import cn.xhl.client.manga.presenter.SplashPresenter;
@@ -110,6 +111,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         String salt = sp.getString("salt", "");
         int expire_time = sp.getInt("expire_time", 0);
         UserInfo.getInstance().setEmail(sp.getString("email", ""));
+        UserInfo.getInstance().setNightMode(sp.getBoolean(IConstants.NIGHT_MODE, false));
+        UserInfo.getInstance().setUsername(sp.getString(IConstants.USERNAME, "noname"));
+        UserInfo.getInstance().setProfile_picture(sp.getString(IConstants.PROFILE_HEADER,
+                "0"));
         boolean available = presenter.isUserInfoAvailable(token, uid, salt, expire_time);
         if (available) {
             presenter.refreshToken(token, uid, salt, expire_time);

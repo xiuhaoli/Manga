@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main"
+    android:background="?attr/main_background"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
@@ -11,41 +11,9 @@
         android:layout_height="match_parent"
         android:scrollbars="none" />
 
-    <LinearLayout
-        android:id="@+id/linear_fragment_favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <cn.xhl.client.manga.custom.EmptyView
+        android:id="@+id/empty_fragment_favorite"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/prompt_fragment_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/prompt_load_failed"
-            android:textColor="@color/item_text"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_fragment_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_retry"
-            android:textColor="@color/item_text"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/no_data_fragment_favorite"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:drawableTop="@mipmap/no_data"
-        android:gravity="center"
-        android:text="@string/no_data"
-        android:textColor="@color/item_text"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

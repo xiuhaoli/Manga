@@ -5,19 +5,16 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.ActivityCompat;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,16 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.adapter.gallery.ConcreteMangaPagerAdapter;
 import cn.xhl.client.manga.adapter.gallery.FavoriteFolderDialogAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.gallery.ConcreteMangaContract;
 import cn.xhl.client.manga.custom.CustomDialog;
+import cn.xhl.client.manga.custom.EmptyView;
+import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.custom.TextImageSpan;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.ConcreteMangaPresenter;
 import cn.xhl.client.manga.utils.ControlUtil;
-import cn.xhl.client.manga.utils.DateUtil;
 import cn.xhl.client.manga.utils.DpUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 
@@ -54,16 +53,15 @@ public class ConcreteMangaActivity extends BaseActivity
     private TextImageSpan star;
     private TextImageSpan popularity;
     private static final String GALLERY_BUNDLE = "GalleryBundle";
-    private static final String GALLERY_ENTITY = "GalleryEntity";
+    public static final String GALLERY_ENTITY = "GalleryEntity";
     private String selectedFolder = "";// 被选中的文件夹
     private String originalFolder = "";// 原来被选中的folder（没有就为空）该值主要用于判断是否发起请求
-    private LinearLayout retry;
-    private TextView noData;// 没有数据的时候显示
     private List<Res_FavoriteFolder.Data> mRecyclerData;
     private FavoriteFolderDialogAdapter mRecyclerAdapter;
     private BottomSheetDialog bottomSheetDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Dialog newFolderDialog;
+    private EmptyView emptyView;
 
     public static void start(Activity activity, Res_GalleryList.GalleryEntity galleryEntity) {
         Intent intent = new Intent(activity, ConcreteMangaActivity.class);
@@ -76,40 +74,48 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SlipBackLayout.init(this, new SlipBackLayout.OnWindowCloseListener() {
+            @Override
+            public void onFinish() {
+                this_.finish();
+            }
+        });
+
         new ConcreteMangaPresenter(this);
 
         galleryEntity = (Res_GalleryList.GalleryEntity) getIntent().getBundleExtra(GALLERY_BUNDLE).getSerializable(GALLERY_ENTITY);
+        initViewPager();
+
         SimpleDraweeView titleImg = findViewById(R.id.img_activity_concrete_manga);
         TextView title = findViewById(R.id.title_activity_concrete_manga);
-        TextImageSpan author = findViewById(R.id.author_activity_concrete_manga);
-        TextImageSpan category = findViewById(R.id.category_activity_concrete_manga);
-        TextImageSpan posted = findViewById(R.id.posted_activity_concrete_manga);
-        TextImageSpan page = findViewById(R.id.page_activity_concrete_manga);
-        TextImageSpan uploader = findViewById(R.id.uploader_activity_concrete_manga);
-        TextImageSpan rating = findViewById(R.id.rating_activity_concrete_manga);
+
         popularity = findViewById(R.id.popularity_activity_concrete_manga);
         star = (TextImageSpan) ControlUtil.initControlOnClick(R.id.star_activity_concrete_manga, this, this);
-        ControlUtil.initControlOnClick(R.id.btn_activity_concrete_manga, this, this);
 
         titleImg.setImageURI(galleryEntity.getThumb());
         title.setText(galleryEntity.getTitle());
-        author.setText(getResources().getString(R.string.prompt_author, galleryEntity.getArtist()));
-        category.setText(getResources().getString(R.string.prompt_category, galleryEntity.getCategory()));
-        posted.setText(getResources().getString(R.string.prompt_posted, DateUtil.stampToDateWithHMS(galleryEntity.getPosted())));
-        page.setText(getResources().getString(R.string.prompt_page, galleryEntity.getFilecount()));
-        uploader.setText(getResources().getString(R.string.prompt_uploader, galleryEntity.getUploader()));
-        rating.setText(getResources().getString(R.string.prompt_rating, galleryEntity.getRating()));
 
         star.setText(getResources().getString(R.string.prompt_star, galleryEntity.getSubscribe()));
         popularity.setText(getResources().getString(R.string.prompt_popularity, galleryEntity.getViewed()));
 
         presenter.viewed(galleryEntity.getId());
-        presenter.parsePage(galleryEntity);
+    }
+
+    @Override
+    protected boolean transparentTheme() {
+        return true;
     }
 
     @Override
     protected int layoutId() {
         return R.layout.activity_concrete_manga;
+    }
+
+    private void initViewPager() {
+        ViewPager viewPager = findViewById(R.id.viewpager_activity_concrete_manga);
+        viewPager.setAdapter(new ConcreteMangaPagerAdapter(getSupportFragmentManager(), galleryEntity));
+        TabLayout tabLayout = findViewById(R.id.tab_activity_concrete_manga);
+        tabLayout.setupWithViewPager(viewPager, false);
     }
 
     @Override
@@ -163,14 +169,6 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_activity_concrete_manga:
-                if (StringUtil.isEmpty(presenter.getShowKey()) || StringUtil.isEmpty(presenter.getImgKey()) || StringUtil.isEmpty(presenter.getFirstImg())) {
-                    super.showToast("lack of some parameters");
-                    return;
-                }
-                // 将解析三级页面获取到的第一张图片的URL，还有showkey和第二张图片的imgkey发送过去
-                BrowseImageActivity.start(this, presenter.getShowKey(), presenter.getFirstImg(), galleryEntity.getFilecount(), presenter.getImgKey(), galleryEntity.getGid());
-                break;
             case R.id.star_activity_concrete_manga:
                 if (bottomSheetDialog == null) {
                     // 这玩意儿放在onCreate里面但是一次都不show的话会leak
@@ -178,10 +176,6 @@ public class ConcreteMangaActivity extends BaseActivity
                 }
                 // 点击了收藏弹出底部栏
                 showBottomSheet();
-                break;
-            case R.id.btn_bottomsheet_favorite_folder:
-                // retry
-                presenter.listFolder(false, galleryEntity.getId());
                 break;
             case R.id.submit_bottomsheet_favorite_folder:
                 if (originalFolder.equals(selectedFolder)) {
@@ -209,7 +203,7 @@ public class ConcreteMangaActivity extends BaseActivity
                 .setHint(R.string.hint_new_folder_dialog)
                 .setPositiveListener(new CustomDialog.OnInputClickListener() {
                     @Override
-                    public void onClick(View v, String inputText) {
+                    public void onClick(CustomDialog dialog, View v, String inputText) {
                         if (StringUtil.isNotEmpty(inputText) && inputText.length() < 17
                                 && StringUtil.isValidName(inputText)) {
                             presenter.favorite(galleryEntity.getId(), inputText);
@@ -236,12 +230,17 @@ public class ConcreteMangaActivity extends BaseActivity
 
     @Override
     public void showReTry() {
-        retry.setVisibility(View.VISIBLE);
+        emptyView.showRetry(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.listFolder(false, galleryEntity.getId());
+            }
+        });
     }
 
     @Override
     public void hideReTry() {
-        retry.setVisibility(View.GONE);
+        emptyView.hideRetry();
     }
 
     @Override
@@ -264,12 +263,12 @@ public class ConcreteMangaActivity extends BaseActivity
 
     @Override
     public void showNoData() {
-        noData.setVisibility(View.VISIBLE);
+        emptyView.showNodata();
     }
 
     @Override
     public void hideNoData() {
-        noData.setVisibility(View.GONE);
+        emptyView.hideNodata();
     }
 
     @Override
@@ -279,10 +278,8 @@ public class ConcreteMangaActivity extends BaseActivity
         View view = LayoutInflater.from(this).inflate(R.layout.bottomsheet_favorite_folder, null);
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_bottomsheet_favorite_folder);
         mSwipeRefreshLayout.setOnRefreshListener(this);// 设置刷新监听
-        retry = view.findViewById(R.id.linear_bottomsheet_favorite_folder);
-        ControlUtil.initControlOnClick(R.id.btn_bottomsheet_favorite_folder, view, this);
         ControlUtil.initControlOnClick(R.id.action_new_folder_bottomsheet_favorite_folder, view, this);
-        noData = view.findViewById(R.id.no_data_bottomsheet_favorite_folder);
+        emptyView = view.findViewById(R.id.empty_bottomsheet_favorite_folder);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_bottomsheet_favorite_folder);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerAdapter.setOnItemClickListener(this);
@@ -290,8 +287,9 @@ public class ConcreteMangaActivity extends BaseActivity
         recyclerView.setAdapter(mRecyclerAdapter);
 
         bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         createBottomSheetCheckButton();
+
         bottomSheetDialog.create();
     }
 
@@ -301,11 +299,15 @@ public class ConcreteMangaActivity extends BaseActivity
         ViewGroup.LayoutParams rlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         buttonParent.setLayoutParams(rlp);
         Button checkButton = new Button(this);
+        checkButton.setAllCaps(false);
         checkButton.setId(R.id.submit_bottomsheet_favorite_folder);
         checkButton.setText(R.string.action_submit);
         checkButton.setOnClickListener(this);
-        checkButton.setTextColor(ActivityCompat.getColor(this, R.color.item_text));
-        checkButton.setBackgroundColor(ActivityCompat.getColor(this, R.color.item_background));
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.item_text, typedValue, true);
+        checkButton.setTextColor(typedValue.data);
+        getTheme().resolveAttribute(R.attr.item_background, typedValue, true);
+        checkButton.setBackgroundColor(typedValue.data);
         RelativeLayout.LayoutParams blp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2Px(this, 50));
         blp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         checkButton.setLayoutParams(blp);
@@ -326,7 +328,6 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     public void showBottomSheet() {
         bottomSheetDialog.show();
-//        changeBottomSheetHeight();
         mRecyclerData.clear();
         presenter.initReqListData();
         mSwipeRefreshLayout.post(new RefreshTask(this));
@@ -336,19 +337,6 @@ public class ConcreteMangaActivity extends BaseActivity
     public void dismissBottomSheet() {
         if (bottomSheetDialog != null) {
             bottomSheetDialog.dismiss();
-        }
-    }
-
-    private void changeBottomSheetHeight() {
-        Window window = bottomSheetDialog.getWindow();
-        WindowManager windowManager = getWindowManager();
-        DisplayMetrics dm = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(dm);
-        if (window != null) {
-            window.setGravity(Gravity.BOTTOM);
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.height = dm.heightPixels * 11 / 16;
-            window.setAttributes(params);
         }
     }
 
@@ -391,6 +379,5 @@ public class ConcreteMangaActivity extends BaseActivity
             weakReference.get().onRefresh();
         }
     }
-
 
 }

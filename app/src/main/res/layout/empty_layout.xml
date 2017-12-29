@@ -3,4 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/linear_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/prompt_empty_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/prompt_load_failed"
+            android:textColor="?attr/item_text"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="55dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/retry_button"
+            android:text="@string/action_retry"
+            android:textAllCaps="false"
+            android:textColor="@color/theme_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_data_empty_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@mipmap/no_data"
+        android:gravity="center"
+        android:text="@string/no_data"
+        android:textColor="?attr/item_text"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <cn.xhl.client.manga.custom.QMUILoadingView
+        android:id="@+id/loading_empty_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

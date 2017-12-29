@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
@@ -63,6 +64,7 @@ public class BrowseImageActivity extends BaseActivity
     private PopupWindow popupWindow;
     private boolean isPopupWindowShowing;
     private ViewGroup viewPagerGroup;
+    private int originalThemeMode;
 
     public static void start(Activity activity, String showkey, String thumb, int count, String imgkey, int gid) {
         Intent intent = new Intent(activity, BrowseImageActivity.class);
@@ -76,11 +78,10 @@ public class BrowseImageActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        changeThemeMode();
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Intent intent = getIntent();
         String thumb = intent.getStringExtra("thumb");
         String showkey = intent.getStringExtra("showkey");
@@ -123,6 +124,13 @@ public class BrowseImageActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         presenter.unSubscribe();
+    }
+
+    @Override
+    protected void onStop() {
+        // 恢复原来的mode
+        AppCompatDelegate.setDefaultNightMode(originalThemeMode);
+        super.onStop();
     }
 
     @Override
@@ -434,4 +442,13 @@ public class BrowseImageActivity extends BaseActivity
         currentBrightness = progress;
         ActivityUtil.setActivityBrightness(progress * 0.01f, this);
     }
+
+    /**
+     * 由于夜间模式会出现横屏重新加载的问题，将其设为白昼模式
+     */
+    private void changeThemeMode() {
+        originalThemeMode = AppCompatDelegate.getDefaultNightMode();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
 }
+

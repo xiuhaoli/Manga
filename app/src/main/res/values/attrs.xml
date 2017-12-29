@@ -4,6 +4,11 @@
          used for button bars depending on the API level.
          ?android:attr/buttonBarStyle is new as of API 11 so this is
          necessary to support previous API levels. -->
+    <attr name="main_background" format="color"/>
+    <attr name="item_background" format="color"/>
+    <attr name="item_text" format="color"/>
+    <attr name="tab_text_color" format="color"/>
+
     <declare-styleable name="ButtonBarContainerTheme">
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
@@ -22,6 +27,7 @@
     </declare-styleable>
     <declare-styleable name="TextImageSpan">
         <attr name="imageSpanLeft" format="reference" />
+        <attr name="imageSpanRight" format="reference" />
     </declare-styleable>
     <attr name="QMUILoadingStyle" format="reference" />
 </resources>

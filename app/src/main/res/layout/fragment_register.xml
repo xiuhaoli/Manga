@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_login"
-    android:padding="16dp">
+    android:background="?attr/item_background">
+
+    <ImageButton
+        android:id="@+id/back_fragment_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/default_img_description"
+        android:background="@mipmap/arrow_left" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/header_fragment_register"
@@ -22,6 +28,8 @@
         android:id="@+id/email_fragment_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -39,6 +47,7 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
+            android:textColor="?attr/item_text"
             android:textSize="17sp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -47,6 +56,8 @@
         android:id="@+id/verify_fragment_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_fragment_register">
@@ -64,6 +75,7 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
+            android:textColor="?attr/item_text"
             android:textSize="17sp" />
     </android.support.design.widget.TextInputLayout>
 
@@ -71,6 +83,8 @@
         android:id="@+id/password_fragment_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/verify_fragment_register">
@@ -85,6 +99,7 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
+            android:textColor="?attr/item_text"
             android:textSize="17sp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -92,28 +107,31 @@
     <cn.xhl.client.manga.custom.CountDownButton
         android:id="@+id/verify_button_fragment_register"
         style="?android:textAppearanceSmall"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
         android:background="@null"
         android:text="@string/action_verify"
+        android:textAllCaps="false"
+        android:textColor="?attr/item_text"
+        android:layout_marginEnd="16dp"
         android:textSize="17sp"
         app:countDownInterval="1"
-        app:millisInFuture="30"
-        app:textAfterSeconds="@string/prompt_countdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintVertical_bias="0.55"
+        app:millisInFuture="30"
+        app:textAfterSeconds="@string/prompt_countdown" />
 
     <Button
         android:id="@+id/submit_button_fragment_register"
         style="?android:textAppearanceSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:text="@string/action_register"
+        android:textAllCaps="false"
         android:textSize="17sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

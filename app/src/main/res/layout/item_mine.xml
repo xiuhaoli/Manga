@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/item_background"
-    android:orientation="vertical">
+    android:background="?attr/item_background"
+    android:tag="@string/tag_item_bg">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/icon_item_mine"
@@ -22,7 +22,7 @@
         android:layout_toEndOf="@+id/icon_item_mine"
         android:gravity="center"
         android:text="@string/theme_type_black"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_height="50dp"
         android:layout_toStartOf="@+id/arrow_right_item_mine"
         android:gravity="center"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="13sp"
         android:visibility="gone" />
 
@@ -45,4 +45,14 @@
         android:visibility="gone"
         app:placeholderImage="@mipmap/arrow_right" />
 
+    <Switch
+        android:id="@+id/switch_item_mine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone" />
 </RelativeLayout>

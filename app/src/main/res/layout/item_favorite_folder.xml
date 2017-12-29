@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/item_background"
+    android:background="?attr/item_background"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -23,7 +23,7 @@
         android:layout_toEndOf="@+id/icon_item_favorite_folder"
         android:gravity="center"
         android:text="@string/theme_type_black"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="50dp"
         android:layout_toStartOf="@+id/arrow_right_item_favorite_folder"
         android:gravity="center"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="13sp" />
 
     <com.facebook.drawee.view.SimpleDraweeView

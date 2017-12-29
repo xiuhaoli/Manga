@@ -3,7 +3,7 @@
     android:id="@+id/bottom_relative_popup_browse_image_config"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/item_background"
+    android:background="?attr/item_background"
     android:paddingEnd="5dp"
     android:paddingStart="5dp">
 
@@ -15,7 +15,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:text="@string/prompt_popup_configuration"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:background="@null"
         android:text="@string/action_save"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
     <View
@@ -88,7 +88,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:text="@string/left_or_right"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
     <View
@@ -107,7 +107,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:text="@string/vertical_or_horizontal"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
     <View
@@ -127,6 +127,6 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:text="@string/scroll_vertically"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="16sp" />
 </RelativeLayout>

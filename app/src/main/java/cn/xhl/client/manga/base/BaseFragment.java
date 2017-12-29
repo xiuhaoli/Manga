@@ -1,5 +1,7 @@
 package cn.xhl.client.manga.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,9 +21,10 @@ public abstract class BaseFragment extends Fragment {
      * 获得全局的，防止使用getActivity()为空 * @param context
      */
     @Override
-    public void onAttach(android.app.Activity context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
-        this.mActivity = (BaseActivity) context;
+        Activity activity = (Activity) context;
+        mActivity = (BaseActivity) activity;
         if (mActivity instanceof BackHandledInterface) {
             backHandledInterface = (BackHandledInterface) mActivity;
         }

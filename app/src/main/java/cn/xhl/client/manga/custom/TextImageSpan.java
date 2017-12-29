@@ -17,7 +17,7 @@ import cn.xhl.client.manga.utils.DpUtil;
  *
  * @author lixiuhao on 2017/11/1 0001.
  */
-public class TextImageSpan extends android.support.v7.widget.AppCompatEditText{
+public class TextImageSpan extends android.support.v7.widget.AppCompatTextView {
     public TextImageSpan(Context context) {
         this(context, null, 0);
     }
@@ -33,12 +33,24 @@ public class TextImageSpan extends android.support.v7.widget.AppCompatEditText{
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.TextImageSpan_imageSpanLeft:
-                    Drawable drawable = ActivityCompat.getDrawable(context, typedArray.getResourceId(attr, 0));
-                    if (drawable != null) {
+                    Drawable leftDrawable = ActivityCompat.getDrawable(context,
+                            typedArray.getResourceId(attr, 0));
+                    if (leftDrawable != null) {
                         // 根据文字的高度来设置drawable的长宽
                         int h = getFontHeight(getTextSize());
-                        drawable.setBounds(0, 0, h, h);
-                        this.setCompoundDrawables(drawable, null, null, null);
+                        leftDrawable.setBounds(0, 0, h, h);
+                        this.setCompoundDrawables(leftDrawable, null, null, null);
+                        this.setCompoundDrawablePadding(DpUtil.dp2Px(context, 5));
+                    }
+                    break;
+                case R.styleable.TextImageSpan_imageSpanRight:
+                    Drawable rightDrawable = ActivityCompat.getDrawable(context,
+                            typedArray.getResourceId(attr, 0));
+                    if (rightDrawable != null) {
+                        // 根据文字的高度来设置drawable的长宽
+                        int h = getFontHeight(getTextSize());
+                        rightDrawable.setBounds(0, 0, h, h);
+                        this.setCompoundDrawables(null, null, rightDrawable, null);
                         this.setCompoundDrawablePadding(DpUtil.dp2Px(context, 5));
                     }
                     break;

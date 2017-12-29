@@ -7,6 +7,9 @@ package cn.xhl.client.manga.config;
  */
 public interface IConstants {
     String USER_INFO = "COMICS_USER_INFO";// 用于SharePreference保存用户信息
+    String NIGHT_MODE = "night_mode";// sp的key
+    String USERNAME = "username";
+    String PROFILE_HEADER = "profile_header";
     long CACHE_MAX_SIZE = 10 * 1024 * 1024;// 缓存最大容量
     long CONNECT_TIMEOUT = 20 * 1000;// 连接超时时间(毫秒)
     long READ_TIMEOUT = 20 * 1000;// 读取超时时间

@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
-            android:indeterminateTint="@color/tab_text_color"
+            android:indeterminateTint="?attr/tab_text_color"
             android:indeterminateTintMode="src_atop" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_marginStart="@dimen/dp_10"
             android:layout_toEndOf="@+id/progressbar_default"
             android:text="@string/loading"
-            android:textColor="@color/tab_text_color" />
+            android:textColor="?attr/tab_text_color" />
     </RelativeLayout>
 </RelativeLayout>
 

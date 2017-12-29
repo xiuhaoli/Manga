@@ -4,9 +4,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -41,7 +41,8 @@ public class QMUILoadingView extends View {
         super(context, attrs, defStyleAttr);
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.QMUILoadingView, defStyleAttr, 0);
         mSize = array.getDimensionPixelSize(R.styleable.QMUILoadingView_qmui_loading_view_size, DpUtil.dp2Px(context, 32));
-        mPaintColor = array.getInt(R.styleable.QMUILoadingView_android_color, Color.WHITE);
+        mPaintColor = array.getInt(R.styleable.QMUILoadingView_android_color,
+                ActivityCompat.getColor(getContext(), R.color.colorAccent));
         array.recycle();
         initPaint();
     }

@@ -11,6 +11,7 @@ import cn.xhl.client.manga.base.BaseView;
 
 public interface BrowseImageContract {
     interface View extends BaseView<Presenter> {
+
         void createPopupWindow();
 
         void showPopupWindow();

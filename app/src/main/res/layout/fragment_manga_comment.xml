@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/main_background">
+
+    <TextView
+        android:id="@+id/title_fragment_manga_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="@string/prompt_comment"
+        android:textColor="?attr/item_text"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_fragment_manga_comment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/main_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_fragment_manga_comment" />
+
+    <cn.xhl.client.manga.custom.EmptyView
+        android:id="@+id/empty_fragment_manga_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/main_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/icon_face_fragment_manga_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/default_img_description"
+            android:src="@mipmap/icon_face" />
+
+        <EditText
+            android:id="@+id/input_fragment_manga_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_toEndOf="@id/icon_face_fragment_manga_comment"
+            android:layout_toStartOf="@id/submit_fragment_manga_comment"
+            android:hint="@string/comment_hint"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:textColor="?attr/item_text"
+            android:textColorHint="?attr/item_text"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/submit_fragment_manga_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/default_img_description"
+            android:src="@mipmap/icon_plane" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
-    android:background="@color/background_main"
+    android:tag="@string/tag_constant_bg"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -21,6 +22,6 @@
         android:layout_gravity="center"
         android:padding="5dp"
         android:textAlignment="center"
-        android:textColor="@color/item_text"
+        android:textColor="?attr/item_text"
         android:textSize="14sp" />
 </LinearLayout>

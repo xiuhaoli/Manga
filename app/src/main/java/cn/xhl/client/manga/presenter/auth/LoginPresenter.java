@@ -49,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         Matcher matcher = pattern.matcher(email);
         boolean result = matcher.matches();
         if (!result) {
-            loginView.showTipMsg("邮箱格式不对喔～");
+            loginView.showTipMsg("invalid email");
         }
         return result;
     }
@@ -59,7 +59,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         int length = password.length();
         boolean result = length > 5 && length < 33;
         if (!result) {
-            loginView.showTipMsg("密码长度不符合要求!");
+            loginView.showTipMsg("invalid password");
         }
         return result;
     }

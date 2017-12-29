@@ -24,8 +24,8 @@ public class AuthActivity extends BaseActivity implements BaseFragment.BackHandl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_alpha_out);// 载入载出动画
-
-        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_TAG);
+        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager()
+                .findFragmentByTag(LOGIN_TAG);
         if (loginFragment == null) {
             loginFragment = LoginFragment.newInstance();
         }

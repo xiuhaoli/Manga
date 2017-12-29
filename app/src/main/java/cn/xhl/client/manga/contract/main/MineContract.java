@@ -19,7 +19,9 @@ public interface MineContract {
 
         void showTipMsg(String msg);
 
-        void createPromptDialog();
+        void createClearCachePromptDialog();
+
+        void createLogoutPromptDialog();
 
         /**
          * 更新缓存item
@@ -27,11 +29,22 @@ public interface MineContract {
          * @param cacheSize 清除缓存后的大小
          */
         void notifyAdapterForCacheItem(String cacheSize);
+
+        void changeThemeMode(boolean isNightMode);
+
+        void notifyUI2ChangeUsername(String username);
+
+        void notifyUI2ChangeHeader(String url);
     }
 
     interface Presenter extends BasePresenter {
         String cacheSize();
 
         void clearCache();
+
+        void modifyUsername(String newName);
+
+        void modifyProfileHeader(String url);
+
     }
 }

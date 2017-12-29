@@ -46,11 +46,12 @@ public class Res_GalleryList {
         private int subscribe;
         private int viewed;
         private String language;
+        private int comment;
         private int create_time;
 
         public GalleryEntity(int id, int gid, String token, String title, String category, String thumb,
                              String uploader, int posted, int filecount, String rating, String artist,
-                             int subscribe, int viewed, String language,int create_time) {
+                             int subscribe, int viewed, String language,int comment,int create_time) {
             this.id = id;
             this.gid = gid;
             this.token = token;
@@ -65,6 +66,7 @@ public class Res_GalleryList {
             this.subscribe = subscribe;
             this.viewed = viewed;
             this.language = language;
+            this.comment = comment;
             this.create_time = create_time;
         }
 
@@ -183,6 +185,14 @@ public class Res_GalleryList {
             this.language = language;
         }
 
+        public int getComment() {
+            return comment;
+        }
+
+        public void setComment(int comment) {
+            this.comment = comment;
+        }
+
         public int getCreate_time() {
             return create_time;
         }
@@ -208,6 +218,7 @@ public class Res_GalleryList {
                     ", subscribe=" + subscribe +
                     ", viewed=" + viewed +
                     ", language='" + language + '\'' +
+                    ", comment='" + comment + '\'' +
                     ", create_time='" + create_time + '\'' +
                     '}';
         }

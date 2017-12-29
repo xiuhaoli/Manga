@@ -8,6 +8,7 @@ import android.view.View;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.UserInfo;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.auth.LoginContract;
 import cn.xhl.client.manga.model.bean.response.auth.Res_Login;
 import cn.xhl.client.manga.presenter.auth.RegisterPresenter;
@@ -25,7 +26,6 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
  *         login view
  */
 public class LoginFragment extends BaseFragment implements LoginContract.View, View.OnClickListener {
-
     private LoginContract.Presenter presenter;
     private TextInputLayout emailInputLayout;
     private TextInputLayout passwordInputLayout;
@@ -156,9 +156,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
         String token = res_login.getToken();
         String salt = res_login.getSalt();
         int uid = res_login.getUid();
+        String url = res_login.getProfile_picture();
+        String username = res_login.getUsername();
         userInfo.setSalt(salt);
         userInfo.setToken(token);
         userInfo.setUid(uid);
+        userInfo.setProfile_picture(url);
+        userInfo.setUsername(username);
         userInfo.setEmail(email);
         SharedPreferences.Editor editor = PrefUtil.get(mActivity).edit();
         editor.putString("token", token);
@@ -166,6 +170,8 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
         editor.putInt("uid", uid);
         editor.putInt("expire_time", res_login.getExpire_time());
         editor.putString("email", email);
+        editor.putString(IConstants.PROFILE_HEADER, url);
+        editor.putString(IConstants.USERNAME, username);
         editor.apply();
     }
 

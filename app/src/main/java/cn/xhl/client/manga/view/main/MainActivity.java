@@ -74,6 +74,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         viewPager = findViewById(R.id.viewpager_activity_main);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
 
         navigation = findViewById(R.id.navigation_activity_main);

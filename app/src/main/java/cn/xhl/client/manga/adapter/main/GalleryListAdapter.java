@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,9 +14,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
+import cn.xhl.client.manga.MyActivityManager;
+import cn.xhl.client.manga.MyApplication;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.DateUtil;
+import cn.xhl.client.manga.utils.ResourceUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 
 /**
@@ -46,6 +50,7 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
         helper.setText(R.id.category_item_gallery, item.getCategory());
         helper.setText(R.id.posted_item_gallery, getPosted(item.getPosted()));
         helper.setText(R.id.viewed_item_gallery, String.valueOf(item.getViewed()));
+        helper.setText(R.id.comment_item_gallery, String.valueOf(item.getComment()));
         helper.setText(R.id.subscribe_item_gallery, String.valueOf(item.getSubscribe()));
         if (StringUtil.isEmpty(item.getLanguage())) {
             helper.setGone(R.id.language_item_gallery, false);

@@ -68,7 +68,7 @@ public class ResetPasswdPresenter implements ResetPasswdContract.Presenter {
         Matcher matcher = pattern.matcher(email);
         boolean result = matcher.matches();
         if (!result) {
-            view.showTipMsg("邮箱格式不对喔～");
+            view.showTipMsg("invalid email");
         }
         return result;
     }
@@ -78,7 +78,7 @@ public class ResetPasswdPresenter implements ResetPasswdContract.Presenter {
         int length = password.length();
         boolean result = length > 5 && length < 33;
         if (!result) {
-            view.showTipMsg("密码长度不符合要求!");
+            view.showTipMsg("invalid password");
         }
         return result;
     }

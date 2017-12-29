@@ -7,8 +7,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -19,26 +17,25 @@ import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.main.LatestContract;
+import cn.xhl.client.manga.custom.EmptyView;
+import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.listener.GalleryListScrollListener;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.main.LatestPresenter;
 import cn.xhl.client.manga.utils.AnalyticsUtil;
-import cn.xhl.client.manga.utils.ControlUtil;
-import cn.xhl.client.manga.utils.LogUtil;
 
 /**
  * 这个是具体类型的列表，本来可以和首页的fragment共用
  * 考虑到fragment不能被回收，就采用activity，用完销毁
  */
-public class ConcreteCategoryActivity extends BaseActivity implements LatestContract.View, View.OnClickListener,
+public class ConcreteCategoryActivity extends BaseActivity implements LatestContract.View,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
     private LatestContract.Presenter presenter;
     private List<Res_GalleryList.GalleryEntity> mRecyclerData;
     private GalleryListAdapter mRecyclerAdapter;
     private String category;
     private String type;
-    private LinearLayout retry;
-    private TextView noData;// 没有数据的时候显示
+    private EmptyView emptyView;
 
     /**
      * @param activity
@@ -55,10 +52,14 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SlipBackLayout.init(this, new SlipBackLayout.OnWindowCloseListener() {
+            @Override
+            public void onFinish() {
+                this_.finish();
+            }
+        });
         new LatestPresenter(this);
-        retry = findViewById(R.id.linear_activity_concrete_category);
-        noData = findViewById(R.id.no_data_activity_concrete_category);
-        ControlUtil.initControlOnClick(R.id.btn_activity_concrete_category, this, this);
+        emptyView = findViewById(R.id.empty_activity_concrete_category);
         RecyclerView recyclerView = findViewById(R.id.recycler_activity_concrete_category);
         addScrollListener(recyclerView);
         mRecyclerData = new ArrayList<>();
@@ -72,6 +73,11 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
         type = getIntent().getStringExtra("type");
         presenter.list(category, type, false);
 
+    }
+
+    @Override
+    protected boolean transparentTheme() {
+        return true;
     }
 
     @Override
@@ -124,12 +130,27 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
 
     @Override
     public void showReTry() {
-        retry.setVisibility(View.VISIBLE);
+        emptyView.showRetry(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.list(category, type, false);
+            }
+        });
     }
 
     @Override
     public void hideReTry() {
-        retry.setVisibility(View.GONE);
+        emptyView.hideRetry();
+    }
+
+    @Override
+    public void showEmptyLoading() {
+        emptyView.showLoading();
+    }
+
+    @Override
+    public void hideEmptyLoading() {
+        emptyView.hideLoading();
     }
 
     @Override
@@ -142,12 +163,12 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
 
     @Override
     public void showNoData() {
-        noData.setVisibility(View.VISIBLE);
+        emptyView.showNodata();
     }
 
     @Override
     public void hideNoData() {
-        noData.setVisibility(View.GONE);
+        emptyView.hideNodata();
     }
 
     @Override
@@ -158,18 +179,6 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         ConcreteMangaActivity.start(this, mRecyclerData.get(position));
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_activity_concrete_category:
-                presenter.list(category, type, false);
-                break;
-            default:
-                break;
-        }
-
     }
 
     private void addScrollListener(RecyclerView recyclerView) {

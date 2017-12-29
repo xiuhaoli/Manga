@@ -3,7 +3,7 @@
     <!--设置button四个角的弧度-->
     <corners android:radius="5dp"/>
     <!--设置button里面的颜色-->
-    <solid android:color="@color/item_background"/>
+    <solid android:color="?attr/item_background"/>
     <!--设置button边框的颜色和宽度-->
     <!--<stroke android:color="@color/choose_charge_time_background" android:width="2dp"/>-->
 </shape>

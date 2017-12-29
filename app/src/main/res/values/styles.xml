@@ -1,21 +1,35 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="main_background">@color/day_main_background</item>
+        <item name="item_background">@color/day_item_background</item>
+        <item name="item_text">@color/day_item_text</item>
+        <item name="tab_text_color">@color/day_tab_text</item>
+
         <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert.Self</item>
     </style>
 
-    <style name="Theme.AppCompat.Light.Dialog.Alert.Self" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
-        <!--修改AlertDialog背景的颜色-->
-        <item name="android:background">@color/item_background</item>
+    <style name="AppTheme.Night" parent="Base.Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="main_background">@color/night_main_background</item>
+        <item name="item_background">@color/night_item_background</item>
+        <item name="item_text">@color/night_item_text</item>
+        <item name="tab_text_color">@color/night_tab_text</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -67,11 +81,21 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <!--<style name="ConcreteMangaActivity" parent="AppTheme">-->
-    <!--<item name="android:windowContentTransitions">true</item>-->
-    <!--</style>-->
     <style name="popupWindow">
         <item name="android:windowEnterAnimation">@anim/popup_alpha_in</item>
         <item name="android:windowExitAnimation">@anim/popup_alpha_out</item>
     </style>
+
+    <!--透明的白天模式-->
+    <style name="Theme.Transparent.Light" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!--透明的黑夜模式-->
+    <style name="Theme.Transparent.Night" parent="AppTheme.Night">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>
