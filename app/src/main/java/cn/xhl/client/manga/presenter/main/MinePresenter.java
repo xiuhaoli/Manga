@@ -29,8 +29,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class MinePresenter implements MineContract.Presenter {
     private MineContract.View view;
-    private FileUtil fileUtil = FileUtil.getInstance();
-    private File file = new File(fileUtil.getStorageDirectory());
     private CompositeDisposable compositeDisposable;
 
     public MinePresenter(MineContract.View view) {
@@ -46,31 +44,6 @@ public class MinePresenter implements MineContract.Presenter {
     @Override
     public void unSubscribe() {
         compositeDisposable.clear();
-    }
-
-    @Override
-    public String cacheSize() {
-        return SystemUtil.formatNumber2(fileUtil.getDirectorySize(file, 0) / 1024 / 1024) + "M";
-    }
-
-    @Override
-    public void clearCache() {
-        view.showLoading();
-        Flowable.fromCallable(new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                fileUtil.deleteFile(file);
-                return "success";
-            }
-        }).subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        view.notifyAdapterForCacheItem(cacheSize());
-                        view.hideLoading();
-                    }
-                });
     }
 
     @Override

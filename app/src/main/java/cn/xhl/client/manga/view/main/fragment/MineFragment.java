@@ -27,10 +27,12 @@ import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.MineItemDecoration;
 import cn.xhl.client.manga.custom.TextImageSpan;
 import cn.xhl.client.manga.utils.ActivityUtil;
+import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.PrefUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 import cn.xhl.client.manga.view.gallery.FavoriteActivity;
+import cn.xhl.client.manga.view.main.SettingActivity;
 
 public class MineFragment extends BaseFragment implements
         MineContract.View, BaseQuickAdapter.OnItemClickListener,
@@ -38,8 +40,6 @@ public class MineFragment extends BaseFragment implements
     private MineContract.Presenter presenter;
     private MineAdapter mineAdapter;
     private List<MineAdapter.MineItem> mRecyclerData;
-    // 缓存那一栏的position
-    private int cacheItemPosition;
     private TextImageSpan username;
     private SimpleDraweeView header;
 
@@ -63,6 +63,7 @@ public class MineFragment extends BaseFragment implements
         username = view.findViewById(R.id.username_fragment_mine);
         username.setText(UserInfo.getInstance().getUsername());
         username.setOnClickListener(this);
+        ControlUtil.initControlOnClick(R.id.setting_fragment_mine, view, this);
     }
 
     @Override
@@ -86,10 +87,8 @@ public class MineFragment extends BaseFragment implements
     public void initAdapter() {
         mRecyclerData = new ArrayList<>();
         MineAdapter.MineItem item;
-        int[] text = {R.string.night_mode, R.string.favorites, R.string.history, R.string.cache, R.string.logout};
-        int[] img = {R.mipmap.night_mode, R.mipmap.favorite, R.mipmap.history,
-                R.mipmap.broom, R.mipmap.logout};
-        cacheItemPosition = text.length - 2;
+        int[] text = {R.string.night_mode, R.string.favorites, R.string.history};
+        int[] img = {R.mipmap.night_mode, R.mipmap.favorite, R.mipmap.history,};
         for (int i = 0, size = text.length; i < size; i++) {
             item = new MineAdapter.MineItem();
             item.setIcon(img[i]);
@@ -99,10 +98,6 @@ public class MineFragment extends BaseFragment implements
             if (i == 0) {
                 item.setHaveSwitcher(true);
                 item.setChecked(UserInfo.getInstance().isNightMode());
-            }
-            if (i == cacheItemPosition) {
-                item.setHaveContent(true);
-                item.setContent(presenter.cacheSize());
             }
             mRecyclerData.add(item);
         }
@@ -126,38 +121,6 @@ public class MineFragment extends BaseFragment implements
     }
 
     @Override
-    public void createClearCachePromptDialog() {
-        new CustomDialog.DefaultBuilder(mActivity)
-                .setTitle(R.string.prompt_warning)
-                .setContent(R.string.prompt_clear_cache)
-                .setPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        presenter.clearCache();
-                    }
-                }).create().show();
-    }
-
-    @Override
-    public void createLogoutPromptDialog() {
-        new CustomDialog.DefaultBuilder(mActivity)
-                .setTitle(R.string.prompt_warning)
-                .setContent(R.string.prompt_logout)
-                .setPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityUtil.jump2LoginPage(mActivity, true);
-                    }
-                }).create().show();
-    }
-
-    @Override
-    public void notifyAdapterForCacheItem(String cacheSize) {
-        mRecyclerData.get(cacheItemPosition).setContent(cacheSize);
-        mineAdapter.notifyItemChanged(cacheItemPosition);
-    }
-
-    @Override
     public void changeThemeMode(boolean isNightMode) {
         showChangeThemeAnimation();
         UserInfo.getInstance().setNightMode(isNightMode);
@@ -174,13 +137,8 @@ public class MineFragment extends BaseFragment implements
                 break;
             case 2:
                 // jump to history
-                ConcreteCategoryActivity.start(mActivity, IConstants.ALL, IConstants.HISTORY);
-                break;
-            case 3:
-                createClearCachePromptDialog();
-                break;
-            case 4:
-                createLogoutPromptDialog();
+                ConcreteCategoryActivity.start(mActivity,
+                        UserInfo.getInstance().getCategoryMode(), IConstants.HISTORY);
                 break;
             case 0:
                 mRecyclerData.get(position).setChecked(!UserInfo.getInstance().isNightMode());
@@ -310,6 +268,9 @@ public class MineFragment extends BaseFragment implements
                 break;
             case R.id.header_fragment_mine:
                 createModifyHeaderDialog();
+                break;
+            case R.id.setting_fragment_mine:
+                ActivityUtil.jump2Activity(mActivity, SettingActivity.class);
                 break;
             default:
                 break;

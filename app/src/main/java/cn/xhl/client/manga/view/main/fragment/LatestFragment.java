@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
@@ -47,7 +48,7 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         addScrollListener(recyclerView);
-        presenter.list(IConstants.ALL, IConstants.LATEST, false);
+        presenter.list(UserInfo.getInstance().getCategoryMode(), IConstants.LATEST, false);
     }
 
     @Override
@@ -91,7 +92,8 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
         emptyView.showRetry(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.list(IConstants.ALL, IConstants.LATEST, false);
+                presenter.list(UserInfo.getInstance().getCategoryMode(),
+                        IConstants.LATEST, false);
             }
         });
     }
@@ -131,7 +133,8 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
 
     @Override
     public void onLoadMoreRequested() {
-        presenter.list(IConstants.ALL, IConstants.LATEST, true);
+        presenter.list(UserInfo.getInstance().getCategoryMode(),
+                IConstants.LATEST, true);
     }
 
     @Override

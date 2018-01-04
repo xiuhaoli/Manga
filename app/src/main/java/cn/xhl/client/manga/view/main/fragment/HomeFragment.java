@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.SearchView;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.HomePagerAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.HomeContract;
 import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.utils.ControlUtil;
@@ -109,7 +111,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ConcreteCategoryActivity.start(mActivity, query, selectedSearchType);
+        ConcreteCategoryActivity.start(mActivity,
+                UserInfo.getInstance().getCategoryMode() + ":" + query, selectedSearchType);
         return false;
     }
 

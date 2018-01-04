@@ -33,6 +33,7 @@ import java.lang.ref.WeakReference;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.gallery.BrowseImageContract;
+import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.custom.VerticalViewPager;
 import cn.xhl.client.manga.custom.zoomable.ZoomableDraweeView;
 import cn.xhl.client.manga.presenter.gallery.BrowseImagePresenter;
@@ -82,6 +83,18 @@ public class BrowseImageActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        new SlipBackLayout.Builder(this)
+//                .setText(false)
+//                .setContent("exit")
+                .setListener(new SlipBackLayout.OnWindowCloseListener() {
+                    @Override
+                    public void onFinish() {
+                        this_.finish();
+                    }
+                })
+                .build();
+
         Intent intent = getIntent();
         String thumb = intent.getStringExtra("thumb");
         String showkey = intent.getStringExtra("showkey");

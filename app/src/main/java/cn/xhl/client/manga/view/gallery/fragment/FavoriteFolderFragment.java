@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.gallery.FavoriteFolderAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.gallery.FavoriteContract;
 import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.EmptyView;
@@ -22,6 +24,7 @@ import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.FavoritePresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.utils.StringUtil;
+import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
 /**
  * Created by xiuhaoli on 2017/11/17.
@@ -167,11 +170,15 @@ public class FavoriteFolderFragment extends BaseFragment
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        FavoriteFragment favoriteFragment = new FavoriteFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(FavoriteFragment.FOLDER, mRecyclerData.get(position).getFolder());
-        favoriteFragment.setArguments(bundle);
-        ActivityUtil.switchContentHideCurrent(mActivity, this, favoriteFragment, FavoriteFragment.TAG, R.id.framelayout_activity_favorite);
+//        FavoriteFragment favoriteFragment = new FavoriteFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FavoriteFragment.FOLDER, mRecyclerData.get(position).getFolder());
+//        favoriteFragment.setArguments(bundle);
+//        ActivityUtil.switchContentHideCurrent(mActivity, this, favoriteFragment, FavoriteFragment.TAG, R.id.framelayout_activity_favorite);
+        ConcreteCategoryActivity.start(mActivity,
+                UserInfo.getInstance().getCategoryMode() + ":" +
+                        mRecyclerData.get(position).getFolder(),
+                IConstants.FAVORITE);
     }
 
     @Override

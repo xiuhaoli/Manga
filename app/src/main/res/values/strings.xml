@@ -43,10 +43,11 @@
     <string name="dummy_content">WelCome!</string>
     <string name="theme_type_black">Dark Theme</string>
     <string name="theme_type_white">Light Theme</string>
-    <string name="night_mode">Night mode</string>
+    <string name="night_mode">Night Mode</string>
     <string name="favorites">Favorites</string>
     <string name="history">History</string>
     <string name="filter">Filter</string>
+    <string name="non_h_mode">Non-H Mode</string>
     <string name="cache">Cache</string>
     <string name="logout">Logout</string>
     <string name="prompt_clear_cache">Are you sure you want to clear the cache?</string>

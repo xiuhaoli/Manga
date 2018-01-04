@@ -2,15 +2,29 @@ package cn.xhl.client.manga.custom;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import java.util.Scanner;
+
+import cn.xhl.client.manga.MyApplication;
+import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.utils.DpUtil;
+import cn.xhl.client.manga.utils.ImageUtil;
+import cn.xhl.client.manga.utils.LogUtil;
 
 
 /**
@@ -33,40 +47,21 @@ public class SlipBackLayout extends FrameLayout {
     private float mScrimOpacity;
     private float mScrollPercent;
     private Activity mActivity;
-//    private boolean isFragment;
+    private Bitmap bitmap;
+    private boolean isText;// 是否展示文字
+    private String content;// 展示的文字内容
 
-    public static void init(@NonNull Context activity, OnWindowCloseListener listener) {
-        init(activity, null, 0, listener);
-    }
-
-    public static void init(@NonNull Context activity, @Nullable AttributeSet attrs,
-                            OnWindowCloseListener listener) {
-        init(activity, attrs, 0, listener);
-    }
-
-    public static void init(@NonNull Context activity, @Nullable AttributeSet attrs,
-                            int defStyleAttr, OnWindowCloseListener listener) {
-        new SlipBackLayout(activity, attrs, defStyleAttr, listener);
-    }
-
-//    public SlipBackLayout(@NonNull Context context, OnWindowCloseListener listener, View view) {
-//        super(context);
-//        isFragment = true;
-//        mOnWindowCloseListener = listener;
-//        mActivity = (Activity) context;
-//        initView();
-//        this.addView(view);
-//    }
-
-    private SlipBackLayout(@NonNull Context context, @Nullable AttributeSet attrs,
-                           int defStyleAttr, OnWindowCloseListener listener) {
-        super(context, attrs, defStyleAttr);
-        mOnWindowCloseListener = listener;
-        mActivity = (Activity) context;
+    private SlipBackLayout(Builder builder) {
+        super(builder.context, builder.attrs, builder.defStyleAttr);
+        mOnWindowCloseListener = builder.listener;
+        mActivity = (Activity) builder.context;
+        isText = builder.isText;
+        content = builder.content;
         initView();
     }
 
     private void initView() {
+        this.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         mViewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
@@ -86,8 +81,8 @@ public class SlipBackLayout extends FrameLayout {
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
-                if (mMoveLeft > mContentWidth / 2) {
-                    isClose = true;// 滑动超出半屏，则触发关闭操作
+                if (mMoveLeft > mContentWidth * 0.34) {
+                    isClose = true;// 滑动超出0.3屏，则触发关闭操作
                     mViewDragHelper.settleCapturedViewAt(mContentWidth, releasedChild.getTop());
                 } else {
                     mViewDragHelper.settleCapturedViewAt(0, releasedChild.getTop());
@@ -108,6 +103,13 @@ public class SlipBackLayout extends FrameLayout {
         });
         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
         bindView(mActivity);
+        if (isText) {
+            int imageSize = DpUtil.dp2Px(mActivity, 20);
+            bitmap = ImageUtil.decodeSampledBitmapFromResource(mActivity.getResources(),
+                    R.mipmap.logout, imageSize, imageSize);
+            mActivity.getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+            initPaint();
+        }
     }
 
     private void bindView(Activity activity) {
@@ -134,11 +136,46 @@ public class SlipBackLayout extends FrameLayout {
         mContentWidth = mContentView.getWidth();
     }
 
+    /**
+     * 该方法返回true将不对事件进行传递会在此拦截
+     *
+     * @param ev
+     * @return
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mViewDragHelper.shouldInterceptTouchEvent(ev);
+        if (!dispatchEvent2Child(ev)) {
+            mViewDragHelper.processTouchEvent(ev);
+            invalidate();
+            return true;
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
+    private boolean dispatchEvent2Child(MotionEvent event) {
+        if (this.getLeft() > 0) {
+            return false;
+        }
+        float x = event.getX();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (x < this.getWidth() * 0.05) {
+                    // 如果小于该值则拦截事件
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 事件如果被拦截了，该方法会被反复调用直到手势离开屏幕
+     *
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mViewDragHelper.processTouchEvent(event);
@@ -151,7 +188,11 @@ public class SlipBackLayout extends FrameLayout {
         final boolean drawContent = child == mContentView;
         boolean ret = super.drawChild(canvas, child, drawingTime);
         if (drawContent && mViewDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            drawScrim(canvas, child);
+            if (isText) {
+                drawText(canvas, child);
+            } else {
+                drawScrim(canvas, child);
+            }
         }
         return ret;
     }
@@ -165,8 +206,72 @@ public class SlipBackLayout extends FrameLayout {
         canvas.drawColor(color);
     }
 
+    private int textColor = Color.parseColor("#747474");
+    private int textSize = DpUtil.dp2Px(MyApplication.getAppContext(), 16);
+    private Paint paint;
+    private int translateText = DpUtil.dp2Px(MyApplication.getAppContext(), 7);
+
+    private void drawText(Canvas canvas, View child) {
+        canvas.translate(translateText, translateText);
+        canvas.drawText(content, child.getLeft() - bitmap.getWidth() * 2 - textSize - 5,
+                getHeight() * 0.5f, paint);
+        canvas.translate(-translateText, -translateText);
+        canvas.drawBitmap(bitmap, child.getLeft() - bitmap.getWidth() - 10,
+                getHeight() * 0.5f - bitmap.getHeight() * 0.5f, paint);
+    }
+
+    private void initPaint() {
+        paint = new Paint();
+        paint.setTextSize(textSize);
+        paint.setAntiAlias(true);
+        paint.setColor(textColor);
+    }
+
     public interface OnWindowCloseListener {
         void onFinish();
+    }
+
+    public static class Builder {
+        private Context context;
+        private AttributeSet attrs = null;
+        @AttrRes
+        private int defStyleAttr = 0;
+        private boolean isText = false;
+        private String content = "";
+        private OnWindowCloseListener listener;
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder setText(boolean text) {
+            isText = text;
+            return this;
+        }
+
+        public Builder setContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Builder setAttrs(AttributeSet attrs) {
+            this.attrs = attrs;
+            return this;
+        }
+
+        public Builder setDefStyleAttr(int defStyleAttr) {
+            this.defStyleAttr = defStyleAttr;
+            return this;
+        }
+
+        public Builder setListener(OnWindowCloseListener listener) {
+            this.listener = listener;
+            return this;
+        }
+
+        public SlipBackLayout build() {
+            return new SlipBackLayout(this);
+        }
     }
 
 }

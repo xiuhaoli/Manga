@@ -74,4 +74,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dotted_line_fragment_mine" />
+
+    <ImageView
+        android:id="@+id/setting_fragment_mine"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@mipmap/ic_setting_white"
+        android:contentDescription="@string/default_img_description"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
@@ -48,7 +49,8 @@ public class RecommendFragment extends BaseFragment implements LatestContract.Vi
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         addScrollListener(recyclerView);
-        presenter.list(IConstants.ALL, IConstants.RECOMMEND, false);
+        presenter.list(UserInfo.getInstance().getCategoryMode(),
+                IConstants.RECOMMEND, false);
     }
 
     @Override
@@ -92,7 +94,8 @@ public class RecommendFragment extends BaseFragment implements LatestContract.Vi
         emptyView.showRetry(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.list(IConstants.ALL, IConstants.RECOMMEND, false);
+                presenter.list(UserInfo.getInstance().getCategoryMode(),
+                        IConstants.RECOMMEND, false);
             }
         });
     }
@@ -122,7 +125,8 @@ public class RecommendFragment extends BaseFragment implements LatestContract.Vi
 
     @Override
     public void onLoadMoreRequested() {
-        presenter.list(IConstants.ALL, IConstants.RECOMMEND, true);
+        presenter.list(UserInfo.getInstance().getCategoryMode(),
+                IConstants.RECOMMEND, true);
     }
 
     @Override

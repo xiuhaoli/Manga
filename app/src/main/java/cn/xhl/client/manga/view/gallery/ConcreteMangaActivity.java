@@ -74,12 +74,14 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SlipBackLayout.init(this, new SlipBackLayout.OnWindowCloseListener() {
-            @Override
-            public void onFinish() {
-                this_.finish();
-            }
-        });
+        new SlipBackLayout.Builder(this)
+                .setListener(new SlipBackLayout.OnWindowCloseListener() {
+                    @Override
+                    public void onFinish() {
+                        this_.finish();
+                    }
+                })
+                .build();
 
         new ConcreteMangaPresenter(this);
 
@@ -99,11 +101,6 @@ public class ConcreteMangaActivity extends BaseActivity
         popularity.setText(getResources().getString(R.string.prompt_popularity, galleryEntity.getViewed()));
 
         presenter.viewed(galleryEntity.getId());
-    }
-
-    @Override
-    protected boolean transparentTheme() {
-        return true;
     }
 
     @Override

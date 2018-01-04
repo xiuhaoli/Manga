@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.config.IConstants;
@@ -48,7 +49,8 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         addScrollListener(recyclerView);
-        presenter.list(IConstants.ALL, IConstants.RANKING, false);
+        presenter.list(UserInfo.getInstance().getCategoryMode(),
+                IConstants.RANKING, false);
     }
 
     @Override
@@ -92,7 +94,8 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
         emptyView.showRetry(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.list(IConstants.ALL, IConstants.RANKING, false);
+                presenter.list(UserInfo.getInstance().getCategoryMode(),
+                        IConstants.RANKING, false);
             }
         });
     }
@@ -122,13 +125,15 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
 
     @Override
     public void onLoadMoreRequested() {
-        presenter.list(IConstants.ALL, IConstants.RANKING, true);
+        presenter.list(UserInfo.getInstance().getCategoryMode(),
+                IConstants.RANKING, true);
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         ConcreteMangaActivity.start(mActivity, mRecyclerData.get(position));
     }
+
     @Override
     public void showEmptyLoading() {
         emptyView.showLoading();
@@ -138,6 +143,7 @@ public class RankingFragment extends BaseFragment implements LatestContract.View
     public void hideEmptyLoading() {
         emptyView.hideLoading();
     }
+
     private void addScrollListener(RecyclerView recyclerView) {
         recyclerView.addOnScrollListener(new GalleryListScrollListener() {
             @Override

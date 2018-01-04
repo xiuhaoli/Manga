@@ -8,6 +8,7 @@ package cn.xhl.client.manga.config;
 public interface IConstants {
     String USER_INFO = "COMICS_USER_INFO";// 用于SharePreference保存用户信息
     String NIGHT_MODE = "night_mode";// sp的key
+    String NON_H_MODE = "non_h_mode";
     String USERNAME = "username";
     String PROFILE_HEADER = "profile_header";
     long CACHE_MAX_SIZE = 10 * 1024 * 1024;// 缓存最大容量
@@ -46,6 +47,7 @@ public interface IConstants {
     String POLISH = "Polish";
     String ITALIAN = "Italian";
     String GREEK = "Greek";
+    String DEFAULT_CATEGORY = IConstants.ALL;
 
     /**
      * 请求列表的类型

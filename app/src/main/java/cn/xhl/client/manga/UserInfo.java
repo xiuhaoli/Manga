@@ -16,6 +16,8 @@ public class UserInfo {
     private int uid;
     private String email;
     private boolean isNightMode;
+    private boolean isNonhMode;
+    private String categoryMode;//(All,Non-H)
 
     private UserInfo() {
     }
@@ -27,6 +29,22 @@ public class UserInfo {
      */
     public static UserInfo getInstance() {
         return userInfo;
+    }
+
+    public String getCategoryMode() {
+        return categoryMode;
+    }
+
+    public void setCategoryMode(String categoryMode) {
+        this.categoryMode = categoryMode;
+    }
+
+    public boolean isNonhMode() {
+        return isNonhMode;
+    }
+
+    public void setNonhMode(boolean nonhMode) {
+        isNonhMode = nonhMode;
     }
 
     public int getUid() {

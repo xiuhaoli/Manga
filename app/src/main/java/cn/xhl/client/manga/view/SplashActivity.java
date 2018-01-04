@@ -115,6 +115,9 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         UserInfo.getInstance().setUsername(sp.getString(IConstants.USERNAME, "noname"));
         UserInfo.getInstance().setProfile_picture(sp.getString(IConstants.PROFILE_HEADER,
                 "0"));
+        UserInfo.getInstance().setNonhMode(sp.getBoolean(IConstants.NON_H_MODE, false));
+        UserInfo.getInstance().setCategoryMode(UserInfo.getInstance().isNonhMode() ?
+                IConstants.NON_H : IConstants.DEFAULT_CATEGORY);
         boolean available = presenter.isUserInfoAvailable(token, uid, salt, expire_time);
         if (available) {
             presenter.refreshToken(token, uid, salt, expire_time);

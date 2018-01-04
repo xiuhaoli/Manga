@@ -38,7 +38,8 @@ public class CountDownButton extends android.support.v7.widget.AppCompatButton {
         textBeforeStart = getText().toString();
         textColorBeforeStart = getCurrentTextColor();
 
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CountDownButton, defStyleAttr, 0);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,
+                R.styleable.CountDownButton, defStyleAttr, 0);
         int a = typedArray.getIndexCount();
         for (int i = 0; i < a; i++) {
             int attr = typedArray.getIndex(i);

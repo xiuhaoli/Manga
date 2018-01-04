@@ -9,6 +9,7 @@ import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.view.gallery.fragment.FavoriteFolderFragment;
+import cn.xhl.client.manga.view.main.SettingActivity;
 
 /**
  * Created by xiuhaoli on 2017/11/17.
@@ -28,17 +29,14 @@ public class FavoriteActivity extends BaseActivity implements BaseFragment.BackH
                 new FavoriteFolderFragment(),
                 FavoriteFolderFragment.TAG, R.id.framelayout_activity_favorite);
 
-        SlipBackLayout.init(this, new SlipBackLayout.OnWindowCloseListener() {
-            @Override
-            public void onFinish() {
-                this_.finish();
-            }
-        });
-    }
-
-    @Override
-    protected boolean transparentTheme() {
-        return true;
+        new SlipBackLayout.Builder(this)
+                .setListener(new SlipBackLayout.OnWindowCloseListener() {
+                    @Override
+                    public void onFinish() {
+                        this_.finish();
+                    }
+                })
+                .build();
     }
 
     @Override

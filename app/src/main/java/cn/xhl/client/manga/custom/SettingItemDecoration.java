@@ -17,11 +17,11 @@ import cn.xhl.client.manga.utils.DpUtil;
  *
  * @author Mike on 2017/4/15 0015.
  */
-public class MineItemDecoration extends DividerItemDecoration {
+public class SettingItemDecoration extends DividerItemDecoration {
     private Context mContext;
     private int size;
 
-    public MineItemDecoration(Context context, int size) {
+    public SettingItemDecoration(Context context, int size) {
         super(context, LinearLayout.VERTICAL);
         this.mContext = context;
         this.size = size;
@@ -33,12 +33,13 @@ public class MineItemDecoration extends DividerItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, View view,
+                               RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
         if (position == 0) {
-            outRect.bottom = DpUtil.dp2Px(mContext, 10);
+            outRect.top = DpUtil.dp2Px(mContext, 20);
         } else if (position == size - 1) {
-            outRect.bottom = 0;
+            outRect.top = DpUtil.dp2Px(mContext, 10);
         } else {
             outRect.bottom = DpUtil.dp2Px(mContext, 1);
         }

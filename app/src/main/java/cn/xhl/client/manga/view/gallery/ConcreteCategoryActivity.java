@@ -52,12 +52,14 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SlipBackLayout.init(this, new SlipBackLayout.OnWindowCloseListener() {
-            @Override
-            public void onFinish() {
-                this_.finish();
-            }
-        });
+        new SlipBackLayout.Builder(this)
+                .setListener(new SlipBackLayout.OnWindowCloseListener() {
+                    @Override
+                    public void onFinish() {
+                        this_.finish();
+                    }
+                })
+                .build();
         new LatestPresenter(this);
         emptyView = findViewById(R.id.empty_activity_concrete_category);
         RecyclerView recyclerView = findViewById(R.id.recycler_activity_concrete_category);
@@ -73,11 +75,6 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
         type = getIntent().getStringExtra("type");
         presenter.list(category, type, false);
 
-    }
-
-    @Override
-    protected boolean transparentTheme() {
-        return true;
     }
 
     @Override

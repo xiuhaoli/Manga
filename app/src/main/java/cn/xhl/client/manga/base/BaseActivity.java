@@ -22,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,11 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (transparentTheme()) {
-            initTransparentTheme();
-        } else {
-            initTheme();
-        }
+        initTheme();
         this_ = this;
         setContentView(R.layout.activity_base);
         initView();
@@ -61,18 +55,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initTheme() {
         if (UserInfo.getInstance().isNightMode()) {
-            setTheme(R.style.AppTheme_Night);
-            QMUIStatusBarHelper.translucent(this,
-                    ActivityCompat.getColor(this, R.color.night_main_background));
-        } else {
-            setTheme(R.style.AppTheme);
-            QMUIStatusBarHelper.translucent(this,
-                    ActivityCompat.getColor(this, R.color.day_main_background));
-        }
-    }
-
-    private void initTransparentTheme() {
-        if (UserInfo.getInstance().isNightMode()) {
             setTheme(R.style.Theme_Transparent_Night);
             QMUIStatusBarHelper.translucent(this,
                     ActivityCompat.getColor(this, R.color.night_main_background));
@@ -81,16 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             QMUIStatusBarHelper.translucent(this,
                     ActivityCompat.getColor(this, R.color.day_main_background));
         }
-    }
-
-    /**
-     * 如果要设置为透明主题的话
-     * 让子类覆写该方法
-     *
-     * @return if true, set Transparent Theme
-     */
-    protected boolean transparentTheme() {
-        return false;
     }
 
     @Override
