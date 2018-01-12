@@ -9,6 +9,7 @@ public interface IConstants {
     String USER_INFO = "COMICS_USER_INFO";// 用于SharePreference保存用户信息
     String NIGHT_MODE = "night_mode";// sp的key
     String NON_H_MODE = "non_h_mode";
+    String IGNORE_APK_INSTALL = "ignore_apk_install";
     String USERNAME = "username";
     String PROFILE_HEADER = "profile_header";
     long CACHE_MAX_SIZE = 10 * 1024 * 1024;// 缓存最大容量
@@ -16,6 +17,8 @@ public interface IConstants {
     long READ_TIMEOUT = 20 * 1000;// 读取超时时间
     String USER_AGENT = "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)";
     String POST_URL = "https://api.e-hentai.org/api.php";
+    String FILE_PROVIDER = "cn.xhl.client.manga.fileprovider";
+
     /**
      * 这个盐是固定的
      */

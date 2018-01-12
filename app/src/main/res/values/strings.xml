@@ -49,6 +49,7 @@
     <string name="filter">Filter</string>
     <string name="non_h_mode">Non-H Mode</string>
     <string name="cache">Cache</string>
+    <string name="version">Version</string>
     <string name="logout">Logout</string>
     <string name="prompt_clear_cache">Are you sure you want to clear the cache?</string>
     <string name="prompt_logout">Are you sure you want to logout?</string>
@@ -97,9 +98,14 @@
     <string name="delete_hint">Do you really want to delete the folder named %1$s ?</string>
     <string name="prompt_warning">warning</string>
     <string name="prompt_comment">comment</string>
+    <string name="prompt_download">downloading</string>
+    <string name="action_download">download</string>
+    <string name="action_install">install</string>
+    <string name="action_ignore">ignore</string>
     <string name="tab_summary">summary</string>
     <string name="tab_comment">comment（%1$d）</string>
     <string name="comment_hint">say something</string>
     <string name="profile_header_hint">input a image url</string>
     <string name="profile_header">profile header</string>
+
 </resources>

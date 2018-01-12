@@ -22,6 +22,15 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="cn.xhl.client.manga"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
 
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
@@ -33,6 +42,11 @@
 
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".service.ApkDownloadService"
             android:enabled="true"
             android:exported="false" />
 

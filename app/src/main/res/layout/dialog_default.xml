@@ -26,45 +26,50 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/content_dialog_default"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
-            android:text="hello world"
+            android:text=""
             android:textColor="?attr/item_text"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/title_dialog_default" />
 
-        <android.support.v7.widget.AppCompatButton
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/negative_dialog_default"
-            android:layout_width="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="15dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginTop="10dp"
             android:background="@null"
+            android:gravity="center"
             android:text="@string/dialog_cancel"
+            android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/positive_dialog_default"
             app:layout_constraintTop_toBottomOf="@id/content_dialog_default" />
 
-        <android.support.v7.widget.AppCompatButton
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/positive_dialog_default"
-            android:layout_width="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="15dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginTop="10dp"
             android:background="@null"
-            android:text="@string/dialog_ok"
+            android:gravity="center"
+            android:text="yes"
+            android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/content_dialog_default"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content_dialog_default" />
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

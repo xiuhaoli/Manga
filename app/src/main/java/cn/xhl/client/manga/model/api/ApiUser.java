@@ -6,6 +6,7 @@ import cn.xhl.client.manga.model.bean.response.auth.Res_Login;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.auth.Res_Register;
 import cn.xhl.client.manga.model.bean.response.auth.Res_ResetPassword;
+import cn.xhl.client.manga.model.bean.response.user.Res_CheckUpdate;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -65,6 +66,12 @@ public interface ApiUser {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("v1/user/userinfo/username")
     Observable<BaseResponse<String>> modifyUsername(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/user/update")
+    Observable<BaseResponse<Res_CheckUpdate>> checkNewVersion(
             @Body RequestBody requestBody
     );
 }

@@ -30,7 +30,9 @@ import cn.xhl.client.manga.MyActivityManager;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.custom.QMUITipDialog;
+import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.utils.DpUtil;
+import cn.xhl.client.manga.utils.LogUtil;
 import cn.xhl.client.manga.utils.QMUIStatusBarHelper;
 import cn.xhl.client.manga.utils.ResourceUtil;
 
@@ -78,6 +80,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         leftButton = findViewById(R.id.button_back);
     }
 
+    public void setSlipClose() {
+        new SlipBackLayout.Builder(this)
+                .setListener(new SlipBackLayout.OnWindowCloseListener() {
+                    @Override
+                    public void onFinish() {
+                        this_.finish();
+                    }
+                })
+                .build();
+    }
+
     public void changeTheme(boolean isNightMode) {
         UserInfo.getInstance().setNightMode(isNightMode);
         if (isNightMode) {
@@ -116,6 +129,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                 // do nothing
             } else if (getString(R.string.tag_recycler).equals(view.getTag())) {
                 RecyclerView recyclerView = (RecyclerView) view;
+                LogUtil.e("BaseActivity:RecyclerView", "itemCount = " +
+                        recyclerView.getAdapter().getItemCount());
                 try {
                     Field declaredField = RecyclerView.class.getDeclaredField("mRecycler");
                     declaredField.setAccessible(true);
@@ -206,7 +221,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void hideLoadingDialog() {
-        loadingDialog.cancel();
+        if (loadingDialog != null) {
+            loadingDialog.cancel();
+        }
     }
 
     public void showToast(String str, int time) {

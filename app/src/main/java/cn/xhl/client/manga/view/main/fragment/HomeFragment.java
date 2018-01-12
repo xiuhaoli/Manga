@@ -50,9 +50,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new HomePagerAdapter(mActivity.getSupportFragmentManager()));
         TabLayout tabLayout = view.findViewById(R.id.tab_fragment_home);
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_recommend));
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_update));
-//        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_ranking));
         tabLayout.setupWithViewPager(viewPager, false);
         ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
 

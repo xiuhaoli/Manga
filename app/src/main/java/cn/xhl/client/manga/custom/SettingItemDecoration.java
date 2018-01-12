@@ -37,6 +37,7 @@ public class SettingItemDecoration extends DividerItemDecoration {
                                RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
         if (position == 0) {
+            outRect.bottom = DpUtil.dp2Px(mContext, 1);
             outRect.top = DpUtil.dp2Px(mContext, 20);
         } else if (position == size - 1) {
             outRect.top = DpUtil.dp2Px(mContext, 10);

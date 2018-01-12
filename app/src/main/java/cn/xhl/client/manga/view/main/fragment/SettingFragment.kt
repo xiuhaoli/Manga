@@ -12,9 +12,13 @@ import cn.xhl.client.manga.config.IConstants
 import cn.xhl.client.manga.contract.main.SettingContract
 import cn.xhl.client.manga.custom.CustomDialog
 import cn.xhl.client.manga.custom.SettingItemDecoration
+import cn.xhl.client.manga.model.bean.response.user.Res_CheckUpdate
 import cn.xhl.client.manga.utils.ActivityUtil
+import cn.xhl.client.manga.utils.AppUtil
+import cn.xhl.client.manga.utils.DeviceUtil
 import cn.xhl.client.manga.utils.PrefUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
+import java.io.File
 import java.util.ArrayList
 
 /**
@@ -30,6 +34,7 @@ class SettingFragment : BaseFragment(), SettingContract.View,
     private val cacheItemPosition: Int = 1// 清除缓存那栏的position
     private lateinit var mRecyclerData: ArrayList<SettingAdapter.SettingItem>
     private lateinit var mSettingAdapter: SettingAdapter
+    private lateinit var customDialog: CustomDialog
     /**
      * var是可变变量的定义
      * val是常量相当于final修饰
@@ -47,8 +52,7 @@ class SettingFragment : BaseFragment(), SettingContract.View,
     override fun initView(view: View?, savedInstanceState: Bundle?) {
         val recyclerView: RecyclerView = view!!.findViewById(R.id.recycler_only)
         recyclerView.layoutManager = LinearLayoutManager(mActivity)
-        recyclerView.addItemDecoration(SettingItemDecoration(mActivity, 3))
-        initAdapter()
+        initAdapter(recyclerView)
         recyclerView.adapter = mSettingAdapter
     }
 
@@ -56,33 +60,39 @@ class SettingFragment : BaseFragment(), SettingContract.View,
         this.presenter = presenter
     }
 
-    override fun initAdapter() {
+    private fun initAdapter(recyclerView: RecyclerView) {
         mRecyclerData = ArrayList()
         var item: SettingAdapter.SettingItem
-        val text = intArrayOf(R.string.non_h_mode, R.string.cache, R.string.logout)
+        val itemLevel = intArrayOf(SettingAdapter.ITEM_TEXT_SWITCHER,
+                SettingAdapter.ITEM_TEXT_TEXT_ARROW, SettingAdapter.ITEM_TEXT_TEXT,
+                SettingAdapter.ITEM_LOGOUT)
+        val leftText = intArrayOf(R.string.non_h_mode, R.string.cache, R.string.version, R.string.logout)
+        val rightText = arrayOf("", presenter.cacheSize(), DeviceUtil.getVersionName(mActivity), "")
+        val switcher = booleanArrayOf(UserInfo.getInstance().isNonhMode, false, false, false)
         var i = 0
-        val size = text.size
+        val size = leftText.size
         while (i < size) {
             item = SettingAdapter.SettingItem()
-            item.text = text[i]
-            item.isHaveContent = false
-            item.isHaveSwitcher = false
-            if (i == 0) {
-                item.isHaveSwitcher = true
-                item.isChecked = UserInfo.getInstance().isNonhMode
-            }
-            if (i == cacheItemPosition) {
-                item.isHaveContent = true
-                item.content = presenter.cacheSize()
-            }
-            if (i == size - 1) {
-                item.isLogout = true
-            }
+            item.level = itemLevel[i]
+            item.text = leftText[i]
+            item.content = rightText[i]
+            item.isChecked = switcher[i]
             mRecyclerData.add(item)
             i++
         }
         mSettingAdapter = SettingAdapter(mRecyclerData)
         mSettingAdapter.onItemClickListener = this
+        recyclerView.addItemDecoration(SettingItemDecoration(mActivity, itemLevel.size))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.subscribe()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.unSubscribe()
     }
 
     override fun showLoading() {
@@ -120,6 +130,22 @@ class SettingFragment : BaseFragment(), SettingContract.View,
         mSettingAdapter.notifyItemChanged(cacheItemPosition)
     }
 
+    override fun showNewVersionPrompt(res_checkUpdate: Res_CheckUpdate) {
+        CustomDialog.DefaultBuilder(mActivity)
+                .setTitle("download?")
+                .setContent("version : " + res_checkUpdate.version_name +
+                        "\n" + "file size : " + res_checkUpdate.size)
+                .setPositiveButtonText(R.string.action_download)
+                .setPositiveListener {
+                    presenter.startDownloadApk(res_checkUpdate.url)
+                }
+                .create().show()
+    }
+
+    override fun install(apkPath: File?) {
+        AppUtil.installApp(mActivity, apkPath)
+    }
+
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (position) {
             0 -> {
@@ -131,8 +157,9 @@ class SettingFragment : BaseFragment(), SettingContract.View,
                 showTipMsg("it will be take effect on the next startup")
             }
             1 -> createClearCachePromptDialog()
-            2 -> createLogoutPromptDialog()
-            else -> showTipMsg("illegal option")
+            2 -> presenter.checkNewVersion(DeviceUtil.getVersionCode(mActivity).toInt(),
+                    DeviceUtil.getVersionName(mActivity))
+            3 -> createLogoutPromptDialog()
         }
     }
 }

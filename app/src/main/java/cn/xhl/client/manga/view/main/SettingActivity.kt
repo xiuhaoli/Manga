@@ -4,7 +4,6 @@ import android.os.Bundle
 import cn.xhl.client.manga.R
 import cn.xhl.client.manga.base.BaseActivity
 import cn.xhl.client.manga.base.BaseFragment
-import cn.xhl.client.manga.custom.SlipBackLayout
 import cn.xhl.client.manga.presenter.main.SettingPresenter
 import cn.xhl.client.manga.utils.ActivityUtil
 import cn.xhl.client.manga.view.main.fragment.SettingFragment
@@ -23,9 +22,8 @@ class SettingActivity : BaseActivity(), BaseFragment.BackHandledInterface {
         ActivityUtil.switchContentHideCurrent(this, null,
                 settingFragment,
                 SettingFragment.TAG, R.id.framelayout_activity_setting)
-        SlipBackLayout.Builder(this)
-                .setListener { this_.finish() }
-                .build()
+        setSlipClose()
+
     }
 
     override fun setSelectedFragment(selectedFragment: BaseFragment) {

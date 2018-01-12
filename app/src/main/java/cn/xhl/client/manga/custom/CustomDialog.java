@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
@@ -29,6 +30,7 @@ import cn.xhl.client.manga.utils.DpUtil;
  */
 
 public class CustomDialog extends Dialog {
+    private ProgressBar progressBar;
 
     private CustomDialog(@NonNull Context context) {
         super(context, R.style.customDialogStyle);
@@ -40,7 +42,14 @@ public class CustomDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDialogWidth();
+    }
 
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 
     private void initDialogWidth() {
@@ -62,11 +71,13 @@ public class CustomDialog extends Dialog {
 
         private String title;
         private String content;
+        private String negativeButtonText = "no";
+        private String positiveButtonText = "yes";
 
         private TextView titleView;
         private TextView contentView;
-        private Button negativeButton;
-        private Button positiveButton;
+        private TextView negativeButton;
+        private TextView positiveButton;
         private View.OnClickListener positiveListener;
         private View.OnClickListener negativeListener;
 
@@ -105,6 +116,26 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
+        public DefaultBuilder setNegativeButtonText(String negativeButtonText) {
+            this.negativeButtonText = negativeButtonText;
+            return this;
+        }
+
+        public DefaultBuilder setNegativeButtonText(int resId) {
+            this.negativeButtonText = mContext.getString(resId);
+            return this;
+        }
+
+        public DefaultBuilder setPositiveButtonText(String positiveButtonText) {
+            this.positiveButtonText = positiveButtonText;
+            return this;
+        }
+
+        public DefaultBuilder setPositiveButtonText(int resId) {
+            this.positiveButtonText = mContext.getString(resId);
+            return this;
+        }
+
         public CustomDialog create() {
             mDialog = new CustomDialog(mContext);
             rootView = mInflater.inflate(R.layout.dialog_default, null);
@@ -113,6 +144,8 @@ public class CustomDialog extends Dialog {
             contentView = rootView.findViewById(R.id.content_dialog_default);
             negativeButton = rootView.findViewById(R.id.negative_dialog_default);
             positiveButton = rootView.findViewById(R.id.positive_dialog_default);
+            negativeButton.setText(negativeButtonText);
+            positiveButton.setText(positiveButtonText);
 
             if (title == null || title.equals("")) {
                 titleView.setVisibility(View.GONE);
@@ -499,6 +532,52 @@ public class CustomDialog extends Dialog {
             mContext.getTheme().resolveAttribute(
                     R.attr.item_text, typedValue, true);
             return typedValue.data;
+        }
+    }
+
+    /**
+     * 进度条的dialog
+     */
+    public static class ProgressbarBuilder {
+        private Context mContext;
+        private CustomDialog mDialog;
+        private LayoutInflater mInflater;
+
+        private View rootView;
+        private TextView titleView;
+        private String title;
+        private ProgressBar progressBar;
+
+        public ProgressbarBuilder(Context context) {
+            this.mContext = context;
+            mInflater = LayoutInflater.from(context);
+        }
+
+        public ProgressbarBuilder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public ProgressbarBuilder setTitle(int resId) {
+            this.title = mContext.getResources().getString(resId);
+            return this;
+        }
+
+        public CustomDialog create() {
+            mDialog = new CustomDialog(mContext);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.setCancelable(false);
+            rootView = mInflater.inflate(R.layout.dialog_progressbar, null);
+
+            titleView = rootView.findViewById(R.id.title_dialog_progressbar);
+            titleView.setText(title);
+
+            progressBar = rootView.findViewById(R.id.content_dialog_progressbar);
+            mDialog.setProgressBar(progressBar);
+
+            mDialog.addContentView(rootView, new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return mDialog;
         }
     }
 

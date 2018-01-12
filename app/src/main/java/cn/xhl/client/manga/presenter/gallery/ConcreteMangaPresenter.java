@@ -46,8 +46,6 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
 
     @Override
     public void unSubscribe() {
-        view.hideLoading();
-        view.dismissBottomSheet();
         compositeDisposable.clear();
     }
 
@@ -114,7 +112,7 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
     @Override
     public void listFolder(final boolean isLoadMore, int id) {
         if (!isLoadMore) {
-            view.startRefreshing();
+            view.showLoading();
         } else {
             if (!loadMore) {
                 view.noMoreToLoad();
@@ -137,7 +135,7 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        view.stopRefreshing();
+                        view.hideLoading();
                     }
                 })
                 .subscribeWith(new BaseObserver<Res_FavoriteFolder>() {

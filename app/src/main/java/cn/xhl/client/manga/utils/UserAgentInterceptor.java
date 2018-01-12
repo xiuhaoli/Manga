@@ -33,15 +33,16 @@ public final class UserAgentInterceptor implements Interceptor {
         final Request originalRequest = chain.request();
         Request requestWithUserAgent;
         LogUtil.e(TAG, "url = " + originalRequest.url().toString());
-        if (originalRequest.url().toString().contains("e-hentai")) {
+        if (originalRequest.url().toString().contains("api.ebandwagon.tk")) {
+            // 如果是自己的服务器则上传真正的user-agent，否则伪装
             requestWithUserAgent = originalRequest.newBuilder()
                     .removeHeader(USER_AGENT_HEADER_NAME)
-                    .addHeader(USER_AGENT_HEADER_NAME, IConstants.USER_AGENT)
+                    .addHeader(USER_AGENT_HEADER_NAME, userAgentHeaderValue)
                     .build();
         } else {
             requestWithUserAgent = originalRequest.newBuilder()
                     .removeHeader(USER_AGENT_HEADER_NAME)
-                    .addHeader(USER_AGENT_HEADER_NAME, userAgentHeaderValue)
+                    .addHeader(USER_AGENT_HEADER_NAME, IConstants.USER_AGENT)
                     .build();
         }
         RequestBody requestBody = requestWithUserAgent.body();
@@ -57,7 +58,7 @@ public final class UserAgentInterceptor implements Interceptor {
         try {
             String url = request.url().toString();
             Headers headers = request.headers();
-            LogUtil.e(TAG, "========start line=======");
+            LogUtil.e(TAG, "========bind line=======");
             LogUtil.e(TAG, "method : " + request.method());
             LogUtil.e(TAG, "url : " + url);
             if (headers != null && headers.size() > 0) {

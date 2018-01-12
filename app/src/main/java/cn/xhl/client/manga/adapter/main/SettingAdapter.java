@@ -18,7 +18,11 @@ import cn.xhl.client.manga.R;
  * </pre>
  */
 public class SettingAdapter extends BaseQuickAdapter<SettingAdapter.SettingItem, BaseViewHolder> {
-
+    public static final int ITEM_TEXT_TEXT = 0;
+    public static final int ITEM_TEXT_ARROW = 1;
+    public static final int ITEM_TEXT_TEXT_ARROW = 2;
+    public static final int ITEM_TEXT_SWITCHER = 3;
+    public static final int ITEM_LOGOUT = 4;
 
     public SettingAdapter(@Nullable List<SettingItem> data) {
         super(R.layout.item_setting, data);
@@ -26,53 +30,74 @@ public class SettingAdapter extends BaseQuickAdapter<SettingAdapter.SettingItem,
 
     @Override
     protected void convert(BaseViewHolder helper, SettingItem item) {
-        if (item.isLogout()) {
-            helper.setVisible(R.id.logout_item_setting, true);
-            helper.setGone(R.id.text_item_setting, false);// title
-            helper.setVisible(R.id.arrow_right_item_setting, false);// arrow
-            helper.setVisible(R.id.switch_item_setting, false);// switcher
-            helper.setVisible(R.id.content_item_setting, false);
-            return;
+        initId(helper, item);
+    }
+
+    private void initId(BaseViewHolder helper, SettingItem item) {
+        helper.setGone(R.id.logout_item_setting, false);// logout gone
+        helper.setGone(R.id.text_item_setting, false);// title visible
+        helper.setGone(R.id.arrow_right_item_setting, false);// arrow
+        helper.setGone(R.id.switch_item_setting, false);// switcher
+        helper.setChecked(R.id.switch_item_setting, false);// switcher is checked
+        helper.setGone(R.id.content_item_setting, false);// any describe content?
+        switch (item.level) {
+            case ITEM_TEXT_TEXT:
+                helper.setGone(R.id.text_item_setting, true);// title visible
+                helper.setText(R.id.text_item_setting, item.getText());// title content
+                helper.setVisible(R.id.content_item_setting, true);// any describe content?
+                helper.setText(R.id.content_item_setting, item.getContent());// describe text
+                break;
+            case ITEM_TEXT_ARROW:// 第二种情况是左边文字右边文字
+                helper.setGone(R.id.text_item_setting, true);// title visible
+                helper.setText(R.id.text_item_setting, item.getText());// title content
+                helper.setVisible(R.id.arrow_right_item_setting, true);// arrow
+                break;
+            case ITEM_TEXT_TEXT_ARROW:
+                helper.setGone(R.id.text_item_setting, true);// title visible
+                helper.setText(R.id.text_item_setting, item.getText());// title content
+                helper.setVisible(R.id.content_item_setting, true);// any describe content?
+                helper.setText(R.id.content_item_setting, item.getContent());// describe text
+                helper.setVisible(R.id.arrow_right_item_setting, true);// arrow
+                break;
+            case ITEM_TEXT_SWITCHER:
+                helper.setGone(R.id.text_item_setting, true);// title visible
+                helper.setText(R.id.text_item_setting, item.getText());// title content
+                helper.setVisible(R.id.switch_item_setting, true);// switcher
+                helper.setChecked(R.id.switch_item_setting, item.isChecked());// switcher is checked
+                break;
+            case ITEM_LOGOUT:
+                helper.setGone(R.id.text_item_setting, false);// title visible
+                helper.setVisible(R.id.logout_item_setting, true);
+                break;
+            default:
+                break;
         }
-        helper.setGone(R.id.logout_item_setting, false);
-        helper.setGone(R.id.text_item_setting, true);// title
-        helper.setText(R.id.text_item_setting, item.getText());// title
-        helper.setVisible(R.id.arrow_right_item_setting, !item.isHaveSwitcher());// arrow
-        helper.setVisible(R.id.switch_item_setting, item.isHaveSwitcher());// switcher
-        helper.setChecked(R.id.switch_item_setting, item.isChecked());// switcher is checked
-        helper.setVisible(R.id.content_item_setting, item.isHaveContent());// any describe content?
-        helper.setText(R.id.content_item_setting, item.getContent());// describe text
     }
 
     public static class SettingItem {
-        private boolean isLogout;
+        /**
+         * 用于区分item
+         */
+        private int level;
         /**
          * 左边的文字
          */
         private int text;
         /**
-         * 右边是否有文字
-         */
-        private boolean haveContent;
-        /**
          * 右边的文字
          */
         private String content;
-        /**
-         * 右边是否是切换按钮
-         */
-        private boolean haveSwitcher;
         /**
          * 切换按钮是否被选中
          */
         private boolean isChecked;
 
-        public boolean isHaveSwitcher() {
-            return haveSwitcher;
+        public int getLevel() {
+            return level;
         }
 
-        public void setHaveSwitcher(boolean haveSwitcher) {
-            this.haveSwitcher = haveSwitcher;
+        public void setLevel(int level) {
+            this.level = level;
         }
 
         public boolean isChecked() {
@@ -91,14 +116,6 @@ public class SettingAdapter extends BaseQuickAdapter<SettingAdapter.SettingItem,
             this.text = text;
         }
 
-        public boolean isHaveContent() {
-            return haveContent;
-        }
-
-        public void setHaveContent(boolean haveContent) {
-            this.haveContent = haveContent;
-        }
-
         public String getContent() {
             return content;
         }
@@ -107,13 +124,6 @@ public class SettingAdapter extends BaseQuickAdapter<SettingAdapter.SettingItem,
             this.content = content;
         }
 
-        public boolean isLogout() {
-            return isLogout;
-        }
-
-        public void setLogout(boolean logout) {
-            isLogout = logout;
-        }
     }
 
 }

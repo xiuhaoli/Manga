@@ -1,4 +1,4 @@
-package cn.xhl.client.manga.model.bean.request.gallery;
+package cn.xhl.client.manga.model.bean.request.user;
 
 /**
  * <pre>

@@ -118,6 +118,7 @@ public class ZoomableDraweeView extends DraweeView<GenericDraweeHierarchy>
     private void init() {
         mZoomableController = createZoomableController();
         mZoomableController.setListener(mZoomableListener);
+        mTapListenerWrapper.setListener(new DoubleTapGestureListener(this));
         mTapGestureDetector = new GestureDetector(getContext(), mTapListenerWrapper);
     }
 

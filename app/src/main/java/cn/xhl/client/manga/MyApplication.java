@@ -22,6 +22,7 @@ import cn.xhl.client.manga.utils.CrashUtil;
 import cn.xhl.client.manga.utils.DeviceUtil;
 import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.utils.HttpsUtil;
+import cn.xhl.client.manga.utils.ProgressInterceptor;
 import cn.xhl.client.manga.utils.UserAgentInterceptor;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;

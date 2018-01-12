@@ -5,23 +5,24 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,8 @@ import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.ConcreteMangaPresenter;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.DpUtil;
+import cn.xhl.client.manga.utils.LogUtil;
+import cn.xhl.client.manga.utils.QMUIStatusBarHelper;
 import cn.xhl.client.manga.utils.StringUtil;
 
 /**
@@ -46,8 +49,7 @@ import cn.xhl.client.manga.utils.StringUtil;
  */
 public class ConcreteMangaActivity extends BaseActivity
         implements ConcreteMangaContract.View, View.OnClickListener,
-        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
     private ConcreteMangaContract.Presenter presenter;
     private Res_GalleryList.GalleryEntity galleryEntity;
     private TextImageSpan star;
@@ -59,7 +61,6 @@ public class ConcreteMangaActivity extends BaseActivity
     private List<Res_FavoriteFolder.Data> mRecyclerData;
     private FavoriteFolderDialogAdapter mRecyclerAdapter;
     private BottomSheetDialog bottomSheetDialog;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private Dialog newFolderDialog;
     private EmptyView emptyView;
 
@@ -74,25 +75,20 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SlipBackLayout.Builder(this)
-                .setListener(new SlipBackLayout.OnWindowCloseListener() {
-                    @Override
-                    public void onFinish() {
-                        this_.finish();
-                    }
-                })
-                .build();
+        setSlipClose();// 开启滑动关闭
 
         new ConcreteMangaPresenter(this);
 
-        galleryEntity = (Res_GalleryList.GalleryEntity) getIntent().getBundleExtra(GALLERY_BUNDLE).getSerializable(GALLERY_ENTITY);
+        galleryEntity = (Res_GalleryList.GalleryEntity) getIntent().getBundleExtra(GALLERY_BUNDLE)
+                .getSerializable(GALLERY_ENTITY);
         initViewPager();
 
         SimpleDraweeView titleImg = findViewById(R.id.img_activity_concrete_manga);
         TextView title = findViewById(R.id.title_activity_concrete_manga);
 
         popularity = findViewById(R.id.popularity_activity_concrete_manga);
-        star = (TextImageSpan) ControlUtil.initControlOnClick(R.id.star_activity_concrete_manga, this, this);
+        star = (TextImageSpan) ControlUtil.initControlOnClick(R.id.star_activity_concrete_manga,
+                this, this);
 
         titleImg.setImageURI(galleryEntity.getThumb());
         title.setText(galleryEntity.getTitle());
@@ -269,20 +265,38 @@ public class ConcreteMangaActivity extends BaseActivity
     }
 
     @Override
+    public void showEmptyLoading() {
+        emptyView.showLoading();
+    }
+
+    @Override
+    public void hideEmptyLoading() {
+        emptyView.hideLoading();
+    }
+
+    @Override
     public void createBottomSheet() {
         mRecyclerData = new ArrayList<>();
         mRecyclerAdapter = new FavoriteFolderDialogAdapter(mRecyclerData);
-        View view = LayoutInflater.from(this).inflate(R.layout.bottomsheet_favorite_folder, null);
-        mSwipeRefreshLayout = view.findViewById(R.id.swipe_bottomsheet_favorite_folder);
-        mSwipeRefreshLayout.setOnRefreshListener(this);// 设置刷新监听
+        final View view = LayoutInflater.from(this).inflate(R.layout.bottomsheet_favorite_folder, null);
         ControlUtil.initControlOnClick(R.id.action_new_folder_bottomsheet_favorite_folder, view, this);
         emptyView = view.findViewById(R.id.empty_bottomsheet_favorite_folder);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_bottomsheet_favorite_folder);
+        final RecyclerView recyclerView = view.findViewById(R.id.recycler_bottomsheet_favorite_folder);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerAdapter.setOnItemClickListener(this);
         mRecyclerAdapter.setOnLoadMoreListener(this, recyclerView);
         recyclerView.setAdapter(mRecyclerAdapter);
 
+        // 这玩意儿是防止和bottomsheet的冲突
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                recyclerView.getParent().requestDisallowInterceptTouchEvent(
+                        recyclerView.canScrollVertically(-1)
+                );
+                return false;
+            }
+        });
         bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         createBottomSheetCheckButton();
@@ -313,21 +327,11 @@ public class ConcreteMangaActivity extends BaseActivity
     }
 
     @Override
-    public void startRefreshing() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void stopRefreshing() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
     public void showBottomSheet() {
         bottomSheetDialog.show();
         mRecyclerData.clear();
         presenter.initReqListData();
-        mSwipeRefreshLayout.post(new RefreshTask(this));
+        presenter.listFolder(false, galleryEntity.getId());
     }
 
     @Override
@@ -357,24 +361,6 @@ public class ConcreteMangaActivity extends BaseActivity
     @Override
     public void onLoadMoreRequested() {
         presenter.listFolder(true, galleryEntity.getId());
-    }
-
-    @Override
-    public void onRefresh() {
-        presenter.listFolder(false, galleryEntity.getId());
-    }
-
-    private static class RefreshTask implements Runnable {
-        private WeakReference<ConcreteMangaActivity> weakReference;
-
-        private RefreshTask(ConcreteMangaActivity activity) {
-            weakReference = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void run() {
-            weakReference.get().onRefresh();
-        }
     }
 
 }

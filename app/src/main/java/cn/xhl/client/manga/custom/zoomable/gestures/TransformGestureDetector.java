@@ -25,7 +25,7 @@ public class TransformGestureDetector implements MultiPointerGestureDetector.Lis
 
   /** The listener for receiving notifications when gestures occur. */
   public interface Listener {
-    /** A callback called right before the gesture is about to start. */
+    /** A callback called right before the gesture is about to bind. */
     public void onGestureBegin(TransformGestureDetector detector);
 
     /** A callback called each time the gesture gets updated. */

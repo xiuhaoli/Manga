@@ -39,6 +39,10 @@ public class MyActivityManager {
         return activities.get(length - 1);
     }
 
+    public static boolean isTop(@NonNull Activity activity) {
+        return activity.equals(peek());
+    }
+
     public static void finishAll() {
         Activity activity;
         while (null != (activity = pop())) {

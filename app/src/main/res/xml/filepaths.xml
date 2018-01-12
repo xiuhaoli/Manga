@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <external-path
+            name="log"
+            path="cn.client.manga/log" />
+        <external-path
+            name="image"
+            path="cn.client.manga/Image" />
+        <external-path
+            name="cache"
+            path="cn.client.manga/cache" />
+        <external-path
+            name="download"
+            path="cn.client.manga/download" />
+    </paths>
+</resources>

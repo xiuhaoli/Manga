@@ -25,7 +25,7 @@ public class MultiPointerGestureDetector {
 
   /** The listener for receiving notifications when gestures occur. */
   public interface Listener {
-    /** A callback called right before the gesture is about to start. */
+    /** A callback called right before the gesture is about to bind. */
     public void onGestureBegin(MultiPointerGestureDetector detector);
 
     /** A callback called each time the gesture gets updated. */
@@ -78,7 +78,7 @@ public class MultiPointerGestureDetector {
 
   /**
    * This method can be overridden in order to perform threshold check or something similar.
-   * @return whether or not to start a new gesture
+   * @return whether or not to bind a new gesture
    */
   protected boolean shouldStartGesture() {
     return true;
@@ -174,7 +174,7 @@ public class MultiPointerGestureDetector {
       case MotionEvent.ACTION_MOVE: {
         // update pointers
         updatePointersOnMove(event);
-        // start a new gesture if not already started
+        // bind a new gesture if not already started
         if (!mGestureInProgress && mPointerCount > 0 && shouldStartGesture()) {
           startGesture();
         }
@@ -238,7 +238,7 @@ public class MultiPointerGestureDetector {
   }
 
   /**
-   * Gets the start X coordinates for the all pointers
+   * Gets the bind X coordinates for the all pointers
    * Mutable array is exposed for performance reasons and is not to be modified by the callers.
    */
   public float[] getStartX() {
@@ -246,7 +246,7 @@ public class MultiPointerGestureDetector {
   }
 
   /**
-   * Gets the start Y coordinates for the all pointers
+   * Gets the bind Y coordinates for the all pointers
    * Mutable array is exposed for performance reasons and is not to be modified by the callers.
    */
   public float[] getStartY() {

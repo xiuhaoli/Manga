@@ -50,7 +50,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         // tab会从这里取数据作为标题，父类只返回了null，因此要重写
         switch (position) {
             case 0:
-                return "Recommend";
+                return "Trending";
             case 1:
                 return "Latest";
             case 2:

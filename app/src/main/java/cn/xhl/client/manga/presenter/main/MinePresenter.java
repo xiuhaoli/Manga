@@ -2,27 +2,18 @@ package cn.xhl.client.manga.presenter.main;
 
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.util.concurrent.Callable;
-
 import cn.xhl.client.manga.base.BaseObserver;
 import cn.xhl.client.manga.contract.main.MineContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.request.BaseRequest;
-import cn.xhl.client.manga.model.bean.request.gallery.Req_ModifyProfileHeader;
-import cn.xhl.client.manga.model.bean.request.gallery.Req_ModifyUsername;
+import cn.xhl.client.manga.model.bean.request.user.Req_ModifyProfileHeader;
+import cn.xhl.client.manga.model.bean.request.user.Req_ModifyUsername;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
-import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import cn.xhl.client.manga.utils.SignUtil;
 import cn.xhl.client.manga.utils.StringUtil;
-import cn.xhl.client.manga.utils.SystemUtil;
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Mike on 2017/10/9 0009.

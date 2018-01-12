@@ -146,13 +146,17 @@ public class FileUtil {
     }
 
     public void saveInputStream(InputStream inputStream, String path) throws IOException {
+        saveInputStream(inputStream, new File(path));
+    }
+
+    public void saveInputStream(InputStream inputStream, File filePath) throws IOException {
         if (inputStream == null) {
             return;
         }
         OutputStream os = null;
         try {
             byte[] buffer = new byte[1024];
-            os = new FileOutputStream(path);
+            os = new FileOutputStream(filePath);
             int read;
             while ((read = inputStream.read(buffer)) != -1) {
                 os.write(buffer, 0, read);
@@ -246,7 +250,7 @@ public class FileUtil {
     /**
      * 删除SD卡或者手机的缓存图片和目录
      */
-    public void deleteFile(File dir) {
+    public void deleteRootDir(File dir) {
         if (dir == null || !dir.exists() || !dir.isDirectory()) {
             return;
         }
@@ -259,13 +263,21 @@ public class FileUtil {
                     }
                 }
             } else if (file.isDirectory()) {
-                deleteFile(file); // 递规的方式删除文件夹
+                deleteRootDir(file); // 递规的方式删除文件夹
             }
         }
         // 不删除目录和缓存的日志文件，不然会出现清了缓存后，图片不能加载
         if (!dir.getName().equals("cache")) {
             if (!dir.delete()) {
                 LogUtil.e(TAG, "delete dir fault");
+            }
+        }
+    }
+
+    public void deleteSingleFile(File file) {
+        if (file != null && file.exists()) {
+            if (!file.delete()) {
+                LogUtil.e(TAG, "delete file fault");
             }
         }
     }

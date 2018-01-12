@@ -3,14 +3,20 @@ package cn.xhl.client.manga.utils;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
+import java.io.File;
 import java.util.List;
 
 import cn.xhl.client.manga.MyApplication;
+import cn.xhl.client.manga.config.IConstants;
 
 /**
  * @author Mike on 2017/9/25 0025.
@@ -69,5 +75,47 @@ public class AppUtil {
         } catch (PackageManager.NameNotFoundException e) {
             return "1.0.0";
         }
+    }
+
+    /**
+     * 安装app
+     *
+     * @param context
+     * @param appFile
+     * @return
+     */
+    public static void installApp(Context context, File appFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri fileUri = FileProvider.getUriForFile(context, IConstants.FILE_PROVIDER, appFile);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(appFile),
+                    "application/vnd.android.package-archive");
+        }
+        context.startActivity(intent);
+    }
+
+    public static int getApkVersionCode(Context context, String path) {
+        if (!path.endsWith(".apk")) {
+            return 0;
+        }
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = packageManager.getPackageArchiveInfo(path,
+                PackageManager.GET_ACTIVITIES);
+        return packageInfo == null ? 0 : packageInfo.versionCode;
+    }
+
+    public static String getApkVersionName(Context context, String path) {
+        if (!path.endsWith(".apk")) {
+            return "";
+        }
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = packageManager.getPackageArchiveInfo(path,
+                PackageManager.GET_ACTIVITIES);
+        return packageInfo == null ? "" : packageInfo.versionName;
     }
 }

@@ -29,14 +29,7 @@ public class FavoriteActivity extends BaseActivity implements BaseFragment.BackH
                 new FavoriteFolderFragment(),
                 FavoriteFolderFragment.TAG, R.id.framelayout_activity_favorite);
 
-        new SlipBackLayout.Builder(this)
-                .setListener(new SlipBackLayout.OnWindowCloseListener() {
-                    @Override
-                    public void onFinish() {
-                        this_.finish();
-                    }
-                })
-                .build();
+        setSlipClose();
     }
 
     @Override

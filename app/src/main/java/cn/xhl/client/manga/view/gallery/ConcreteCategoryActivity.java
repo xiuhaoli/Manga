@@ -52,14 +52,7 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SlipBackLayout.Builder(this)
-                .setListener(new SlipBackLayout.OnWindowCloseListener() {
-                    @Override
-                    public void onFinish() {
-                        this_.finish();
-                    }
-                })
-                .build();
+        setSlipClose();
         new LatestPresenter(this);
         emptyView = findViewById(R.id.empty_activity_concrete_category);
         RecyclerView recyclerView = findViewById(R.id.recycler_activity_concrete_category);

@@ -182,7 +182,9 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
                         InputStream is = new PooledByteBufferInputStream(reference.get());
                         try {
                             ImageFormat imageFormat = ImageFormatChecker.getImageFormat(is);
-                            FileUtil.getInstance().saveInputStream(is, FileUtil.getInstance().getImagePath() + File.separator + SystemUtil.getTimeStamp() + "." + imageFormat.getName().toLowerCase());
+                            FileUtil.getInstance().saveInputStream(is, FileUtil.getInstance()
+                                    .getImagePath() + File.separator + SystemUtil.getTimeStamp() +
+                                    "." + imageFormat.getName().toLowerCase());
                         } catch (IOException e) {
                             emitter.onNext("fail");
                         } finally {
@@ -200,12 +202,12 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        // discard
                     }
 
                     @Override
                     public void onComplete() {
-
+                        // discard
                     }
                 })
         );

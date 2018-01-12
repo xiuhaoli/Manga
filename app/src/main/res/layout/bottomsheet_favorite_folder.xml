@@ -29,23 +29,23 @@
         android:textColor="?attr/item_text"
         android:textSize="18sp" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_bottomsheet_favorite_folder"
+    <View
+        android:id="@+id/adjust_bottomsheet_favorite_folder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/item_background" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_bottomsheet_favorite_folder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/prompt_title_bottomsheet_favorite_folder">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_bottomsheet_favorite_folder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_above="@+id/adjust_bottomsheet_favorite_folder"
+        android:layout_below="@+id/prompt_title_bottomsheet_favorite_folder" />
 
     <cn.xhl.client.manga.custom.EmptyView
         android:id="@+id/empty_bottomsheet_favorite_folder"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 </RelativeLayout>
