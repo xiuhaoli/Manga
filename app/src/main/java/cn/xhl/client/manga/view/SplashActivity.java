@@ -118,9 +118,12 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         UserInfo.getInstance().setNonhMode(sp.getBoolean(IConstants.NON_H_MODE, false));
         UserInfo.getInstance().setCategoryMode(UserInfo.getInstance().isNonhMode() ?
                 IConstants.NON_H : IConstants.DEFAULT_CATEGORY);
+        UserInfo.getInstance().setFilter(sp.getString(IConstants.FILTER, ""));
         boolean available = presenter.isUserInfoAvailable(token, uid, salt, expire_time);
         if (available) {
-            presenter.refreshToken(token, uid, salt, expire_time);
+            // 取消超时登录检测
+//            presenter.refreshToken(token, uid, salt, expire_time);
+            change2MainActivity();
         } else {
             change2AuthActivity();
         }

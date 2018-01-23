@@ -12,7 +12,7 @@
         android:layout_height="20dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/dp_10"
-        app:placeholderImage="@mipmap/icon_folder"/>
+        app:placeholderImage="@mipmap/icon_folder" />
 
     <TextView
         android:id="@+id/text_item_favorite_folder"
@@ -26,12 +26,22 @@
         android:textColor="?attr/item_text"
         android:textSize="16sp" />
 
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/encrypt_item_favorite_folder"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_toStartOf="@id/content_item_favorite_folder"
+        app:placeholderImage="@mipmap/icon_lock" />
+
     <TextView
         android:id="@+id/content_item_favorite_folder"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_toStartOf="@+id/arrow_right_item_favorite_folder"
         android:gravity="center"
+        android:text=""
         android:textColor="?attr/item_text"
         android:textSize="13sp" />
 

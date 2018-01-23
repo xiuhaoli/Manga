@@ -28,8 +28,6 @@ public interface FavoriteContract {
 
         void notifyAdapterFolder(Res_FavoriteFolder favoriteFolder);
 
-        void notifyAdapterFavorite(Res_GalleryList res_galleryList);
-
         void showNoData();
 
         void hideNoData();
@@ -41,6 +39,8 @@ public interface FavoriteContract {
         void notifyAdapter2Remove();
 
         void notifyAdapter2Rename(String newFolder);
+
+        void notifyAdapter2Encrypt();
     }
 
     interface Presenter extends BasePresenter {
@@ -51,16 +51,12 @@ public interface FavoriteContract {
          */
         void listFolder(boolean isLoadMore);
 
-        /**
-         * 请求收藏列表
-         *
-         * @param isLoadMore
-         * @param folder     文件夹名字
-         */
-        void listFavorite(boolean isLoadMore, String folder);
-
         void renameFolder(String oldName, String newName);
 
         void deleteFolder(String folder);
+
+        void encryptFolder(String folder);
+
+        void listOthersFolder(boolean isLoadMore, int uid);
     }
 }

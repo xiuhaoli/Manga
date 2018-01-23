@@ -64,5 +64,6 @@ public interface ConcreteMangaContract {
         void listFolder(boolean isLoadMore, int id);
 
         void sort(Res_FavoriteFolder favoriteFolder);
+
     }
 }

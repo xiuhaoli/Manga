@@ -11,18 +11,21 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.main.GalleryListAdapter;
 import cn.xhl.client.manga.base.BaseActivity;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.custom.EmptyView;
-import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.listener.GalleryListScrollListener;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.main.LatestPresenter;
 import cn.xhl.client.manga.utils.AnalyticsUtil;
+import cn.xhl.client.manga.utils.StringUtil;
 
 /**
  * 这个是具体类型的列表，本来可以和首页的fragment共用
@@ -84,7 +87,9 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     public void onResume() {
         super.onResume();
         presenter.subscribe();
-        new AnalyticsUtil.ScreenBuilder().setScreenName("ConcreteCategoryActivity:" + category).build();
+        new AnalyticsUtil.ScreenBuilder()
+                .setScreenName("ConcreteCategoryActivity:" + category)
+                .build();
     }
 
     @Override
@@ -141,6 +146,38 @@ public class ConcreteCategoryActivity extends BaseActivity implements LatestCont
     @Override
     public void hideEmptyLoading() {
         emptyView.hideLoading();
+    }
+
+    @Override
+    public void filterItem(Res_GalleryList galleryList) {
+        switch (type) {
+            case IConstants.CATEGORY_LATEST:
+            case IConstants.TITLE:
+            case IConstants.AUTHOR:
+            case IConstants.UPLOADER:
+                filterLanguage(galleryList);
+                break;
+            case IConstants.LANGUAGE:
+            case IConstants.FAVORITE:
+            default:
+                break;
+        }
+    }
+
+    private void filterLanguage(Res_GalleryList galleryList) {
+        String filter = UserInfo.getInstance().getFilter();
+        if (StringUtil.isEmpty(filter)) return;
+        Iterator<Res_GalleryList.GalleryEntity> iterator = galleryList.getData().iterator();
+        while (iterator.hasNext()) {
+            Res_GalleryList.GalleryEntity entity = iterator.next();
+            String language = entity.getLanguage();
+            if (StringUtil.isEmpty(language)) {
+                language = "unknown";
+            }
+            if (filter.contains(language)) {
+                iterator.remove();
+            }
+        }
     }
 
     @Override

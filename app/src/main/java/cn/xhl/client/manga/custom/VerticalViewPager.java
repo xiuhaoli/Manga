@@ -44,8 +44,8 @@ public class VerticalViewPager extends ViewPager {
         this.setPageTransformer(true, getTransformer(transformer));
     }
 
-    private ViewPager.PageTransformer getTransformer(int transformer) {
-        ViewPager.PageTransformer pageTransformer;
+    private PageTransformer getTransformer(int transformer) {
+        PageTransformer pageTransformer;
         switch (transformer) {
             case 1:
                 pageTransformer = new StackTransformer();
@@ -86,7 +86,7 @@ public class VerticalViewPager extends ViewPager {
         return event;
     }
 
-    private class DefaultTransformer implements ViewPager.PageTransformer {
+    private class DefaultTransformer implements PageTransformer {
 
         @Override
         public void transformPage(View view, float position) {
@@ -97,7 +97,7 @@ public class VerticalViewPager extends ViewPager {
         }
     }
 
-    private class StackTransformer implements ViewPager.PageTransformer {
+    private class StackTransformer implements PageTransformer {
         @Override
         public void transformPage(View page, float position) {
             page.setTranslationX(page.getWidth() * -position);
@@ -105,7 +105,7 @@ public class VerticalViewPager extends ViewPager {
         }
     }
 
-    private class ZoomOutTransformer implements ViewPager.PageTransformer {
+    private class ZoomOutTransformer implements PageTransformer {
         private static final float MIN_SCALE = 0.90f;
 
         @Override

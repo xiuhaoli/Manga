@@ -40,16 +40,11 @@ public class SlipBackLayout extends FrameLayout {
     private float mScrimOpacity;
     private float mScrollPercent;
     private Activity mActivity;
-    private Bitmap bitmap;
-    private boolean isText;// 是否展示文字
-    private String content;// 展示的文字内容
 
     private SlipBackLayout(Builder builder) {
         super(builder.context, builder.attrs, builder.defStyleAttr);
         mOnWindowCloseListener = builder.listener;
         mActivity = (Activity) builder.context;
-        isText = builder.isText;
-        content = builder.content;
         initView();
     }
 
@@ -96,13 +91,6 @@ public class SlipBackLayout extends FrameLayout {
         });
         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
         bindView(mActivity);
-        if (isText) {
-            int imageSize = DpUtil.dp2Px(mActivity, 20);
-            bitmap = ImageUtil.decodeSampledBitmapFromResource(mActivity.getResources(),
-                    R.mipmap.logout, imageSize, imageSize);
-            mActivity.getWindow().getDecorView().setBackgroundColor(Color.BLACK);
-            initPaint();
-        }
     }
 
     private void bindView(Activity activity) {
@@ -186,11 +174,7 @@ public class SlipBackLayout extends FrameLayout {
         final boolean drawContent = child == mContentView;
         boolean ret = super.drawChild(canvas, child, drawingTime);
         if (drawContent && mViewDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            if (isText) {
-                drawText(canvas, child);
-            } else {
-                drawScrim(canvas, child);
-            }
+            drawScrim(canvas, child);
         }
         return ret;
     }
@@ -202,27 +186,6 @@ public class SlipBackLayout extends FrameLayout {
         final int color = alpha << 24 | (mScrimColor & 0xffffff);
         canvas.clipRect(0, 0, child.getLeft(), getHeight());
         canvas.drawColor(color);
-    }
-
-    private int textColor = Color.parseColor("#747474");
-    private int textSize = DpUtil.dp2Px(MyApplication.getAppContext(), 16);
-    private Paint paint;
-    private int translateText = DpUtil.dp2Px(MyApplication.getAppContext(), 7);
-
-    private void drawText(Canvas canvas, View child) {
-        canvas.translate(translateText, translateText);
-        canvas.drawText(content, child.getLeft() - bitmap.getWidth() * 2 - textSize - 5,
-                getHeight() * 0.5f, paint);
-        canvas.translate(-translateText, -translateText);
-        canvas.drawBitmap(bitmap, child.getLeft() - bitmap.getWidth() - 10,
-                getHeight() * 0.5f - bitmap.getHeight() * 0.5f, paint);
-    }
-
-    private void initPaint() {
-        paint = new Paint();
-        paint.setTextSize(textSize);
-        paint.setAntiAlias(true);
-        paint.setColor(textColor);
     }
 
     public interface OnWindowCloseListener {

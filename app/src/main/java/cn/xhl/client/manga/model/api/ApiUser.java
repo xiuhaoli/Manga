@@ -7,6 +7,7 @@ import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.auth.Res_Register;
 import cn.xhl.client.manga.model.bean.response.auth.Res_ResetPassword;
 import cn.xhl.client.manga.model.bean.response.user.Res_CheckUpdate;
+import cn.xhl.client.manga.model.bean.response.user.Res_FollowExist;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -72,6 +73,24 @@ public interface ApiUser {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("v1/user/update")
     Observable<BaseResponse<Res_CheckUpdate>> checkNewVersion(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/user/attend/artist")
+    Observable<BaseResponse<String>> attendArtist(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/user/attend/uploader")
+    Observable<BaseResponse<String>> attendUploader(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/user/attend/exist")
+    Observable<BaseResponse<Res_FollowExist>> isFollowed(
             @Body RequestBody requestBody
     );
 }

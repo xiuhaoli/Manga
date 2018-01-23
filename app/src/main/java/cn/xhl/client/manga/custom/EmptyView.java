@@ -25,7 +25,6 @@ public class EmptyView extends FrameLayout {
     private TextView mNodataView;
     private View mRetryLayout;
     private Button mRetryButton;
-    private OnClickListener onClickListener;
 
     public EmptyView(@NonNull Context context) {
         this(context, null, 0);
@@ -48,7 +47,11 @@ public class EmptyView extends FrameLayout {
         mNodataView = findViewById(R.id.no_data_empty_layout);
     }
 
-    public void showRetry(View.OnClickListener clickListener) {
+    public void changeNodataText(String str) {
+        mNodataView.setText(str);
+    }
+
+    public void showRetry(OnClickListener clickListener) {
         mRetryLayout.setVisibility(VISIBLE);
         mRetryButton.setOnClickListener(clickListener);
     }

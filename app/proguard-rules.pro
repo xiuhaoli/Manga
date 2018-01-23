@@ -175,3 +175,7 @@
 }
 -keep class cn.xhl.client.manga.adapter.**{*;}
 -keep class cn.xhl.client.manga.model.bean.**{*;}
+#-keepclasseswithmembernames class cn.xhl.client.manga.base.BaseActivity.**{*;}
+#保持反射类不被混淆
+-keepclasseswithmembernames class android.support.v7.widget.**{*;}
+-keep class android.support.v7.widget.**{*;}

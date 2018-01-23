@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +16,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,23 +32,22 @@ import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.gallery.ConcreteMangaContract;
 import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.EmptyView;
-import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.custom.TextImageSpan;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.ConcreteMangaPresenter;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.DpUtil;
-import cn.xhl.client.manga.utils.LogUtil;
-import cn.xhl.client.manga.utils.QMUIStatusBarHelper;
 import cn.xhl.client.manga.utils.StringUtil;
+import cn.xhl.client.manga.view.gallery.fragment.SummaryFragment;
 
 /**
  * 这是详情页面
  */
 public class ConcreteMangaActivity extends BaseActivity
         implements ConcreteMangaContract.View, View.OnClickListener,
-        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener,
+        SummaryFragment.ParamsCallback {
     private ConcreteMangaContract.Presenter presenter;
     private Res_GalleryList.GalleryEntity galleryEntity;
     private TextImageSpan star;
@@ -63,6 +61,10 @@ public class ConcreteMangaActivity extends BaseActivity
     private BottomSheetDialog bottomSheetDialog;
     private Dialog newFolderDialog;
     private EmptyView emptyView;
+    private String showkey;
+    private String imgkey;
+    private String firstImg;
+    private FloatingActionButton startReadBtn;
 
     public static void start(Activity activity, Res_GalleryList.GalleryEntity galleryEntity) {
         Intent intent = new Intent(activity, ConcreteMangaActivity.class);
@@ -82,7 +84,8 @@ public class ConcreteMangaActivity extends BaseActivity
         galleryEntity = (Res_GalleryList.GalleryEntity) getIntent().getBundleExtra(GALLERY_BUNDLE)
                 .getSerializable(GALLERY_ENTITY);
         initViewPager();
-
+        startReadBtn = (FloatingActionButton) ControlUtil.initControlOnClick(
+                R.id.btn_activity_concrete_manga, this, this);
         SimpleDraweeView titleImg = findViewById(R.id.img_activity_concrete_manga);
         TextView title = findViewById(R.id.title_activity_concrete_manga);
 
@@ -107,6 +110,7 @@ public class ConcreteMangaActivity extends BaseActivity
     private void initViewPager() {
         ViewPager viewPager = findViewById(R.id.viewpager_activity_concrete_manga);
         viewPager.setAdapter(new ConcreteMangaPagerAdapter(getSupportFragmentManager(), galleryEntity));
+        viewPager.addOnPageChangeListener(new MyPageChangeListener());
         TabLayout tabLayout = findViewById(R.id.tab_activity_concrete_manga);
         tabLayout.setupWithViewPager(viewPager, false);
     }
@@ -184,6 +188,17 @@ public class ConcreteMangaActivity extends BaseActivity
                     return;
                 }
                 createNewFolderDialog();
+                break;
+            case R.id.btn_activity_concrete_manga:
+                if (StringUtil.isEmpty(showkey)
+                        || StringUtil.isEmpty(imgkey)
+                        || StringUtil.isEmpty(firstImg)) {
+                    showToastMsg("lack of some parameters");
+                    return;
+                }
+                // 将解析三级页面获取到的第一张图片的URL，还有showkey和第二张图片的imgkey发送过去
+                BrowseImageActivity.start(this_, showkey, firstImg,
+                        galleryEntity.getFilecount(), imgkey, galleryEntity.getGid());
                 break;
             default:
                 break;
@@ -319,7 +334,8 @@ public class ConcreteMangaActivity extends BaseActivity
         checkButton.setTextColor(typedValue.data);
         getTheme().resolveAttribute(R.attr.item_background, typedValue, true);
         checkButton.setBackgroundColor(typedValue.data);
-        RelativeLayout.LayoutParams blp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2Px(this, 50));
+        RelativeLayout.LayoutParams blp = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2Px(this, 50));
         blp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         checkButton.setLayoutParams(blp);
         buttonParent.addView(checkButton);
@@ -363,4 +379,32 @@ public class ConcreteMangaActivity extends BaseActivity
         presenter.listFolder(true, galleryEntity.getId());
     }
 
+    @Override
+    public void setParams(String showKey, String secondImgKey, String firstImg) {
+        this.showkey = showKey;
+        this.imgkey = secondImgKey;
+        this.firstImg = firstImg;
+    }
+
+    private class MyPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if (position == 0) {
+                ConcreteMangaActivity.this.startReadBtn.show();
+            } else {
+                ConcreteMangaActivity.this.startReadBtn.hide();
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
 }

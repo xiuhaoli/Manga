@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="?attr/main_background">
+
+    <cn.xhl.client.manga.custom.TextImageSpan
+        android:id="@+id/imagespan_item_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:enabled="true"
+        android:gravity="center"
+        android:longClickable="true"
+        android:maxLines="1"
+        android:text="@string/prompt_author"
+        android:textColor="?attr/item_text"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/sp_14"
+        app:imageSpanLeft="@mipmap/span_author"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/follow_item_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:textAllCaps="false"
+        android:text="@string/follow"
+        android:tag="@string/follow"
+        android:textColor="?attr/item_text"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/imagespan_item_summary"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

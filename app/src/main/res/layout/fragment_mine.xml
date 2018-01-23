@@ -1,88 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_fragment_mine"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/main_background">
+    android:fitsSystemWindows="true">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/cover_fragment_mine"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:placeholderImage="@mipmap/profile_cover"
-        app:placeholderImageScaleType="centerCrop" />
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/header_fragment_mine"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23"
-        app:placeholderImage="@mipmap/profile_header"
-        app:roundAsCircle="true" />
-
-    <cn.xhl.client.manga.custom.TextImageSpan
-        android:id="@+id/username_fragment_mine"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout_fragment_mine"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/default_username"
-        android:textColor="?attr/tab_text_color"
-        android:textSize="17sp"
-        app:imageSpanRight="@mipmap/edit"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_fragment_mine" />
+        android:fitsSystemWindows="true">
 
-    <TextView
-        android:id="@+id/email_fragment_mine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/default_email"
-        android:textColor="?attr/tab_text_color"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_fragment_mine" />
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:background="?attr/main_background"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/main_background"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:scrimAnimationDuration="300">
 
-    <View
-        android:id="@+id/dotted_line_fragment_mine"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_margin="@dimen/dp_10"
-        android:background="@drawable/dotted_line"
-        android:layerType="software"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_fragment_mine" />
+            <ImageView
+                android:id="@+id/cover_fragment_mine"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:background="@mipmap/profile_cover"
+                android:contentDescription="@string/default_img_description"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout_fragment_mine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:tag="@string/tag_constant_bg"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.3">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/header_fragment_mine"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    app:placeholderImage="@mipmap/profile_header"
+                    app:roundAsCircle="true" />
+
+                <cn.xhl.client.manga.custom.TextImageSpan
+                    android:id="@+id/username_fragment_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/default_username"
+                    android:textColor="?attr/tab_text_color"
+                    android:textSize="17sp"
+                    app:imageSpanRight="@mipmap/edit" />
+
+                <TextView
+                    android:id="@+id/email_fragment_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/default_email"
+                    android:textColor="?attr/tab_text_color"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/dotted_line_fragment_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@drawable/dotted_line"
+                    android:layerType="software" />
+                <!--画虚线一定要layerType属性-->
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_fragment_mine"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:tag="@string/tag_constant_bg"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tag="@string/tag_constant_bg">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/final_header_fragment_mine"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:placeholderImage="@mipmap/profile_header"
+                        app:roundAsCircle="true" />
+
+                    <TextView
+                        android:id="@+id/final_username_fragment_mine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/default_username"
+                        android:tag="@string/tag_constant_bg"
+                        android:textColor="@color/night_item_text"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/final_header_fragment_mine"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/setting_fragment_mine"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:background="@mipmap/ic_setting_pink"
+                        android:contentDescription="@string/default_img_description"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_fragment_mine"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="?attr/main_background"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@+id/dotted_line_fragment_mine" />
 
-    <ImageView
-        android:id="@+id/setting_fragment_mine"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
-        android:background="@mipmap/ic_setting_white"
-        android:contentDescription="@string/default_img_description"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -22,7 +22,6 @@ import cn.xhl.client.manga.custom.FavoriteItemDecoration;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.FavoritePresenter;
-import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 
@@ -40,6 +39,8 @@ public class FavoriteFolderFragment extends BaseFragment
     private CustomDialog renameDialog;
     private int longClickItemPosition;
     private EmptyView emptyView;
+    private String type;
+    private int uid;// 用于标识当前被请求的用户的uid
 
     @Override
     protected int layoutId() {
@@ -48,20 +49,31 @@ public class FavoriteFolderFragment extends BaseFragment
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        initData();
         new FavoritePresenter(this);
         emptyView = view.findViewById(R.id.empty_fragment_favorite);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_fragment_favorite);
         mRecyclerData = new ArrayList<>();
         mRecyclerAdapter = new FavoriteFolderAdapter(mRecyclerData);
         mRecyclerAdapter.setOnItemClickListener(this);
-        mRecyclerAdapter.setOnItemLongClickListener(this);
         mRecyclerAdapter.setOnLoadMoreListener(this, recyclerView);
         mRecyclerAdapter.openLoadAnimation();
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerView.addItemDecoration(new FavoriteItemDecoration(mActivity));
-        presenter.listFolder(false);
 
+        if (type.equals(IConstants.FAVORITE)) {
+            mRecyclerAdapter.setOnItemLongClickListener(this);
+            presenter.listFolder(false);
+        } else if (type.equals(IConstants.OTHERS_FAVORITE)) {
+            presenter.listOthersFolder(false, uid);
+        }
+    }
+
+    private void initData() {
+        Bundle bundle = getArguments();
+        type = bundle.getString("type");
+        uid = bundle.getInt("uid");
     }
 
     @Override
@@ -101,12 +113,21 @@ public class FavoriteFolderFragment extends BaseFragment
 
     @Override
     public void showReTry() {
-        emptyView.showRetry(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.listFolder(false);
-            }
-        });
+        if (type.equals(IConstants.FAVORITE)) {
+            emptyView.showRetry(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.listFolder(false);
+                }
+            });
+        } else if (type.equals(IConstants.OTHERS_FAVORITE)) {
+            emptyView.showRetry(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.listOthersFolder(false, uid);
+                }
+            });
+        }
     }
 
     @Override
@@ -120,11 +141,6 @@ public class FavoriteFolderFragment extends BaseFragment
         mRecyclerData.addAll(favoriteFolder.getFolders());
         mRecyclerAdapter.notifyDataSetChanged();
         mRecyclerAdapter.loadMoreComplete();
-    }
-
-    @Override
-    public void notifyAdapterFavorite(Res_GalleryList res_galleryList) {
-        // discard
     }
 
     @Override
@@ -169,12 +185,22 @@ public class FavoriteFolderFragment extends BaseFragment
     }
 
     @Override
+    public void notifyAdapter2Encrypt() {
+        mRecyclerData.get(longClickItemPosition).setEncrypt(
+                mRecyclerData.get(longClickItemPosition).getEncrypt() == 1 ? 0 : 1
+        );
+        mRecyclerAdapter.notifyItemChanged(longClickItemPosition);
+    }
+
+    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//        FavoriteFragment favoriteFragment = new FavoriteFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(FavoriteFragment.FOLDER, mRecyclerData.get(position).getFolder());
-//        favoriteFragment.setArguments(bundle);
-//        ActivityUtil.switchContentHideCurrent(mActivity, this, favoriteFragment, FavoriteFragment.TAG, R.id.framelayout_activity_favorite);
+        if (type.equals(IConstants.OTHERS_FAVORITE)) {
+            ConcreteCategoryActivity.start(mActivity,
+                    UserInfo.getInstance().getCategoryMode() + ":" +
+                            mRecyclerData.get(position).getFolder() + ":" + uid,
+                    IConstants.OTHERS_FAVORITE);
+            return;
+        }
         ConcreteCategoryActivity.start(mActivity,
                 UserInfo.getInstance().getCategoryMode() + ":" +
                         mRecyclerData.get(position).getFolder(),
@@ -183,14 +209,19 @@ public class FavoriteFolderFragment extends BaseFragment
 
     @Override
     public void onLoadMoreRequested() {
-        presenter.listFolder(true);
+        if (type.equals(IConstants.FAVORITE)) {
+            presenter.listFolder(true);
+        } else if (type.equals(IConstants.OTHERS_FAVORITE)) {
+            presenter.listOthersFolder(true, uid);
+        }
     }
 
     @Override
     public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
         longClickItemPosition = position;
+        String encrypt = mRecyclerData.get(position).getEncrypt() == 1 ? "decrypt" : "encrypt";
         final String clickedFolderName = mRecyclerData.get(position).getFolder();
-        String[] items = {"rename", "delete"};
+        String[] items = {"rename", "delete", encrypt};
         new CustomDialog.SingleSelectViewBuilder(getActivity())
                 .setTitle(mRecyclerData.get(position).getFolder())
                 .setSelectType(items)
@@ -199,8 +230,10 @@ public class FavoriteFolderFragment extends BaseFragment
                     public void onClick(View view, int checkedPosition) {
                         if (checkedPosition == 0) {
                             createRenameDialog(clickedFolderName);
-                        } else {
+                        } else if (checkedPosition == 1) {
                             createDeleteDialog(clickedFolderName);
+                        } else {
+                            presenter.encryptFolder(clickedFolderName);
                         }
                     }
                 }).create().show();

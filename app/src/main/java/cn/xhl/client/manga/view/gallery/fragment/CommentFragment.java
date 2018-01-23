@@ -1,6 +1,5 @@
 package cn.xhl.client.manga.view.gallery.fragment;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.adapter.gallery.CommentAdapter;
 import cn.xhl.client.manga.base.BaseFragment;
+import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.gallery.CommentContract;
 import cn.xhl.client.manga.custom.CommentItemDecoration;
 import cn.xhl.client.manga.custom.EmptyView;
@@ -22,6 +23,7 @@ import cn.xhl.client.manga.model.bean.response.gallery.Res_CommentList;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
+import cn.xhl.client.manga.view.gallery.FavoriteActivity;
 
 /**
  * <pre>
@@ -48,7 +50,8 @@ public class CommentFragment extends BaseFragment implements CommentContract.Vie
 
     private void initData() {
         Bundle bundle = getArguments();
-        galleryEntity = (Res_GalleryList.GalleryEntity) bundle.getSerializable(ConcreteMangaActivity.GALLERY_ENTITY);
+        galleryEntity = (Res_GalleryList.GalleryEntity) bundle
+                .getSerializable(ConcreteMangaActivity.GALLERY_ENTITY);
     }
 
     @Override
@@ -140,7 +143,7 @@ public class CommentFragment extends BaseFragment implements CommentContract.Vie
     public void notifyAddSingleComment(Res_CommentList.CommentEntity commentEntity) {
         commentEntity.setFloor(mRecyclerData.size() + 1);
         galleryEntity.setComment(galleryEntity.getComment() + 1);
-        mRecyclerData.add(commentEntity);
+        mRecyclerData.add(0, commentEntity);
         mRecyclerAdapter.notifyDataSetChanged();
     }
 
@@ -199,6 +202,13 @@ public class CommentFragment extends BaseFragment implements CommentContract.Vie
         if (getString(R.string.delete).equals(view.getTag())) {
             presenter.deleteComment(mRecyclerData.get(position).getId(),
                     galleryEntity.getId(), position);
+        } else if (getString(R.string.others_profile_header).equals(view.getTag())) {
+            int from_uid = mRecyclerData.get(position).getFrom_uid();
+            if (from_uid == UserInfo.getInstance().getUid()) {
+                FavoriteActivity.start(mActivity, IConstants.FAVORITE);
+                return;
+            }
+            FavoriteActivity.startOthers(mActivity, IConstants.OTHERS_FAVORITE, from_uid);
         }
     }
 

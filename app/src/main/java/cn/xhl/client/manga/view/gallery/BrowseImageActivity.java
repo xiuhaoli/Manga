@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
@@ -33,13 +32,14 @@ import java.lang.ref.WeakReference;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.gallery.BrowseImageContract;
-import cn.xhl.client.manga.custom.SlipBackLayout;
 import cn.xhl.client.manga.custom.VerticalViewPager;
 import cn.xhl.client.manga.custom.zoomable.ZoomableDraweeView;
 import cn.xhl.client.manga.presenter.gallery.BrowseImagePresenter;
 import cn.xhl.client.manga.utils.ActivityUtil;
 import cn.xhl.client.manga.utils.ControlUtil;
+import cn.xhl.client.manga.utils.LogUtil;
 import cn.xhl.client.manga.utils.PrefUtil;
+import cn.xhl.client.manga.utils.StringUtil;
 
 public class BrowseImageActivity extends BaseActivity
         implements BrowseImageContract.View, View.OnClickListener,
@@ -65,9 +65,10 @@ public class BrowseImageActivity extends BaseActivity
     private PopupWindow popupWindow;
     private boolean isPopupWindowShowing;
     private ViewGroup viewPagerGroup;
-    private int originalThemeMode;
+    private boolean mHaveHistory = false;// 用于判断是否有历史记录
 
-    public static void start(Activity activity, String showkey, String thumb, int count, String imgkey, int gid) {
+    public static void start(Activity activity, String showkey, String thumb,
+                             int count, String imgkey, int gid) {
         Intent intent = new Intent(activity, BrowseImageActivity.class);
         intent.putExtra("showkey", showkey);
         intent.putExtra("thumb", thumb);
@@ -79,7 +80,6 @@ public class BrowseImageActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        changeThemeMode();
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -93,17 +93,29 @@ public class BrowseImageActivity extends BaseActivity
         imgArray = new SparseArray<>(3);
 
         new BrowseImagePresenter(this, count, secondImgkey, gid, showkey, thumb);
+        initHistory(gid);
+        initViewPager();
+        initSetting();
+        createPopupWindow();
+    }
+
+    private void initViewPager() {
         textView = findViewById(R.id.tv_activity_browse_image);
         textView.setText(getResources().getString(R.string.prompt_page_number, 1, count));
-        ControlUtil.initControlOnClick(R.id.setting_activity_browse_image, this, this);
         viewPager = findViewById(R.id.viewpager_activity_browse_image);
         viewPager.setAdapter(new BrowseImageAdapter(this, count));
         viewPager.addOnPageChangeListener(new BrowseImagePageChangeListener());
+        if (mHaveHistory) {
+            viewPager.setCurrentItem(currentPage - 1);
+        }
+    }
+
+    private void initSetting() {
+        ControlUtil.initControlOnClick(R.id.setting_activity_browse_image, this, this);
         changeBrightness(PrefUtil.getInt(BRIGHTNESS, 50, this));
         changeSwitchDirection(PrefUtil.getBoolean(LEFT_OR_RIGHT, false, this));
         changeScreen(PrefUtil.getBoolean(VERTICAL_OR_HORIZONTAL, false, this));
         changeScrollMode(PrefUtil.getBoolean(SCROLL_MODE, false, this));
-        createPopupWindow();
     }
 
     @Override
@@ -126,13 +138,6 @@ public class BrowseImageActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         presenter.unSubscribe();
-    }
-
-    @Override
-    protected void onStop() {
-        // 恢复原来的mode
-        AppCompatDelegate.setDefaultNightMode(originalThemeMode);
-        super.onStop();
     }
 
     @Override
@@ -285,6 +290,41 @@ public class BrowseImageActivity extends BaseActivity
         } else {
             switch2HorizontalScroll();
         }
+    }
+
+    @Override
+    public void initHistory(int gid) {
+        String lastImgKeys = PrefUtil.getString(String.valueOf(gid), "", this);
+        if (StringUtil.isNotEmpty(lastImgKeys)) {
+            mHaveHistory = true;
+            String[] s = lastImgKeys.split("&");
+            for (int i = 0; i < s.length; i++) {
+                String[] temp = s[i].split("=");
+                presenter.putImgKey(Integer.valueOf(temp[0]), temp[1]);
+                if (i == 1) {
+                    currentPage = Integer.valueOf(temp[0]);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void saveHistory(int gid) {
+        if (currentPage < 3 || currentPage > count - 2) {
+            if (StringUtil.isNotEmpty(PrefUtil.getString(String.valueOf(gid), "", this))) {
+                PrefUtil.putString(String.valueOf(gid), "", this);
+            }
+            return;
+        }
+        int after = currentPage + 1;
+        int before = currentPage - 1;
+        if (StringUtil.isEmpty(presenter.getImgKey(currentPage))) {
+            return;// 如果当前图片的imgkey是没有的则不予保存
+        }
+        String s = before + "=" + presenter.getImgKey(before)
+                + "&" + currentPage + "=" + presenter.getImgKey(currentPage)
+                + "&" + after + "=" + presenter.getImgKey(after);
+        PrefUtil.putString(String.valueOf(gid), s, this);
     }
 
     @Override
@@ -445,12 +485,5 @@ public class BrowseImageActivity extends BaseActivity
         ActivityUtil.setActivityBrightness(progress * 0.01f, this);
     }
 
-    /**
-     * 由于夜间模式会出现横屏重新加载的问题，将其设为白昼模式
-     */
-    private void changeThemeMode() {
-        originalThemeMode = AppCompatDelegate.getDefaultNightMode();
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-    }
 }
 

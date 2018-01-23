@@ -19,6 +19,10 @@ public class Res_FavoriteFolder {
         return folders;
     }
 
+    public void setFolders(List<Data> folders) {
+        this.folders = folders;
+    }
+
     @Override
     public String toString() {
         return "Res_FavoriteFolder{" +
@@ -26,22 +30,20 @@ public class Res_FavoriteFolder {
                 '}';
     }
 
-    public void setFolders(List<Data> folders) {
-        this.folders = folders;
-    }
-
     public static class Data {
         private String folder;
         private int count;
         private boolean checked;
+        private int encrypt;
 
         public Data() {
         }
 
-        public Data(String folder, int count, boolean checked) {
+        public Data(String folder, int count, boolean checked, int encrypt) {
             this.folder = folder;
             this.count = count;
             this.checked = checked;
+            this.encrypt = encrypt;
         }
 
         public String getFolder() {
@@ -68,12 +70,21 @@ public class Res_FavoriteFolder {
             this.checked = checked;
         }
 
+        public int getEncrypt() {
+            return encrypt;
+        }
+
+        public void setEncrypt(int encrypt) {
+            this.encrypt = encrypt;
+        }
+
         @Override
         public String toString() {
             return "Data{" +
                     "folder='" + folder + '\'' +
                     ", count=" + count +
                     ", checked=" + checked +
+                    ", encrypt=" + encrypt +
                     '}';
         }
     }

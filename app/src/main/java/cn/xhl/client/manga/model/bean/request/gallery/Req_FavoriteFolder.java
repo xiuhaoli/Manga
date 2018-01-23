@@ -8,6 +8,7 @@ public class Req_FavoriteFolder {
     private int size;
     private int id;// 被点击收藏的书籍id（在请求收藏列表时是带0上来）
 
+
     public Req_FavoriteFolder() {
     }
 

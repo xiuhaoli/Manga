@@ -107,5 +107,10 @@
     <string name="comment_hint">say something</string>
     <string name="profile_header_hint">input a image url</string>
     <string name="profile_header">profile header</string>
+    <string name="language">Language</string>
+    <string name="follow">follow</string>
+    <string name="unfollow">unfollow</string>
+    <string name="others_profile_header">others_profile_header</string>
+    <string name="empty_string"> </string>
 
 </resources>

@@ -47,6 +47,12 @@ public interface ApiComics {
     );
 
     @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/comics/list/favorite/folder/other")
+    Observable<BaseResponse<Res_FavoriteFolder>> listFavoriteFoldersOther(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("v1/comics/favorite/folder/rename")
     Observable<BaseResponse<Res_Folder>> renameFolder(
             @Body RequestBody requestBody
@@ -55,6 +61,12 @@ public interface ApiComics {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("v1/comics/favorite/folder/delete")
     Observable<BaseResponse<Res_Folder>> deleteFolder(
+            @Body RequestBody requestBody
+    );
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("v1/comics/favorite/folder/encrypt")
+    Observable<BaseResponse<String>> encryptFolder(
             @Body RequestBody requestBody
     );
 

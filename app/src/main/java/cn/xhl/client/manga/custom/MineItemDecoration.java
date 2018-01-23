@@ -36,6 +36,7 @@ public class MineItemDecoration extends DividerItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
         if (position == 0) {
+            outRect.top = DpUtil.dp2Px(mContext, 5);
             outRect.bottom = DpUtil.dp2Px(mContext, 10);
         } else if (position == size - 1) {
             outRect.bottom = 0;

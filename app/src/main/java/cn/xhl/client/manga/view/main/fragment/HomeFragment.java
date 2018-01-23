@@ -24,7 +24,7 @@ import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 public class HomeFragment extends BaseFragment implements HomeContract.View,
         View.OnClickListener, CustomDialog.OnCheckedListener, SearchView.OnQueryTextListener {
     private HomeContract.Presenter presenter;
-    private String[] searchType;
+    private String[] searchType = {IConstants.TITLE, IConstants.AUTHOR, IConstants.UPLOADER};
     private String selectedSearchType;
 
     @Override
@@ -53,7 +53,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
         tabLayout.setupWithViewPager(viewPager, false);
         ControlUtil.initControlOnClick(R.id.search_fragment_home, view, this);
 
-        searchType = mActivity.getResources().getStringArray(R.array.item_search);
         selectedSearchType = searchType[0];
 
     }

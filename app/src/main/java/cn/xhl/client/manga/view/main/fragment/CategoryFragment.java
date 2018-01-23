@@ -37,12 +37,7 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
     };
 
     // Non-H mode展示的item
-    private String[] categoryNonH = {IConstants.NON_H, IConstants.JAPANESE,
-            IConstants.ENGLISH, IConstants.CHINESE, IConstants.KOREAN, IConstants.SPANISH,
-            IConstants.RUSSIAN, IConstants.VIETNAMESE, IConstants.FRENCH, IConstants.THAI,
-            IConstants.PORTUGUESE, IConstants.GERMAN, IConstants.POLISH, IConstants.GREEK,
-            IConstants.ITALIAN
-    };
+    private String[] categoryNonH = IConstants.ALL_LANGUAGE;
 
     @Override
     protected int layoutId() {
@@ -84,7 +79,7 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
                 R.mipmap.game_cg, R.mipmap.image_sets, R.mipmap.manga, R.mipmap.misc, R.mipmap.western,
                 R.mipmap.japanese, R.mipmap.english, R.mipmap.chinese
         };
-        int[] imgNonH = {R.mipmap.non_h, R.mipmap.japanese, R.mipmap.english, R.mipmap.chinese,
+        int[] imgNonH = {R.mipmap.japanese, R.mipmap.english, R.mipmap.chinese,
                 R.mipmap.korean, R.mipmap.spanish, R.mipmap.russian,
                 R.mipmap.vietnamese, R.mipmap.french, R.mipmap.portuguese, R.mipmap.thai,
                 R.mipmap.german, R.mipmap.polish, R.mipmap.italian, R.mipmap.greek
@@ -106,13 +101,8 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (UserInfo.getInstance().isNonhMode()) {
-            if (position == 0) {
-                ConcreteCategoryActivity.start(mActivity, category[position],
-                        IConstants.CATEGORY_LATEST);
-            } else {
-                ConcreteCategoryActivity.start(mActivity, IConstants.NON_H + ":" +
-                        category[position], IConstants.LANGUAGE);
-            }
+            ConcreteCategoryActivity.start(mActivity, IConstants.NON_H + ":" +
+                    category[position], IConstants.LANGUAGE);
             return;
         }
         if (position < 9) {

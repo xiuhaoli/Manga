@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(mIsShowDialog) {
+        if (mIsShowDialog) {
             mIsShowDialog = false;
             mPromptInstallDialog.show();
         }
@@ -155,7 +155,8 @@ public class MainActivity extends BaseActivity {
         mPromptInstallDialog = new CustomDialog.DefaultBuilder(this)
                 .setTitle("update")
                 .setContent("version : " + apkInfo.getVersion_name() +
-                        "\n" + "file size : " + apkInfo.getSize())
+                        "\n" + "file size : " + apkInfo.getSize() + "\n" +
+                        "")
                 .setPositiveButtonText(R.string.action_install)
                 .setNegativeButtonText(R.string.action_ignore)
                 .setNegativeListener(new View.OnClickListener() {
@@ -201,6 +202,7 @@ public class MainActivity extends BaseActivity {
                 .setScreenName("MainActivity")
                 .setLanguage(Locale.getDefault().getLanguage())
                 .build();
+
     }
 
 }

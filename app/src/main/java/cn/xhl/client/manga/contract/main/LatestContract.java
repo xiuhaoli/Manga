@@ -10,7 +10,7 @@ import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
  */
 
 public interface LatestContract {
-    interface View extends BaseView<LatestContract.Presenter> {
+    interface View extends BaseView<Presenter> {
 
         void showLoading();
 
@@ -35,6 +35,8 @@ public interface LatestContract {
         void showEmptyLoading();
 
         void hideEmptyLoading();
+
+        void filterItem(Res_GalleryList galleryList);
     }
 
     interface Presenter extends BasePresenter {

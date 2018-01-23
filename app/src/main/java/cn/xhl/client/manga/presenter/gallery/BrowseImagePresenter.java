@@ -16,6 +16,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Callable;
@@ -90,6 +91,7 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
             view.clearUriFromDiskCache(uri);
         }
         compositeDisposable.clear();
+        view.saveHistory(gid);
     }
 
     @Override
@@ -114,10 +116,16 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
                 .subscribeWith(new DisposableObserver<Res_BrowseImage>() {
                     @Override
                     public void onNext(Res_BrowseImage res_browseImage) {
+                        LogUtil.e("Res_BrowseImage_n", res_browseImage.getN());
                         String imgkey = LAST_IMG_KEY;
                         if (page != filecount) {
                             // 这是下一张图的imgkey
                             imgkey = res_browseImage.getI3().split("'")[1].substring(0, 10);
+                        }
+                        if (page != 1) {
+                            // 这是上一张图片的imgkey
+                            imgkeys.put(page - 1, res_browseImage.getN()
+                                    .split("prev")[1].split("'")[1].substring(0, 10));
                         }
                         // 这是当前的请求的图片URL
                         String url = res_browseImage.getI3().split("src")[1].split("\"")[1];
@@ -154,11 +162,6 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
     }
 
     @Override
-    public boolean haveImgkey(int page) {
-        return imgkeys.get(page) != null;
-    }
-
-    @Override
     public void saveImage2Local(final int page) {
         if (uris.get(page) == null) {
             view.showTipMsg("fail");
@@ -169,8 +172,10 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
                     @Override
                     public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                         DataSource<CloseableReference<PooledByteBuffer>> dataSource =
-                                Fresco.getImagePipeline().fetchEncodedImage(ImageRequest.fromUri(uris.get(page)), null);
-                        while (!dataSource.hasResult() && !dataSource.isFinished() && !dataSource.hasFailed()) {
+                                Fresco.getImagePipeline().fetchEncodedImage(ImageRequest
+                                        .fromUri(uris.get(page)), null);
+                        while (!dataSource.hasResult() && !dataSource.isFinished() &&
+                                !dataSource.hasFailed()) {
                             // 当且仅当dataSource没有失败、没有结束、没有结果时才会循坏
                             Thread.sleep(100);
                         }
@@ -213,4 +218,15 @@ public class BrowseImagePresenter implements BrowseImageContract.Presenter {
         );
 
     }
+
+    @Override
+    public void putImgKey(int page, String imgkey) {
+        imgkeys.put(page, imgkey);
+    }
+
+    @Override
+    public String getImgKey(int page) {
+        return imgkeys.get(page);
+    }
+
 }

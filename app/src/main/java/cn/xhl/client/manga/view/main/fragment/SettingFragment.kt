@@ -34,7 +34,6 @@ class SettingFragment : BaseFragment(), SettingContract.View,
     private val cacheItemPosition: Int = 1// 清除缓存那栏的position
     private lateinit var mRecyclerData: ArrayList<SettingAdapter.SettingItem>
     private lateinit var mSettingAdapter: SettingAdapter
-    private lateinit var customDialog: CustomDialog
     /**
      * var是可变变量的定义
      * val是常量相当于final修饰
@@ -152,7 +151,6 @@ class SettingFragment : BaseFragment(), SettingContract.View,
                 PrefUtil.putBoolean(IConstants.NON_H_MODE,
                         !UserInfo.getInstance().isNonhMode, mActivity)
                 mRecyclerData[0].isChecked = !UserInfo.getInstance().isNonhMode
-                UserInfo.getInstance().isNonhMode = !UserInfo.getInstance().isNonhMode
                 mSettingAdapter.notifyItemChanged(0)
                 showTipMsg("it will be take effect on the next startup")
             }

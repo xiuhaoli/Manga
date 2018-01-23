@@ -2,6 +2,9 @@ package cn.xhl.client.manga.presenter.main;
 
 import com.google.gson.Gson;
 
+import java.util.Iterator;
+
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.base.BaseObserver;
 import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
@@ -80,6 +83,7 @@ public class LatestPresenter implements LatestContract.Presenter {
                         if (!isLoadMore && galleryList.getData().size() == 0) {
                             view.showNoData();
                         } else {
+                            view.filterItem(galleryList);
                             view.notifyAdapter(galleryList);
                         }
                     }
@@ -95,4 +99,5 @@ public class LatestPresenter implements LatestContract.Presenter {
                     }
                 }));
     }
+
 }

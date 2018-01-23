@@ -75,7 +75,7 @@ public class HttpsUtil {
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
-            return new java.security.cert.X509Certificate[]{};
+            return new X509Certificate[]{};
         }
     }
 

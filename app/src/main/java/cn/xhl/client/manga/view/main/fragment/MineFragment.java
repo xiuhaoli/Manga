@@ -5,10 +5,13 @@ import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -32,6 +35,7 @@ import cn.xhl.client.manga.utils.PrefUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 import cn.xhl.client.manga.view.gallery.FavoriteActivity;
+import cn.xhl.client.manga.view.main.FilterActivity;
 import cn.xhl.client.manga.view.main.SettingActivity;
 
 public class MineFragment extends BaseFragment implements
@@ -42,6 +46,7 @@ public class MineFragment extends BaseFragment implements
     private List<MineAdapter.MineItem> mRecyclerData;
     private TextImageSpan username;
     private SimpleDraweeView header;
+    private boolean mIsVisible = true;
 
     @Override
     protected int layoutId() {
@@ -64,6 +69,7 @@ public class MineFragment extends BaseFragment implements
         username.setText(UserInfo.getInstance().getUsername());
         username.setOnClickListener(this);
         ControlUtil.initControlOnClick(R.id.setting_fragment_mine, view, this);
+        initToolbar(view);
     }
 
     @Override
@@ -83,12 +89,73 @@ public class MineFragment extends BaseFragment implements
         presenter.unSubscribe();
     }
 
+    private void initToolbar(View view) {
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout_fragment_mine);
+        final SimpleDraweeView finalHeader = view.findViewById(R.id.final_header_fragment_mine);
+        finalHeader.setImageURI(UserInfo.getInstance().getProfile_picture());
+        final TextView finalName = view.findViewById(R.id.final_username_fragment_mine);
+        finalName.setText(UserInfo.getInstance().getUsername());
+        startAlphaAnimation(finalHeader, finalName, 0, View.INVISIBLE);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int totalScrollLength = appBarLayout.getTotalScrollRange();
+                if (Math.abs(verticalOffset) / totalScrollLength > 0.8) {
+                    showFinal(finalHeader, finalName);
+                } else {
+                    hideFinal(finalHeader, finalName);
+                }
+            }
+        });
+    }
+
+    private void showFinal(View finalHeader, View finalName) {
+        if (!mIsVisible) {
+            startAlphaAnimation(finalHeader, finalName, 300, View.VISIBLE);
+        }
+    }
+
+    private void hideFinal(View finalHeader, View finalName) {
+        if (mIsVisible) {
+            startAlphaAnimation(finalHeader, finalName, 300, View.INVISIBLE);
+        }
+    }
+
+    private void startAlphaAnimation(final View finalHeader, final View finalName, int duration, int visibility) {
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mIsVisible = !mIsVisible;
+//                finalHeader.setVisibility(mIsVisible ? View.VISIBLE : View.INVISIBLE);
+//                finalName.setVisibility(mIsVisible ? View.VISIBLE : View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        finalHeader.startAnimation(alphaAnimation);
+        finalName.startAnimation(alphaAnimation);
+    }
+
     @Override
     public void initAdapter() {
         mRecyclerData = new ArrayList<>();
         MineAdapter.MineItem item;
-        int[] text = {R.string.night_mode, R.string.favorites, R.string.history};
-        int[] img = {R.mipmap.night_mode, R.mipmap.favorite, R.mipmap.history,};
+        int[] text = {R.string.night_mode, R.string.favorites, R.string.history, R.string.filter};
+        int[] img = {R.mipmap.night_mode, R.mipmap.favorite,
+                R.mipmap.history, R.mipmap.filter};
         for (int i = 0, size = text.length; i < size; i++) {
             item = new MineAdapter.MineItem();
             item.setIcon(img[i]);
@@ -133,7 +200,7 @@ public class MineFragment extends BaseFragment implements
         switch (position) {
             case 1:
                 // jump to favorite
-                ActivityUtil.jump2Activity(mActivity, FavoriteActivity.class);
+                FavoriteActivity.start(mActivity, IConstants.FAVORITE);
                 break;
             case 2:
                 // jump to history
@@ -144,6 +211,10 @@ public class MineFragment extends BaseFragment implements
                 mRecyclerData.get(position).setChecked(!UserInfo.getInstance().isNightMode());
                 changeThemeMode(!UserInfo.getInstance().isNightMode());
                 mineAdapter.notifyItemChanged(position);
+                break;
+            case 3:
+                ActivityUtil.jump2Activity(mActivity, FilterActivity.class);
+                break;
             default:
                 break;
         }

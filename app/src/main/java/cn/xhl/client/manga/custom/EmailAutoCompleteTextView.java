@@ -17,8 +17,7 @@ import java.util.List;
  * 自动补全email
  */
 public class EmailAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView implements TextWatcher {
-    private String[] emailSuffixs = {"@gmail.com", "@outlook.com",
-            "@hotmail.com", "@yahoo.cn", "@protonmail.com"};
+    private String[] emailSuffixs = {"@gmail.com"};
     private List<String> suffixList;
     private ArrayAdapter<String> arrayAdapter;
 

@@ -109,6 +109,10 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
             case R.id.verify_button_fragment_register:
                 String email = mActivity.getTextFromEt(emailInputLayout.getEditText());
                 if (presenter.isEmailValid(email)) {
+                    if(!email.contains("@gmail")) {
+                        showTipMsg("I'm sorry we support gmail only");
+                        return;
+                    }
                     countDown();
                     presenter.obtainVerify(email);
                 }

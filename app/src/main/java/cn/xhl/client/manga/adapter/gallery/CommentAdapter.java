@@ -30,8 +30,9 @@ public class CommentAdapter extends BaseQuickAdapter<Res_CommentList.CommentEnti
     }
 
     @Override
-    protected void convert(CommentAdapter.CommentViewHolder helper, Res_CommentList.CommentEntity item) {
+    protected void convert(CommentViewHolder helper, Res_CommentList.CommentEntity item) {
         helper.setImage(R.id.profile_header_item_comment, item.getProfile_picture());
+        helper.addOnClickListener(R.id.profile_header_item_comment);// 为头像添加点击事件
         helper.setText(R.id.username_item_comment, item.getUsername());
         helper.setText(R.id.content_item_comment, item.getContent());
         helper.setText(R.id.floor_item_comment, "#" + item.getFloor());
@@ -79,6 +80,8 @@ public class CommentAdapter extends BaseQuickAdapter<Res_CommentList.CommentEnti
             SimpleDraweeView simpleDraweeView = getView(resId);
             if (!"0".equals(profile_picture)) {
                 simpleDraweeView.setImageURI(profile_picture);
+            } else {
+                simpleDraweeView.setActualImageResource(R.mipmap.profile_header);
             }
         }
     }

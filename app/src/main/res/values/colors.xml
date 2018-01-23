@@ -23,11 +23,14 @@
     <color name="night_item_text">#747474</color>
     <color name="night_main_background">#2C2C2C</color>
     <color name="night_tab_text">#B3FFFFFF</color>
+    <color name="night_tab_background">#3B3B3B</color>
 
     <color name="day_item_background">#FFFFFF</color>
     <color name="day_item_text">#333333</color>
     <color name="day_main_background">#F4F4F4</color>
     <color name="day_tab_text">#333333</color>
+    <color name="day_tab_background">#F4F4F4</color>
+
 
     <color name="search_background">#B3FFFFFF</color>
     <color name="white_transparent_40">#66FFFFFF</color>

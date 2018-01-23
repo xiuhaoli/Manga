@@ -18,6 +18,8 @@ import cn.xhl.client.manga.utils.DpUtil;
  * @author lixiuhao on 2017/11/1 0001.
  */
 public class TextImageSpan extends android.support.v7.widget.AppCompatTextView {
+    private Context mContext;
+
     public TextImageSpan(Context context) {
         this(context, null, 0);
     }
@@ -28,6 +30,7 @@ public class TextImageSpan extends android.support.v7.widget.AppCompatTextView {
 
     public TextImageSpan(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TextImageSpan, defStyleAttr, 0);
         for (int i = 0; i < typedArray.getIndexCount(); i++) {
             int attr = typedArray.getIndex(i);
@@ -59,6 +62,17 @@ public class TextImageSpan extends android.support.v7.widget.AppCompatTextView {
             }
         }
         typedArray.recycle();
+    }
+
+    public void setLeftImageSpan(int imgId) {
+        Drawable leftDrawable = ActivityCompat.getDrawable(mContext, imgId);
+        if (leftDrawable != null) {
+            // 根据文字的高度来设置drawable的长宽
+            int h = getFontHeight(getTextSize());
+            leftDrawable.setBounds(0, 0, h, h);
+            this.setCompoundDrawables(leftDrawable, null, null, null);
+            this.setCompoundDrawablePadding(DpUtil.dp2Px(mContext, 5));
+        }
     }
 
     /**

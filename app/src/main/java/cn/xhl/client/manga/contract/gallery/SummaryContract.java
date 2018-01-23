@@ -19,9 +19,15 @@ public interface SummaryContract {
         void hideLoading();
 
         void showToastMsg(String msg);
+
+        void changeArtistFollowButton(boolean isFollowed);
+
+        void changeUploaderFollowButton(boolean isFollowed);
+
+        void notifyActivity();
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
         void parsePage(Res_GalleryList.GalleryEntity galleryEntity);
 
         String getShowKey();
@@ -29,5 +35,11 @@ public interface SummaryContract {
         String getImgKey();
 
         String getFirstImg();
+
+        void attendArtist(String artist);
+
+        void attendUploader(String uploader);
+
+        void isFollowed(String artist, String uploader);
     }
 }

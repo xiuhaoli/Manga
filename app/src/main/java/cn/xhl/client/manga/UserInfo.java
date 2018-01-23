@@ -1,10 +1,12 @@
 package cn.xhl.client.manga;
 
+
+
 /**
  * @author Mike on 2017/4/19 0019.
- * <p>
- * 用户信息的管理类
- * 单例，饿汉模式
+ *         <p>
+ *         用户信息的管理类
+ *         单例，饿汉模式
  */
 public class UserInfo {
     private static UserInfo userInfo = new UserInfo();
@@ -18,15 +20,11 @@ public class UserInfo {
     private boolean isNightMode;
     private boolean isNonhMode;
     private String categoryMode;//(All,Non-H)
+    private String filter;
 
     private UserInfo() {
     }
 
-    /**
-     * 获取单例对象
-     *
-     * @return
-     */
     public static UserInfo getInstance() {
         return userInfo;
     }
@@ -101,5 +99,13 @@ public class UserInfo {
 
     public void setNightMode(boolean nightMode) {
         isNightMode = nightMode;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }

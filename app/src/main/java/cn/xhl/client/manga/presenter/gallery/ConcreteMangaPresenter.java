@@ -13,6 +13,7 @@ import cn.xhl.client.manga.model.bean.request.BaseRequest;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_Subscribe;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_Viewed;
+import cn.xhl.client.manga.model.bean.request.user.Req_Attention;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_Subscribe;
@@ -181,5 +182,4 @@ public class ConcreteMangaPresenter implements ConcreteMangaContract.Presenter {
             }
         }
     }
-
 }

@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -117,9 +118,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (view instanceof TabLayout) {
                 ((TabLayout) view).setTabTextColors(
                         ResourceUtil.getAttrData(R.attr.tab_text_color, typedValue),
-                        ActivityCompat.getColor(this, R.color.theme_color)
+                        ActivityCompat.getColor(this, R.color.colorAccent)
                 );
                 return;
+            }
+            if (view instanceof CollapsingToolbarLayout) {
+                ((CollapsingToolbarLayout) view).setContentScrimColor(
+                        ResourceUtil.getAttrData(R.attr.main_background, typedValue)
+                );
             }
             if (getString(R.string.tag_item_bg).equals(view.getTag())) {
                 view.setBackgroundColor(
@@ -159,9 +165,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                 changeMode(((ViewGroup) view).getChildAt(i));
             }
         } else if (view instanceof TextView) {
-            ((TextView) view).setTextColor(
-                    ResourceUtil.getAttrData(R.attr.item_text, typedValue)
-            );
+            if (!getString(R.string.tag_constant_bg).equals(view.getTag())) {
+                ((TextView) view).setTextColor(
+                        ResourceUtil.getAttrData(R.attr.item_text, typedValue)
+                );
+            }
         }
     }
 

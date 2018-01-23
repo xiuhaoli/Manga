@@ -72,6 +72,9 @@ public interface BrowseImageContract {
          */
         void changeScrollMode(boolean isChecked);
 
+        void initHistory(int gid);
+
+        void saveHistory(int gid);
     }
 
     interface Presenter extends BasePresenter {
@@ -88,20 +91,19 @@ public interface BrowseImageContract {
         void startClearUriMemoryTask(int currPage);
 
         /**
-         * 判断page对应的imgkey是否存在
-         *
-         * @param page
-         * @return
-         */
-        boolean haveImgkey(int page);
-
-        /**
          * 将图片保存到本地
          *
          * @param page
          */
         void saveImage2Local(int page);
 
+        /**
+         * @param page
+         * @param imgkey
+         */
+        void putImgKey(int page, String imgkey);
+
+        String getImgKey(int page);
     }
 
 }

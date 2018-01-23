@@ -23,5 +23,6 @@ public class FavoriteFolderAdapter extends BaseQuickAdapter<Res_FavoriteFolder.D
     protected void convert(BaseViewHolder helper, Res_FavoriteFolder.Data item) {
         helper.setText(R.id.text_item_favorite_folder, item.getFolder());
         helper.setText(R.id.content_item_favorite_folder, String.valueOf(item.getCount()));
+        helper.setVisible(R.id.encrypt_item_favorite_folder, item.getEncrypt() == 1);
     }
 }

@@ -3,18 +3,17 @@ package cn.xhl.client.manga.presenter.gallery;
 import com.google.gson.Gson;
 
 import cn.xhl.client.manga.base.BaseObserver;
-import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.gallery.FavoriteContract;
 import cn.xhl.client.manga.model.api.RetrofitFactory;
 import cn.xhl.client.manga.model.bean.request.BaseRequest;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_DeleteFolder;
+import cn.xhl.client.manga.model.bean.request.gallery.Req_EncryptFolder;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_FavoriteFolder;
-import cn.xhl.client.manga.model.bean.request.gallery.Req_GalleryList;
+import cn.xhl.client.manga.model.bean.request.gallery.Req_FavoriteFolderOther;
 import cn.xhl.client.manga.model.bean.request.gallery.Req_RenameFolder;
 import cn.xhl.client.manga.model.bean.response.BaseResponse;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_Folder;
-import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.RxSchedulesHelper;
 import cn.xhl.client.manga.utils.SignUtil;
 import cn.xhl.client.manga.utils.StringUtil;
@@ -103,61 +102,6 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
     }
 
     @Override
-    public void listFavorite(final boolean isLoadMore, String folder) {
-        if (!isLoadMore) {
-            view.showEmptyLoading();
-        } else {
-            if (!loadMore) {
-                view.noMoreToLoad();
-                return;
-            }
-        }
-        view.hideReTry();
-        view.hideNoData();
-        Req_GalleryList reqFavorite = new Req_GalleryList();
-        reqFavorite.setPage(page);
-        reqFavorite.setSize(size);
-        reqFavorite.setCategory(folder);
-        reqFavorite.setType(IConstants.FAVORITE);
-        compositeDisposable.add(RetrofitFactory
-                .getApiComics()
-                .galleryList(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
-                        .setSign(SignUtil.generateSign(IConstants.FAVORITE, folder, String.valueOf(size), String.valueOf(page)))
-                        .setData(reqFavorite)
-                        .build())))
-                .compose(RxSchedulesHelper.<BaseResponse<Res_GalleryList>>io_ui())
-                .doOnTerminate(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        view.hideEmptyLoading();
-                    }
-                })
-                .subscribeWith(new BaseObserver<Res_GalleryList>() {
-                    @Override
-                    protected void onHandleSuccess(Res_GalleryList galleryList) {
-                        ++page;
-                        loadMore = (size == galleryList.getData().size());
-                        // 如果不是加载更多且返回的集合长度为0，则显示noData
-                        if (!isLoadMore && galleryList.getData().size() == 0) {
-                            view.showNoData();
-                        } else {
-                            view.notifyAdapterFavorite(galleryList);
-                        }
-                    }
-
-                    @Override
-                    protected void onHandleError(long code, String msg) {
-                        view.showTipMsg(msg);
-                        if (isLoadMore) {
-                            view.failLoadMore();
-                        } else {
-                            view.showReTry();
-                        }
-                    }
-                }));
-    }
-
-    @Override
     public void renameFolder(String oldName, final String newName) {
         view.showLoading();
         compositeDisposable.add(RetrofitFactory.getApiComics()
@@ -215,5 +159,91 @@ public class FavoritePresenter implements FavoriteContract.Presenter {
                     }
                 })
         );
+    }
+
+    @Override
+    public void encryptFolder(String folder) {
+        view.showLoading();
+        compositeDisposable.add(RetrofitFactory.getApiComics()
+                .encryptFolder(StringUtil.getRequestBody(new Gson().toJson(new BaseRequest.Builder()
+                        .setSign(SignUtil.generateSign(folder))
+                        .setData(new Req_EncryptFolder(folder))
+                        .build())))
+                .compose(RxSchedulesHelper.<BaseResponse<String>>io_ui())
+                .doOnTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        view.hideLoading();
+                    }
+                })
+                .subscribeWith(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(String msg) {
+                        view.showTipMsg(msg);
+                        view.notifyAdapter2Encrypt();
+                    }
+
+                    @Override
+                    protected void onHandleError(long code, String msg) {
+                        view.showTipMsg(msg);
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void listOthersFolder(final boolean isLoadMore, int uid) {
+        if (!isLoadMore) {
+            view.showEmptyLoading();
+        } else {
+            if (!loadMore) {
+                view.noMoreToLoad();
+                return;
+            }
+        }
+        view.hideReTry();
+        view.hideNoData();
+        Req_FavoriteFolderOther reqFavoriteFolder = new Req_FavoriteFolderOther();
+        reqFavoriteFolder.setPage(page);
+        reqFavoriteFolder.setSize(size);
+        reqFavoriteFolder.setUid(uid);
+        compositeDisposable.add(RetrofitFactory
+                .getApiComics()
+                .listFavoriteFoldersOther(StringUtil.getRequestBody(new Gson()
+                        .toJson(new BaseRequest.Builder()
+                        .setSign(SignUtil.generateSign(String.valueOf(uid),
+                                String.valueOf(size), String.valueOf(page)))
+                        .setData(reqFavoriteFolder)
+                        .build())))
+                .compose(RxSchedulesHelper.<BaseResponse<Res_FavoriteFolder>>io_ui())
+                .doOnTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        view.hideEmptyLoading();
+                    }
+                })
+                .subscribeWith(new BaseObserver<Res_FavoriteFolder>() {
+                    @Override
+                    protected void onHandleSuccess(Res_FavoriteFolder resFavoriteFolder) {
+                        ++page;
+                        loadMore = (size == resFavoriteFolder.getFolders().size());
+                        // 如果不是加载更多且返回的集合长度为0，则显示noData
+                        if (!isLoadMore && resFavoriteFolder.getFolders().size() == 0) {
+                            view.showNoData();
+                        } else {
+                            view.notifyAdapterFolder(resFavoriteFolder);
+                        }
+                    }
+
+                    @Override
+                    protected void onHandleError(long code, String msg) {
+                        view.showTipMsg(msg);
+                        if (isLoadMore) {
+                            view.failLoadMore();
+                        } else {
+                            view.showReTry();
+                        }
+                    }
+                }));
     }
 }

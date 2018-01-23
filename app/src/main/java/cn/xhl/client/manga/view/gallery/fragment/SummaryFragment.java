@@ -1,17 +1,22 @@
 package cn.xhl.client.manga.view.gallery.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.adapter.gallery.SummaryAdapter;
+import cn.xhl.client.manga.adapter.gallery.SummaryAdapter.SummaryItem;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.contract.gallery.SummaryContract;
-import cn.xhl.client.manga.custom.TextImageSpan;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
-import cn.xhl.client.manga.utils.ControlUtil;
 import cn.xhl.client.manga.utils.DateUtil;
-import cn.xhl.client.manga.utils.StringUtil;
-import cn.xhl.client.manga.view.gallery.BrowseImageActivity;
 import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
 
 /**
@@ -22,10 +27,15 @@ import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
  *     version: 1.0
  * </pre>
  */
-public class SummaryFragment extends BaseFragment
-        implements View.OnClickListener, SummaryContract.View {
+public class SummaryFragment extends BaseFragment implements
+        SummaryContract.View, BaseQuickAdapter.OnItemChildClickListener {
     private Res_GalleryList.GalleryEntity galleryEntity;
     private SummaryContract.Presenter presenter;
+    private List<SummaryItem> mRecyclerData;
+    private SummaryAdapter mRecyclerAdapter;
+    private static final int AUTHOR = 0;
+    private static final int UPLOADER = 4;
+    private ParamsCallback mParamsCallback;
 
     @Override
     protected int layoutId() {
@@ -39,38 +49,42 @@ public class SummaryFragment extends BaseFragment
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        if (mActivity instanceof ParamsCallback) {
+            mParamsCallback = (ParamsCallback) mActivity;
+        }
         initData();
-
-        TextImageSpan author = view.findViewById(R.id.author_fragment_manga_summary);
-        TextImageSpan category = view.findViewById(R.id.category_fragment_manga_summary);
-        TextImageSpan posted = view.findViewById(R.id.posted_fragment_manga_summary);
-        TextImageSpan page = view.findViewById(R.id.page_fragment_manga_summary);
-        TextImageSpan uploader = view.findViewById(R.id.uploader_fragment_manga_summary);
-        TextImageSpan rating = view.findViewById(R.id.rating_fragment_manga_summary);
-
-        author.setText(getResources().getString(R.string.prompt_author, galleryEntity.getArtist()));
-        category.setText(getResources().getString(R.string.prompt_category, galleryEntity.getCategory()));
-        posted.setText(getResources().getString(R.string.prompt_posted, DateUtil.stampToDateWithHMS(galleryEntity.getPosted() + 14400)));
-        page.setText(getResources().getString(R.string.prompt_page, galleryEntity.getFilecount()));
-        uploader.setText(getResources().getString(R.string.prompt_uploader, galleryEntity.getUploader()));
-        rating.setText(getResources().getString(R.string.prompt_rating, galleryEntity.getRating()));
-
-        ControlUtil.initControlOnClick(R.id.btn_fragment_manga_summary, view, this);
+        initAdapter(view);
         presenter.parsePage(galleryEntity);
+        presenter.isFollowed(galleryEntity.getArtist(), galleryEntity.getUploader());
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_fragment_manga_summary:
-                if (StringUtil.isEmpty(presenter.getShowKey()) || StringUtil.isEmpty(presenter.getImgKey()) || StringUtil.isEmpty(presenter.getFirstImg())) {
-                    showToastMsg("lack of some parameters");
-                    return;
-                }
-                // 将解析三级页面获取到的第一张图片的URL，还有showkey和第二张图片的imgkey发送过去
-                BrowseImageActivity.start(getActivity(), presenter.getShowKey(), presenter.getFirstImg(), galleryEntity.getFilecount(), presenter.getImgKey(), galleryEntity.getGid());
-                break;
+    private void initAdapter(View view) {
+        int[] img = {R.mipmap.span_author, R.mipmap.span_category, R.mipmap.span_posted,
+                R.mipmap.span_filecount, R.mipmap.span_uploader, R.mipmap.span_rating};
+        String[] leftText = {
+                getResources().getString(R.string.prompt_author, galleryEntity.getArtist()),
+                getResources().getString(R.string.prompt_category, galleryEntity.getCategory()),
+                getResources().getString(R.string.prompt_posted,
+                        DateUtil.stampToDateWithHMS(galleryEntity.getPosted() + 14400)),
+                getResources().getString(R.string.prompt_page, galleryEntity.getFilecount()),
+                getResources().getString(R.string.prompt_uploader, galleryEntity.getUploader()),
+                getResources().getString(R.string.prompt_rating, galleryEntity.getRating())
+        };
+        String[] rightText = {getResources().getString(R.string.follow), "", "", "",
+                getResources().getString(R.string.follow), ""};
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_fragment_manga_summary);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerData = new ArrayList<>(leftText.length);
+        for (int i = 0; i < leftText.length; i++) {
+            SummaryItem item = new SummaryItem();
+            item.setImgRes(img[i]);
+            item.setLeft(leftText[i]);
+            item.setRight(rightText[i]);
+            mRecyclerData.add(item);
         }
+        mRecyclerAdapter = new SummaryAdapter(mRecyclerData);
+        mRecyclerAdapter.setOnItemChildClickListener(this);
+        recyclerView.setAdapter(mRecyclerAdapter);
     }
 
     @Override
@@ -91,5 +105,49 @@ public class SummaryFragment extends BaseFragment
     @Override
     public void showToastMsg(String msg) {
         mActivity.showToast(msg);
+    }
+
+    @Override
+    public void changeArtistFollowButton(boolean isFollowed) {
+        mRecyclerData.get(AUTHOR).setRight(isFollowed ?
+                getString(R.string.unfollow) : getString(R.string.follow));
+        mRecyclerAdapter.notifyItemChanged(AUTHOR);
+    }
+
+    @Override
+    public void changeUploaderFollowButton(boolean isFollowed) {
+        mRecyclerData.get(UPLOADER).setRight(isFollowed ?
+                getString(R.string.unfollow) : getString(R.string.follow));
+        mRecyclerAdapter.notifyItemChanged(UPLOADER);
+    }
+
+    @Override
+    public void notifyActivity() {
+        if (mParamsCallback != null) {
+            mParamsCallback.setParams(presenter.getShowKey(), presenter.getImgKey(),
+                    presenter.getFirstImg());
+        }
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        if (!getString(R.string.follow).equals(view.getTag())) return;
+        switch (position) {
+            case AUTHOR:
+                presenter.attendArtist(galleryEntity.getArtist());
+                break;
+            case UPLOADER:
+                presenter.attendUploader(galleryEntity.getUploader());
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 用于回调数据到activity的接口
+     */
+    public interface ParamsCallback {
+        void setParams(String showKey, String secondImgKey, String firstImg);
     }
 }

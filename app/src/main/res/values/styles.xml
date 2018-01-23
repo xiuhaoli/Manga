@@ -9,6 +9,8 @@
         <item name="item_background">@color/day_item_background</item>
         <item name="item_text">@color/day_item_text</item>
         <item name="tab_text_color">@color/day_tab_text</item>
+        <item name="tab_background">@color/day_tab_background</item>
+        <item name="appbar_background">@color/colorPrimary</item>
 
         <item name="android:windowActionBar">false</item>
         <item name="windowActionBar">false</item>
@@ -25,6 +27,8 @@
         <item name="item_background">@color/night_item_background</item>
         <item name="item_text">@color/night_item_text</item>
         <item name="tab_text_color">@color/night_tab_text</item>
+        <item name="tab_background">@color/night_main_background</item>
+        <item name="appbar_background">@color/night_main_background</item>
 
         <item name="android:windowActionBar">false</item>
         <item name="windowActionBar">false</item>

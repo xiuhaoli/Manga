@@ -9,6 +9,7 @@ public interface IConstants {
     String USER_INFO = "COMICS_USER_INFO";// 用于SharePreference保存用户信息
     String NIGHT_MODE = "night_mode";// sp的key
     String NON_H_MODE = "non_h_mode";
+    String FILTER = "filter";
     String IGNORE_APK_INSTALL = "ignore_apk_install";
     String USERNAME = "username";
     String PROFILE_HEADER = "profile_header";
@@ -51,7 +52,16 @@ public interface IConstants {
     String ITALIAN = "Italian";
     String GREEK = "Greek";
     String DEFAULT_CATEGORY = IConstants.ALL;
-
+    String[] ALL_LANGUAGE = {IConstants.JAPANESE,
+            IConstants.ENGLISH, IConstants.CHINESE, IConstants.KOREAN, IConstants.SPANISH,
+            IConstants.RUSSIAN, IConstants.VIETNAMESE, IConstants.FRENCH, IConstants.THAI,
+            IConstants.PORTUGUESE, IConstants.GERMAN, IConstants.POLISH, IConstants.GREEK,
+            IConstants.ITALIAN
+    };
+    String[] ALL_CATEGORY = {IConstants.NON_H, IConstants.DOUJINSHI, IConstants.ARTIST_CG_SETS,
+            IConstants.COSPLAY, IConstants.GAME_CG_SETS, IConstants.IMAGE_SETS, IConstants.MANGA,
+            IConstants.MISC, IConstants.WESTERN,
+    };
     /**
      * 请求列表的类型
      * 排行
@@ -72,6 +82,10 @@ public interface IConstants {
      */
     String CATEGORY_LATEST = "category_latest";
     /**
+     * 请求关注者信息
+     */
+    String ATTENTION = "attention";
+    /**
      * 请求浏览历史列表
      */
     String HISTORY = "history";
@@ -79,6 +93,10 @@ public interface IConstants {
      * 请求收藏列表
      */
     String FAVORITE = "favorite";
+    /**
+     * 请求其他用户的收藏列表
+     */
+    String OTHERS_FAVORITE = "others_favorite";
     /**
      * 搜索title类型列表
      */

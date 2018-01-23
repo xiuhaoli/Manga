@@ -96,6 +96,11 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent.Light" />
+        <activity
+            android:name=".view.main.FilterActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent.Light" />
     </application>
 
 </manifest>

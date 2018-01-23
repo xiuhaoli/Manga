@@ -8,6 +8,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cn.xhl.client.manga.R;
@@ -19,6 +20,7 @@ import cn.xhl.client.manga.contract.main.LatestContract;
 import cn.xhl.client.manga.custom.EmptyView;
 import cn.xhl.client.manga.listener.GalleryListScrollListener;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
+import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteMangaActivity;
 
 /**
@@ -30,6 +32,7 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
     private List<Res_GalleryList.GalleryEntity> mRecyclerData;
     private GalleryListAdapter mRecyclerAdapter;
     private EmptyView emptyView;
+    private String type;
 
     @Override
     protected int layoutId() {
@@ -38,7 +41,11 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        type = getArguments().getString("type");
         emptyView = view.findViewById(R.id.empty_fragment_latest);
+        if (type.equals(IConstants.ATTENTION)) {
+            emptyView.changeNodataText("You aren't following anybody.");
+        }
         RecyclerView recyclerView = view.findViewById(R.id.recycler_fragment_latest);
         mRecyclerData = new ArrayList<>();
         mRecyclerAdapter = new GalleryListAdapter(mRecyclerData);
@@ -48,7 +55,7 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         addScrollListener(recyclerView);
-        presenter.list(UserInfo.getInstance().getCategoryMode(), IConstants.LATEST, false);
+        presenter.list(UserInfo.getInstance().getCategoryMode(), type, false);
     }
 
     @Override
@@ -93,7 +100,7 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
             @Override
             public void onClick(View v) {
                 presenter.list(UserInfo.getInstance().getCategoryMode(),
-                        IConstants.LATEST, false);
+                        type, false);
             }
         });
     }
@@ -132,9 +139,26 @@ public class LatestFragment extends BaseFragment implements LatestContract.View,
     }
 
     @Override
+    public void filterItem(Res_GalleryList galleryList) {
+        String filter = UserInfo.getInstance().getFilter();
+        if (StringUtil.isEmpty(filter)) return;
+        Iterator<Res_GalleryList.GalleryEntity> iterator = galleryList.getData().iterator();
+        while (iterator.hasNext()) {
+            Res_GalleryList.GalleryEntity entity = iterator.next();
+            String language = entity.getLanguage();
+            if (StringUtil.isEmpty(language)) {
+                language = "unknown";
+            }
+            if (filter.contains(language)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    @Override
     public void onLoadMoreRequested() {
         presenter.list(UserInfo.getInstance().getCategoryMode(),
-                IConstants.LATEST, true);
+                type, true);
     }
 
     @Override

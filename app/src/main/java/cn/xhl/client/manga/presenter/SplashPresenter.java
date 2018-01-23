@@ -46,7 +46,8 @@ public class SplashPresenter implements SplashContract.Presenter {
 
     @Override
     public boolean isUserInfoAvailable(String token, int uid, String salt, int expire_time) {
-        if (StringUtil.isEmpty(token) || StringUtil.isEmpty(uid) || StringUtil.isEmpty(salt) || StringUtil.isEmpty(expire_time)) {
+        if (StringUtil.isEmpty(token) || StringUtil.isEmpty(uid)
+                || StringUtil.isEmpty(salt) || StringUtil.isEmpty(expire_time)) {
             return false;
         }
         UserInfo userInfo = UserInfo.getInstance();
