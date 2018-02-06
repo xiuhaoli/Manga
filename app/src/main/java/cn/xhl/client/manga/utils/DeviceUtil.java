@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
-import android.telephony.TelephonyManager;
 import android.webkit.WebSettings;
 
 import cn.xhl.client.manga.MyApplication;
@@ -25,6 +24,17 @@ public class DeviceUtil {
      */
     public static boolean isSDCardAvailable() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    public static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -114,15 +124,15 @@ public class DeviceUtil {
      * @param context
      * @return
      */
-    public static String getDeviceId(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
-        if (deviceId == null) {
-            return "";
-        } else {
-            return deviceId;
-        }
-    }
+//    public static String getDeviceId(Context context) {
+//        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+//        String deviceId = tm.getDeviceId();
+//        if (deviceId == null) {
+//            return "";
+//        } else {
+//            return deviceId;
+//        }
+//    }
 
     /**
      * 获取手机品牌

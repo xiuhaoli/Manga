@@ -12,12 +12,14 @@ import java.util.List;
 
 
 /**
- * @author Mike on 2017/9/23 0023.
- * <p>
  * 自动补全email
+ *
+ * @author Mike on 2017/9/23 0023.
  */
-public class EmailAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView implements TextWatcher {
-    private String[] emailSuffixs = {"@gmail.com"};
+public class EmailAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView
+        implements TextWatcher {
+    private String[] emailSuffixes = {"@gmail.com", "@yahoo.com", "@msn.com", "@hotmail.com",
+            "@163.com", "@qq.com", "@sina.com", "@live.com", "@126.com", "@sohu.com", "@eyou.com"};
     private List<String> suffixList;
     private ArrayAdapter<String> arrayAdapter;
 
@@ -38,7 +40,7 @@ public class EmailAutoCompleteTextView extends android.support.v7.widget.AppComp
 
     private void init(Context context) {
         suffixList = new ArrayList<>();
-        suffixList.addAll(Arrays.asList(emailSuffixs));
+        suffixList.addAll(Arrays.asList(emailSuffixes));
         arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, suffixList);
         this.setAdapter(arrayAdapter);
         this.addTextChangedListener(this);
@@ -50,12 +52,11 @@ public class EmailAutoCompleteTextView extends android.support.v7.widget.AppComp
     }
 
     /**
-     *
      * @param s 改变后的字符串
      */
     @Override
     public void afterTextChanged(Editable s) {
-        if (emailSuffixs == null) {
+        if (emailSuffixes == null) {
             return;
         }
         if (s.length() < getThreshold()) {
@@ -65,7 +66,7 @@ public class EmailAutoCompleteTextView extends android.support.v7.widget.AppComp
         // 如果输入的内容中没有@，说明补全框中的数据已经足够不需要更新
         if (!input.contains("@")) {
             suffixList.clear();
-            for (String suffix : emailSuffixs) {
+            for (String suffix : emailSuffixes) {
                 suffixList.add(input + suffix);
             }
             arrayAdapter.clear();

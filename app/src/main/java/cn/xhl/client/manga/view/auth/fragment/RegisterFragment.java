@@ -1,10 +1,15 @@
 package cn.xhl.client.manga.view.auth.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 
 import cn.xhl.client.manga.R;
+import cn.xhl.client.manga.UserInfo;
 import cn.xhl.client.manga.base.BaseFragment;
 import cn.xhl.client.manga.contract.auth.RegisterContract;
 import cn.xhl.client.manga.custom.CountDownButton;
@@ -109,10 +114,6 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
             case R.id.verify_button_fragment_register:
                 String email = mActivity.getTextFromEt(emailInputLayout.getEditText());
                 if (presenter.isEmailValid(email)) {
-                    if(!email.contains("@gmail")) {
-                        showTipMsg("I'm sorry we support gmail only");
-                        return;
-                    }
                     countDown();
                     presenter.obtainVerify(email);
                 }
@@ -120,9 +121,8 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
             case R.id.submit_button_fragment_register:
                 String email_ = mActivity.getTextFromEt(emailInputLayout.getEditText());
                 String password = mActivity.getTextFromEt(passwordInputLayout.getEditText());
-                String verify = mActivity.getTextFromEt(verifyInputLayout.getEditText());
-                if (presenter.isEmailValid(email_) && presenter.isPasswordValid(password) && StringUtil.isNotEmpty(verify)) {
-                    presenter.submit(email_, password, verify);
+                if (presenter.isEmailValid(email_) && presenter.isPasswordValid(password)) {
+                    presenter.submit(email_, password, "");
                 }
                 break;
             case R.id.back_fragment_register:

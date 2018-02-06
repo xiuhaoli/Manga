@@ -2,9 +2,7 @@ package cn.xhl.client.manga.adapter.main;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.SparseArray;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,12 +12,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import cn.xhl.client.manga.MyActivityManager;
-import cn.xhl.client.manga.MyApplication;
 import cn.xhl.client.manga.R;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.utils.DateUtil;
-import cn.xhl.client.manga.utils.ResourceUtil;
 import cn.xhl.client.manga.utils.StringUtil;
 
 /**
@@ -28,7 +23,8 @@ import cn.xhl.client.manga.utils.StringUtil;
  * @author Mike on 2017/10/23 0023.
  */
 
-public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.GalleryEntity, GalleryListAdapter.GalleryListViewHolder> {
+public class GalleryListAdapter extends
+        BaseQuickAdapter<Res_GalleryList.GalleryEntity, GalleryListAdapter.GalleryListViewHolder> {
     private List<Res_GalleryList.GalleryEntity> data;
     // 列表图片的uri集合
     private SparseArray<Uri> uris;
@@ -60,22 +56,6 @@ public class GalleryListAdapter extends BaseQuickAdapter<Res_GalleryList.Gallery
         }
         helper.setUri(R.id.img_item_gallery, uri);
 
-        // 下面的代码是处理粘滞view
-        if (item.getCreate_time() == 0) {
-            return;
-        }
-        String date = DateUtil.stampToDate(item.getCreate_time());
-        if (position == 0) {
-            helper.setGone(R.id.text_sticky_item_gallery, true);
-            helper.setText(R.id.text_sticky_item_gallery, date);
-        } else {
-            if (!TextUtils.equals(date, DateUtil.stampToDate(data.get(position - 1).getCreate_time()))) {
-                helper.setGone(R.id.text_sticky_item_gallery, true);
-                helper.setText(R.id.text_sticky_item_gallery, date);
-            } else {
-                helper.setGone(R.id.text_sticky_item_gallery, false);
-            }
-        }
     }
 
     private String getPosted(long timestamp) {

@@ -132,11 +132,12 @@ class SettingFragment : BaseFragment(), SettingContract.View,
     override fun showNewVersionPrompt(res_checkUpdate: Res_CheckUpdate) {
         CustomDialog.DefaultBuilder(mActivity)
                 .setTitle("download?")
-                .setContent("version : " + res_checkUpdate.version_name +
-                        "\n" + "file size : " + res_checkUpdate.size)
+                .setContent("version : " + res_checkUpdate.tag_name +
+                        "\n" + res_checkUpdate.body)
                 .setPositiveButtonText(R.string.action_download)
                 .setPositiveListener {
-                    presenter.startDownloadApk(res_checkUpdate.url)
+                    presenter.startDownloadApk(IConstants.APK_PRE_URL +
+                            res_checkUpdate.tag_name + "/" + res_checkUpdate.name)
                 }
                 .create().show()
     }

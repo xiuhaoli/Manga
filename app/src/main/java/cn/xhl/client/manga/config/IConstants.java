@@ -18,6 +18,8 @@ public interface IConstants {
     long READ_TIMEOUT = 20 * 1000;// 读取超时时间
     String USER_AGENT = "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)";
     String POST_URL = "https://api.e-hentai.org/api.php";
+    String APK_URL = "https://api.github.com/repos/xiuhaoli/Manga/releases/latest";
+    String APK_PRE_URL = "https://github.com/xiuhaoli/Manga/releases/download/";
     String FILE_PROVIDER = "cn.xhl.client.manga.fileprovider";
 
     /**

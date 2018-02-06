@@ -18,9 +18,8 @@ import cn.xhl.client.manga.config.IConstants;
 import cn.xhl.client.manga.contract.gallery.FavoriteContract;
 import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.EmptyView;
-import cn.xhl.client.manga.custom.FavoriteItemDecoration;
+import cn.xhl.client.manga.custom.FavoriteFolderItemDecoration;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
-import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
 import cn.xhl.client.manga.presenter.gallery.FavoritePresenter;
 import cn.xhl.client.manga.utils.StringUtil;
 import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
@@ -28,7 +27,6 @@ import cn.xhl.client.manga.view.gallery.ConcreteCategoryActivity;
 /**
  * Created by xiuhaoli on 2017/11/17.
  */
-
 public class FavoriteFolderFragment extends BaseFragment
         implements FavoriteContract.View, BaseQuickAdapter.OnItemClickListener,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemLongClickListener {
@@ -60,7 +58,7 @@ public class FavoriteFolderFragment extends BaseFragment
         mRecyclerAdapter.openLoadAnimation();
         recyclerView.setAdapter(mRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        recyclerView.addItemDecoration(new FavoriteItemDecoration(mActivity));
+        recyclerView.addItemDecoration(new FavoriteFolderItemDecoration(mActivity));
 
         if (type.equals(IConstants.FAVORITE)) {
             mRecyclerAdapter.setOnItemLongClickListener(this);
@@ -195,13 +193,13 @@ public class FavoriteFolderFragment extends BaseFragment
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (type.equals(IConstants.OTHERS_FAVORITE)) {
-            ConcreteCategoryActivity.start(mActivity,
+            ConcreteCategoryActivity.Companion.start(mActivity,
                     UserInfo.getInstance().getCategoryMode() + ":" +
                             mRecyclerData.get(position).getFolder() + ":" + uid,
                     IConstants.OTHERS_FAVORITE);
             return;
         }
-        ConcreteCategoryActivity.start(mActivity,
+        ConcreteCategoryActivity.Companion.start(mActivity,
                 UserInfo.getInstance().getCategoryMode() + ":" +
                         mRecyclerData.get(position).getFolder(),
                 IConstants.FAVORITE);

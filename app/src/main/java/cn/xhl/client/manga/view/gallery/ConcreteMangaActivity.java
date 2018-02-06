@@ -32,6 +32,7 @@ import cn.xhl.client.manga.base.BaseActivity;
 import cn.xhl.client.manga.contract.gallery.ConcreteMangaContract;
 import cn.xhl.client.manga.custom.CustomDialog;
 import cn.xhl.client.manga.custom.EmptyView;
+import cn.xhl.client.manga.custom.QMUILoadingView;
 import cn.xhl.client.manga.custom.TextImageSpan;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 import cn.xhl.client.manga.model.bean.response.gallery.Res_GalleryList;
@@ -65,6 +66,7 @@ public class ConcreteMangaActivity extends BaseActivity
     private String imgkey;
     private String firstImg;
     private FloatingActionButton startReadBtn;
+    private QMUILoadingView loadingView;
 
     public static void start(Activity activity, Res_GalleryList.GalleryEntity galleryEntity) {
         Intent intent = new Intent(activity, ConcreteMangaActivity.class);
@@ -86,6 +88,7 @@ public class ConcreteMangaActivity extends BaseActivity
         initViewPager();
         startReadBtn = (FloatingActionButton) ControlUtil.initControlOnClick(
                 R.id.btn_activity_concrete_manga, this, this);
+        loadingView = findViewById(R.id.loading_activity_concrete_manga);
         SimpleDraweeView titleImg = findViewById(R.id.img_activity_concrete_manga);
         TextView title = findViewById(R.id.title_activity_concrete_manga);
 
@@ -130,6 +133,18 @@ public class ConcreteMangaActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         presenter.unSubscribe();
+    }
+
+    @Override
+    public void showReadLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        startReadBtn.setImageResource(0);
+    }
+
+    @Override
+    public void hideReadLoading() {
+        loadingView.setVisibility(View.INVISIBLE);
+        startReadBtn.setImageResource(R.mipmap.icon_book);
     }
 
     @Override
@@ -381,6 +396,7 @@ public class ConcreteMangaActivity extends BaseActivity
 
     @Override
     public void setParams(String showKey, String secondImgKey, String firstImg) {
+        hideReadLoading();
         this.showkey = showKey;
         this.imgkey = secondImgKey;
         this.firstImg = firstImg;

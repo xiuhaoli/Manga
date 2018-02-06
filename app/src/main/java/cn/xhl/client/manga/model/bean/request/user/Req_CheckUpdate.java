@@ -7,6 +7,7 @@ package cn.xhl.client.manga.model.bean.request.user;
  *      e-mail 526193779@qq.com
  * </pre>
  */
+@Deprecated
 public class Req_CheckUpdate {
     private int version_code;
     private String version_name;

@@ -15,6 +15,10 @@ import android.view.View;
  *     time   : 2018/01/19
  *     version: 1.0
  * </pre>
+ *
+ * <p>
+ *     HomeFragment里面的搜索按钮在布局中调用的这个类
+ * </p>
  */
 public class OppositeBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
     /**

@@ -1,14 +1,10 @@
 package cn.xhl.client.manga.presenter.main
 
-import cn.xhl.client.manga.base.BaseObserver
+import cn.xhl.client.manga.MyApplication
 import cn.xhl.client.manga.contract.main.SettingContract
 import cn.xhl.client.manga.model.api.RetrofitFactory
-import cn.xhl.client.manga.model.bean.request.BaseRequest
-import cn.xhl.client.manga.model.bean.request.user.Req_CheckUpdate
-import cn.xhl.client.manga.model.bean.response.BaseResponse
 import cn.xhl.client.manga.model.bean.response.user.Res_CheckUpdate
 import cn.xhl.client.manga.utils.*
-import com.google.gson.Gson
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -66,33 +62,28 @@ class SettingPresenter(private var view: SettingContract.View) : SettingContract
 
     override fun checkNewVersion(code: Int, name: String) {
         view.showLoading()
-        val reqCheckUpdate = Req_CheckUpdate(code, name)
         compositeDisposable.add(RetrofitFactory
-                .getApiUser()
-                .checkNewVersion(StringUtil.getRequestBody(
-                        Gson().toJson(
-                                BaseRequest.Builder()
-                                        .setSign(SignUtil.generateSign(code.toString(), name))
-                                        .setData(reqCheckUpdate)
-                                        .build()
-                        )
-                ))
+                .getApiGithub()
+                .checkNewVersion()
                 .doOnTerminate { view.hideLoading() }
-                .compose(RxSchedulesHelper.io_ui<BaseResponse<Res_CheckUpdate>>())
-                .subscribeWith(object : BaseObserver<Res_CheckUpdate>() {
-                    override fun onHandleSuccess(t: Res_CheckUpdate?) {
-                        if (t!!.isInstall) {
+                .compose(RxSchedulesHelper.io_ui<Res_CheckUpdate>())
+                .subscribeWith(object : DisposableObserver<Res_CheckUpdate>() {
+                    override fun onComplete() {
+                    }
+
+                    override fun onNext(t: Res_CheckUpdate) {
+                        if (DeviceUtil.getVersionName(MyApplication.getAppContext()) < t.tag_name) {
                             resCheckUpdate = t
                             apkFile = File(FileUtil.getInstance().downloadPath +
-                                    File.separator + apkName + t.version_name + ".apk")
+                                    File.separator + apkName + t.tag_name + ".apk")
                             view.showNewVersionPrompt(t)
                         } else {
                             view.showTipMsg("it is the latest version")
                         }
                     }
 
-                    override fun onHandleError(code: Long, msg: String?) {
-                        view.showTipMsg(msg)
+                    override fun onError(e: Throwable) {
+                        view.showTipMsg("server error")
                     }
 
                 })
@@ -100,12 +91,12 @@ class SettingPresenter(private var view: SettingContract.View) : SettingContract
     }
 
     override fun startDownloadApk(url: String) {
-        if (apkFile.exists() && checkFileHash()) {
+        if (apkFile.exists()) {
             view.install(apkFile)
             return
         }
         compositeDisposable.add(RetrofitFactory
-                .getApiEh()
+                .getApiGithub()
                 .downloadApk(url)
                 .compose(RxSchedulesHelper.io_ui<ResponseBody>())
                 .doOnTerminate { view.hideLoading() }
@@ -117,11 +108,7 @@ class SettingPresenter(private var view: SettingContract.View) : SettingContract
                     override fun onNext(t: ResponseBody) {
                         try {
                             fileUtil.saveInputStream(t.byteStream(), apkFile)
-                            if (checkFileHash()) {
-                                view.install(apkFile)
-                            } else {
-                                view.showTipMsg("unknown error")
-                            }
+                            view.install(apkFile)
                         } catch (e: IOException) {
                             // discard
                         }
@@ -133,10 +120,6 @@ class SettingPresenter(private var view: SettingContract.View) : SettingContract
 
                 })
         )
-    }
-
-    private fun checkFileHash(): Boolean {
-        return MD5Util.getFileMD5(apkFile) == (resCheckUpdate.hash)
     }
 
 }

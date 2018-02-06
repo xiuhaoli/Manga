@@ -21,9 +21,9 @@ import cn.xhl.client.manga.view.auth.AuthActivity;
 
 
 /**
+ * login view
+ *
  * @author Mike on 2017/9/22 0022.
- *         <p>
- *         login view
  */
 public class LoginFragment extends BaseFragment implements LoginContract.View, View.OnClickListener {
     private LoginContract.Presenter presenter;

@@ -82,7 +82,8 @@ public class QMUITipDialog extends Dialog {
             QMUILoadingView loadingView = new QMUILoadingView(mContext);
             loadingView.setColor(Color.WHITE);
             loadingView.setSize(DpUtil.dp2Px(mContext, 32));
-            LinearLayout.LayoutParams loadingViewLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams loadingViewLP = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             loadingView.setLayoutParams(loadingViewLP);
             contentWrap.addView(loadingView);
 

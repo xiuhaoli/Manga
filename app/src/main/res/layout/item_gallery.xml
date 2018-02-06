@@ -6,18 +6,6 @@
     android:background="?attr/main_background"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_sticky_item_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@android:color/transparent"
-        android:clickable="false"
-        android:gravity="center_vertical"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp"
-        android:textColor="?attr/item_text"
-        android:visibility="gone" />
-
     <RelativeLayout
         android:id="@+id/relative_item_gallery"
         android:layout_width="match_parent"

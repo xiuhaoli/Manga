@@ -56,19 +56,13 @@ public class SummaryPresenter implements SummaryContract.Presenter {
         if (StringUtil.isNotEmpty(showkey)) {
             return;
         }
-        view.showLoading();
+//        view.showLoading();
         String firstImgkey = galleryEntity.getThumb().split("/")[5].substring(0, 10);
         int gid = galleryEntity.getGid();
         String url = "https://e-hentai.org/s/" + firstImgkey + "/" + gid + "-1";
         compositeDisposable.add(RetrofitFactory
                 .getApiEh()
                 .parseThirdPage(url)
-                .doOnTerminate(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        view.hideLoading();
-                    }
-                })
                 .compose(RxSchedulesHelper.<ResponseBody>io_ui())
                 .subscribeWith(new DisposableObserver<ResponseBody>() {
                     @Override

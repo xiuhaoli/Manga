@@ -10,6 +10,10 @@ import cn.xhl.client.manga.model.bean.response.gallery.Res_FavoriteFolder;
 public interface ConcreteMangaContract {
     interface View extends BaseView<Presenter> {
 
+        void showReadLoading();
+
+        void hideReadLoading();
+
         void showLoading();
 
         void hideLoading();

@@ -22,6 +22,7 @@ public class RetrofitFactory {
     private static ApiUser apiUser;
     private static ApiComics apiComics;
     private static ApiEh apiEh;
+    private static ApiGithub apiGithub;
 
     public static void init(OkHttpClient okHttpClient) {
         retrofit = new Retrofit.Builder()
@@ -39,6 +40,7 @@ public class RetrofitFactory {
         apiUser = retrofit.create(ApiUser.class);
         apiComics = retrofit.create(ApiComics.class);
         apiEh = retrofit.create(ApiEh.class);
+        apiGithub = retrofit.create(ApiGithub.class);
     }
 
     public static ApiUser getApiUser() {
@@ -51,6 +53,10 @@ public class RetrofitFactory {
 
     public static ApiEh getApiEh() {
         return apiEh;
+    }
+
+    public static ApiGithub getApiGithub() {
+        return apiGithub;
     }
 
     // 可以个性化定制Gson的相关规则

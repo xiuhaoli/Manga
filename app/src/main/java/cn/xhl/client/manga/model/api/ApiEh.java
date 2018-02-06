@@ -36,12 +36,4 @@ public interface ApiEh {
     @GET
     Observable<ResponseBody> parseThirdPage(@Url String url);
 
-    /**
-     * 下载apk
-     *
-     * @param url
-     * @return
-     */
-    @GET
-    Observable<ResponseBody> downloadApk(@Url String url);
 }

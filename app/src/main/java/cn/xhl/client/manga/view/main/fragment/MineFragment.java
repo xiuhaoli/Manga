@@ -136,8 +136,6 @@ public class MineFragment extends BaseFragment implements
             @Override
             public void onAnimationEnd(Animation animation) {
                 mIsVisible = !mIsVisible;
-//                finalHeader.setVisibility(mIsVisible ? View.VISIBLE : View.INVISIBLE);
-//                finalName.setVisibility(mIsVisible ? View.VISIBLE : View.INVISIBLE);
             }
 
             @Override
@@ -204,7 +202,7 @@ public class MineFragment extends BaseFragment implements
                 break;
             case 2:
                 // jump to history
-                ConcreteCategoryActivity.start(mActivity,
+                ConcreteCategoryActivity.Companion.start(mActivity,
                         UserInfo.getInstance().getCategoryMode(), IConstants.HISTORY);
                 break;
             case 0:

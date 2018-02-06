@@ -53,7 +53,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 .subscribeWith(new BaseObserver<Res_GetVerify>() {
                     @Override
                     protected void onHandleSuccess(Res_GetVerify res_getVerify) {
-                        view.showTipMsg(res_getVerify.getMsg());
                     }
 
                     @Override

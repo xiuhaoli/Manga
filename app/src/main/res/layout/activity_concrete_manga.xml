@@ -132,14 +132,36 @@
             android:background="?attr/main_background" />
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_activity_concrete_manga"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="30dp"
-        android:scaleType="center"
-        android:src="@mipmap/icon_book"
-        app:borderWidth="0dp"
-        app:fabSize="normal" />
+        android:layout_margin="30dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_activity_concrete_manga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:scaleType="center"
+            app:borderWidth="0dp"
+            android:translationZ="0dp"
+            android:elevation="0dp"
+            app:elevation="3dp"
+            app:pressedTranslationZ="2dp"
+            app:fabSize="normal" />
+
+        <cn.xhl.client.manga.custom.QMUILoadingView
+            android:id="@+id/loading_activity_concrete_manga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:qmui_loading_view_size="25dp"
+            android:layout_centerInParent="true"
+            android:color="@color/white"
+            android:elevation="0dp"
+            android:translationZ="3dp" />
+
+    </RelativeLayout>
+
+
 </android.support.design.widget.CoordinatorLayout>

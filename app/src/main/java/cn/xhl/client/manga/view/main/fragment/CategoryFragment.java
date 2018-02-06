@@ -101,14 +101,14 @@ public class CategoryFragment extends BaseFragment implements CategoryContract.V
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (UserInfo.getInstance().isNonhMode()) {
-            ConcreteCategoryActivity.start(mActivity, IConstants.NON_H + ":" +
+            ConcreteCategoryActivity.Companion.start(mActivity, IConstants.NON_H + ":" +
                     category[position], IConstants.LANGUAGE);
             return;
         }
         if (position < 9) {
-            ConcreteCategoryActivity.start(mActivity, category[position], IConstants.CATEGORY_LATEST);
+            ConcreteCategoryActivity.Companion.start(mActivity, category[position], IConstants.CATEGORY_LATEST);
         } else {
-            ConcreteCategoryActivity.start(mActivity, IConstants.DEFAULT_CATEGORY + ":" +
+            ConcreteCategoryActivity.Companion.start(mActivity, IConstants.DEFAULT_CATEGORY + ":" +
                     category[position], IConstants.LANGUAGE);
         }
     }

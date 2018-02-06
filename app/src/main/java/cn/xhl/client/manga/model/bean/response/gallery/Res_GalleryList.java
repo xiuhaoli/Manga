@@ -1,7 +1,12 @@
 package cn.xhl.client.manga.model.bean.response.gallery;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.List;
+
+import cn.xhl.client.manga.custom.StickyItemDecoration;
+import cn.xhl.client.manga.utils.DateUtil;
 
 /**
  * @author Mike on 2017/10/23 0023.
@@ -31,7 +36,7 @@ public class Res_GalleryList {
                 '}';
     }
 
-    public static class GalleryEntity implements Serializable{
+    public static class GalleryEntity implements Serializable, StickyItemDecoration.StickyEntity{
         private int id;
         private int gid;
         private String token;
@@ -221,6 +226,12 @@ public class Res_GalleryList {
                     ", comment='" + comment + '\'' +
                     ", create_time='" + create_time + '\'' +
                     '}';
+        }
+
+        @NotNull
+        @Override
+        public String getStickyText() {
+            return DateUtil.stampToDate(create_time);
         }
     }
 }

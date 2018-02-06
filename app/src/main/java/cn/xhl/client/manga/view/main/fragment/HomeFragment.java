@@ -107,7 +107,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View,
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ConcreteCategoryActivity.start(mActivity,
+        ConcreteCategoryActivity.Companion.start(mActivity,
                 UserInfo.getInstance().getCategoryMode() + ":" + query, selectedSearchType);
         return false;
     }

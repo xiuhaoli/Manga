@@ -22,9 +22,11 @@ public interface RegisterContract {
         void countDown();
 
         void hideKeyboard();
+
     }
 
     interface Presenter extends BasePresenter {
+        @Deprecated
         void obtainVerify(String email);
 
         boolean isEmailValid(String email);

@@ -27,7 +27,6 @@ import cn.xhl.client.manga.model.bean.response.user.Res_CheckUpdate;
 import cn.xhl.client.manga.service.ApkDownloadService;
 import cn.xhl.client.manga.utils.AnalyticsUtil;
 import cn.xhl.client.manga.utils.AppUtil;
-import cn.xhl.client.manga.utils.FileUtil;
 import cn.xhl.client.manga.utils.PrefUtil;
 
 public class MainActivity extends BaseActivity {
@@ -154,16 +153,15 @@ public class MainActivity extends BaseActivity {
     private void createInstallDialog(final File apkFile, @NotNull final Res_CheckUpdate apkInfo) {
         mPromptInstallDialog = new CustomDialog.DefaultBuilder(this)
                 .setTitle("update")
-                .setContent("version : " + apkInfo.getVersion_name() +
-                        "\n" + "file size : " + apkInfo.getSize() + "\n" +
-                        "")
+                .setContent("version : " + apkInfo.getTag_name() +
+                        "\n" + apkInfo.getBody())
                 .setPositiveButtonText(R.string.action_install)
                 .setNegativeButtonText(R.string.action_ignore)
                 .setNegativeListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PrefUtil.putInt(IConstants.IGNORE_APK_INSTALL,
-                                apkInfo.getVersion_code(), this_);
+                        PrefUtil.putString(IConstants.IGNORE_APK_INSTALL,
+                                apkInfo.getTag_name(), this_);
                     }
                 })
                 .setPositiveListener(new View.OnClickListener() {
@@ -176,6 +174,9 @@ public class MainActivity extends BaseActivity {
         if (MyActivityManager.isTop(this)) {
             // 判断当前activity是否在前台
             mPromptInstallDialog.show();
+            mIsShowDialog = false;
+        } else {
+            // 如果不在前台把这个信号量置为true，在返回这个界面的时候可以展示
             mIsShowDialog = true;
         }
     }

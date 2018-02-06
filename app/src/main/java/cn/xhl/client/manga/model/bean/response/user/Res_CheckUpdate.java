@@ -8,98 +8,49 @@ package cn.xhl.client.manga.model.bean.response.user;
  * </pre>
  */
 public class Res_CheckUpdate {
-    private boolean install;
-    private String version_name;
-    private int version_code;
-    private String log;
-    private String size;
-    private String hash;
-    private String url;
+    private String tag_name;
+    private String name;
+    private String body;
 
     public Res_CheckUpdate() {
     }
 
-    public Res_CheckUpdate(boolean install) {
-        this.install = install;
+    public Res_CheckUpdate(String tag_name, String name, String body) {
+        this.tag_name = tag_name;
+        this.name = name;
+        this.body = body;
     }
 
-    public Res_CheckUpdate(boolean install, String version_name, int version_code,
-                           String log, String size, String hash, String url) {
-        this.install = install;
-        this.version_name = version_name;
-        this.version_code = version_code;
-        this.log = log;
-        this.size = size;
-        this.hash = hash;
-        this.url = url;
+    public String getTag_name() {
+        return tag_name;
     }
 
-    public boolean isInstall() {
-        return install;
+    public void setTag_name(String tag_name) {
+        this.tag_name = tag_name;
     }
 
-    public void setInstall(boolean install) {
-        this.install = install;
+    public String getName() {
+        return name;
     }
 
-    public String getVersion_name() {
-        return version_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setVersion_name(String version_name) {
-        this.version_name = version_name;
+    public String getBody() {
+        return body;
     }
 
-    public String getLog() {
-        return log;
-    }
-
-    public void setLog(String log) {
-        this.log = log;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public int getVersion_code() {
-        return version_code;
-    }
-
-    public void setVersion_code(int version_code) {
-        this.version_code = version_code;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     @Override
     public String toString() {
         return "Res_CheckUpdate{" +
-                "install=" + install +
-                ", version_name='" + version_name + '\'' +
-                ", version_code=" + version_code +
-                ", log='" + log + '\'' +
-                ", size='" + size + '\'' +
-                ", hash='" + hash + '\'' +
-                ", url='" + url + '\'' +
+                "tag_name='" + tag_name + '\'' +
+                ", name='" + name + '\'' +
+                ", body='" + body + '\'' +
                 '}';
     }
 }

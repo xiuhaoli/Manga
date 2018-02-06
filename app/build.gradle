@@ -6,8 +6,8 @@ android {
         applicationId "cn.xhl.client.manga"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 24
-        versionName "1.1.40"
+        versionCode 29
+        versionName "1.1.45"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。

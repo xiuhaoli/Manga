@@ -82,6 +82,9 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     @Override
     protected void onResume() {
         super.onResume();
+        if (presenter == null) {
+            presenter = new SplashPresenter(this);
+        }
         presenter.subscribe();
     }
 
