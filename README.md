@@ -1,6 +1,5 @@
 # Manga
 An application like https://github.com/seven332/EhViewer
-
-![screenshot-01](img/list.jpg)
-![screenshot-02](img/content.jpg)
+<img width="288" height="512" scr="img/list.jpg"/>
+<img width="288" height="512" scr="img/content.jpg"/>
 
